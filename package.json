@@ -21,12 +21,15 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.6.2",
     "@unhead/vue": "2.0.11",
     "@vant/touch-emulator": "^1.4.0",
     "@vant/use": "^1.6.0",
     "@vueuse/core": "^13.4.0",
     "axios": "^1.10.0",
+    "bowser": "^2.11.0",
     "echarts": "^5.6.0",
+    "idb-keyval": "^6.2.2",
     "lodash-es": "^4.17.21",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.3",

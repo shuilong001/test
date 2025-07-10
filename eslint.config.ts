@@ -19,6 +19,9 @@ export default antfu(
     },
   },
   {
-    ignores: [],
+    ignores: [
+      'src/web-base/net/**',
+      'src/web-base/netBase/**',
+    ],
   },
 )

@@ -350,16 +350,14 @@ const contentMargin = computed(() => {
         </div>
 
         <div class="flex gap-3 items-center">
-          <span class="text-size-24 text-gray-900 tracking-wider font-bold md:text-size-20 dark:text-white">BC.GAME</span>
+          <span class="text-size-24 text-gray-900 tracking-wider font-bold md:text-size-20 dark:text-white">PK.GAME</span>
         </div>
       </div>
 
       <div class="flex gap-8 items-center">
         <!-- 搜索 -->
         <div class="text-gray-500 rounded-lg flex-center h-24 w-24 hidden cursor-pointer transition-colors dark:text-gray-400 md:flex dark:hover:text-white dark:hover:bg-gray-700" @click="showSearch = true">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" class="h-24 w-24">
-            <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" />
-          </svg>
+          <van-icon name="search" />
         </div>
 
         <!-- 登录按钮 -->
@@ -531,7 +529,7 @@ const contentMargin = computed(() => {
     </aside>
 
     <!-- 主内容区域 -->
-    <main class="p-8 pt-76 bg-gray-50 transition-all duration-300 relative dark:bg-gray-900" :class="[contentMargin, `md:${contentMargin}`]">
+    <main class="p-8 pt-60 bg-gray-50 transition-all duration-300 relative dark:bg-gray-900" :class="[contentMargin, `md:${contentMargin}`]">
       <!-- 游戏分类标签使用 van-tabbar -->
       <div class="py-8 bg-gray-50 top-60 sticky z-10 dark:bg-gray-900">
         <van-tabs
@@ -603,11 +601,22 @@ const contentMargin = computed(() => {
   </div>
 </template>
 
+<route lang="json5">
+{
+  name: 'demo1',
+  meta: {
+    title: '首页',
+    i18n: 'menus.demo1'
+  },
+}
+</route>
+
 <style scoped>
 /* 游戏分类标签样式 */
 :deep(.game-category-tabs .van-tabs__nav) {
   background: transparent;
   border: none;
+  margin: 0;
 }
 
 :deep(.game-category-tabs .van-tab) {
@@ -627,38 +636,6 @@ const contentMargin = computed(() => {
 }
 :deep(.van-tabs__nav--card) {
   @apply flex gap-16;
-}
-
-/* 滚动条样式 */
-aside::-webkit-scrollbar {
-  width: 4px;
-}
-
-aside::-webkit-scrollbar-track {
-  background: rgba(55, 65, 81, 0.3);
-}
-
-aside::-webkit-scrollbar-thumb {
-  background: rgba(34, 197, 94, 0.3);
-  border-radius: 2px;
-}
-
-aside::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 197, 94, 0.5);
-}
-
-/* 移动端下拉菜单滚动条 */
-.overflow-y-auto::-webkit-scrollbar {
-  width: 4px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: rgba(55, 65, 81, 0.3);
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background: rgba(34, 197, 94, 0.3);
-  border-radius: 2px;
 }
 
 /* 动画效果 */
@@ -711,13 +688,3 @@ aside.w-16 .group:hover .opacity-0 {
   }
 }
 </style>
-
-<route lang="json5">
-  {
-    name: 'demo1',
-    meta: {
-      title: 'demo1',
-      i18n: 'menus.demo1'
-    },
-  }
-  </route>

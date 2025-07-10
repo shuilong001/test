@@ -1,11 +1,11 @@
 // eventBus
-import mitt from 'mitt';
+import mitt from 'mitt'
+import type { WsEvents } from '@/types/ws-events'
 
 // 创建一个事件总线实例
-const eventBus = mitt();
+const eventBus = mitt<WsEvents>()
 
-export default eventBus;
-
+export default eventBus
 
 // // 发送事件
 // eventBus.emit('event-name', data);
