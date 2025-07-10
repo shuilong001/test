@@ -24,13 +24,13 @@ const show = computed(() => {
         <div class="i-carbon:search" />
       </template>
     </van-tabbar-item>
-    <van-tabbar-item replace to="/charts">
+    <van-tabbar-item replace to="/demo1">
       赌场
       <template #icon>
         <div class="i-carbon:chart-line" />
       </template>
     </van-tabbar-item>
-    <van-tabbar-item replace to="/menu-demo">
+    <van-tabbar-item replace to="/demo1">
       体育
       <template #icon>
         <div class="i-carbon:menu" />

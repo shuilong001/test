@@ -1,30 +1,30 @@
-# Page Scroll Position Save and Restore Guide
+# 页面滚动位置保存与恢复指南
 
-If you want to save the current scroll position when leaving a page and restore it upon return, you can follow the approach outlined below.
+如果你希望在离开页面时保存当前的滚动位置，并在返回时恢复它，可以参考下面的实现思路：
 
-## Basic Approach
+## 基本思路
 
-1. **Cache the Component**:
-   Set `keepAlive` to `true` to cache the component.
+1. **缓存组件**：
+   设置 `keepAlive` 为 `true` 以缓存组件。
 
-2. **Save Scroll Position**:
-   Use the `onBeforeRouteLeave` hook to save the current scroll position when leaving the page.
+2. **保存滚动位置**：
+   在页面离开时，使用 `onBeforeRouteLeave` 钩子保存当前滚动位置。
 
-3. **Restore Scroll Position**:
-   Use the `onActivated` hook to restore the last saved scroll position when the page is activated.
+3. **恢复滚动位置**：
+   在页面激活时，使用 `onActivated` 钩子恢复上次的滚动位置。
 
-## Example Code
+## 示例代码
 
 ```js
-// Define a ref to store the scroll position
+// 定义一个 ref 用于存储滚动位置
 const scrollTop = ref(0)
 
-// When a component with keepAlive set to true is activated, scroll to the saved position
+// 当 keepAlive 为 true 的组件被激活时，滚动到保存的位置
 onActivated(() => {
   window.scrollTo(0, scrollTop.value)
 })
 
-// Before leaving the route, save the current scroll position
+// 在路由离开前，保存当前的滚动位置
 onBeforeRouteLeave(() => {
   scrollTop.value
     = window.scrollY
@@ -33,29 +33,29 @@ onBeforeRouteLeave(() => {
 })
 ```
 
-# Handling a Specific Scroll Container
+# 针对指定滚动容器的处理
 
-If you need to save and restore the scroll position for a specific element (instead of the entire window), follow these steps:
+如果你需要对特定元素（而非整个窗口）进行滚动位置的保存和恢复，可按以下步骤操作：
 
-## 1. Add a ref in the Template
+## 1. 在 Template 中添加 ref
 
-In your template, add a `ref` attribute to the scroll container element. For example:
+在模板中，给滚动容器元素添加 `ref` 属性。例如：
 
 ```html
 <div ref="scrollContainer" class="...">...</div>
 ```
 
-## 2. In the setup Function
+## 2. 在 setup 中：
 
-Use a ref to obtain the element's reference:
+使用 ref 获取该元素的引用：
 
 ```js
 const scrollContainer = ref(null)
 ```
 
-## 3. In the onBeforeRouteLeave Hook
+## 3. 在 onBeforeRouteLeave 钩子中：
 
-Save the scroll container's scroll position:
+保存滚动容器的滚动位置：
 
 ```js
 onBeforeRouteLeave(() => {
@@ -65,9 +65,9 @@ onBeforeRouteLeave(() => {
 })
 ```
 
-## 3. In the onActivated Hook
+## 3. 在 onActivated 钩子中：
 
-Restore the scroll container's scroll position:
+恢复滚动容器的滚动位置：
 
 ```js
 onActivated(() => {
@@ -76,3 +76,5 @@ onActivated(() => {
   }
 })
 ```
+
+万事 OK 👌🏻

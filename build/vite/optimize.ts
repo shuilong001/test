@@ -1,6 +1,5 @@
 const include = [
   'axios',
-  'echarts',
   'lodash-es',
   'resize-detector',
   'vant/es',

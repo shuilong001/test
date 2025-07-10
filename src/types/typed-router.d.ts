@@ -20,19 +20,11 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     'index': RouteRecordInfo<'index', '/', Record<never, never>, Record<never, never>>,
     '404': RouteRecordInfo<'404', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
-    'charts': RouteRecordInfo<'charts', '/charts', Record<never, never>, Record<never, never>>,
-    'counter': RouteRecordInfo<'counter', '/counter', Record<never, never>, Record<never, never>>,
     'demo1': RouteRecordInfo<'demo1', '/demo1', Record<never, never>, Record<never, never>>,
-    'forgot-password': RouteRecordInfo<'forgot-password', '/forgot-password', Record<never, never>, Record<never, never>>,
     'home': RouteRecordInfo<'home', '/home', Record<never, never>, Record<never, never>>,
-    'KeepAlive': RouteRecordInfo<'KeepAlive', '/keepalive', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
-    'menu-demo': RouteRecordInfo<'menu-demo', '/menu-demo', Record<never, never>, Record<never, never>>,
-    'mock': RouteRecordInfo<'mock', '/mock', Record<never, never>, Record<never, never>>,
     'profile': RouteRecordInfo<'profile', '/profile', Record<never, never>, Record<never, never>>,
-    'register': RouteRecordInfo<'register', '/register', Record<never, never>, Record<never, never>>,
     'ScrollCache': RouteRecordInfo<'ScrollCache', '/scroll-cache', Record<never, never>, Record<never, never>>,
     'settings': RouteRecordInfo<'settings', '/settings', Record<never, never>, Record<never, never>>,
-    'unocss': RouteRecordInfo<'unocss', '/unocss', Record<never, never>, Record<never, never>>,
   }
 }
