@@ -1,0 +1,152 @@
+{
+  "menus": {
+    "home": "🏠 主页",
+    "profile": "个人中心",
+    "darkMode": "🌗 暗黑模式",
+    "mockGuide": "💿 Mock 指南",
+    "language": "📚 语言",
+    "echartsDemo": "📊 Echarts 演示",
+    "persistPiniaState": "🍍 持久化 Pinia 状态",
+    "404Demo": "🙅 404页 演示",
+    "unocssExample": "🎨 Unocss 示例",
+    "keepAlive": "🧡 KeepAlive 演示",
+    "scrollCache": "📜 滚动缓存 演示",
+    "login": "🔒 用户登录",
+    "register": "用户注册",
+    "settings": "设置",
+    "basicSettings": "基本设置",
+    "exampleComponents": "示例组件",
+    "forgot-password": "忘记密码"
+  },
+  "mock": {
+    "fromAsyncData": "来自异步请求的数据",
+    "pull": "请求",
+    "reset": "清空",
+    "noData": "暂无数据"
+  },
+  "charts": {
+    "January": "1月",
+    "February": "2月",
+    "March": "3月",
+    "April": "4月",
+    "May": "5月",
+    "June": "6月"
+  },
+  "layouts": {
+    "home": "首页",
+    "profile": "我的"
+  },
+  "profile": {
+    "login": "登录",
+    "settings": "设置",
+    "docs": "文档"
+  },
+  "keepAlive": {
+    "label": "当前组件将会被缓存"
+  },
+  "scrollCache": {
+    "sectionTitle": "段落标题",
+    "sectionText": "段落内容段落内容段落内容段落内容段落内容段落内容",
+    "finished": "已经到底啦 ~",
+    "loading": "加载中..."
+  },
+  "login": {
+    "login": "登录",
+    "logout": "退出",
+    "email": "邮箱",
+    "password": "密码",
+    "pleaseEnterEmail": "请输入邮箱",
+    "pleaseEnterPassword": "请输入密码",
+    "sign-up": "还没有账号？点击注册",
+    "forgot-password": "忘记密码？"
+  },
+  "forgot-password": {
+    "email": "邮箱",
+    "code": "验证码",
+    "password": "密码",
+    "comfirmPassword": "再次输入密码",
+    "pleaseEnterEmail": "请输入邮箱",
+    "pleaseEnterCode": "请输入验证码",
+    "pleaseEnterPassword": "请输入密码",
+    "pleaseEnterConfirmPassword": "请再次输入密码",
+    "passwordsDoNotMatch": "两次输入的密码不一致",
+    "confirm": "确认",
+    "backToLogin": "返回登录",
+    "getCode": "获取验证码",
+    "gettingCode": "获取中",
+    "sendCodeSuccess": "已发送，验证码为",
+    "passwordResetSuccess": "密码重置成功"
+  },
+  "register": {
+    "email": "邮箱",
+    "code": "验证码",
+    "nickname": "昵称",
+    "password": "密码",
+    "comfirmPassword": "再次输入密码",
+    "pleaseEnterEmail": "请输入邮箱",
+    "pleaseEnterCode": "请输入验证码",
+    "pleaseEnterNickname": "请输入昵称",
+    "pleaseEnterPassword": "请输入密码",
+    "pleaseEnterConfirmPassword": "请再次输入密码",
+    "passwordsDoNotMatch": "两次输入的密码不一致",
+    "confirm": "确认",
+    "backToLogin": "返回登录",
+    "getCode": "获取验证码",
+    "gettingCode": "获取中",
+    "sendCodeSuccess": "已发送，验证码为",
+    "registerSuccess": "注册成功"
+  },
+  "settings": {
+    "logout": "退出登录",
+    "currentVersion": "当前版本",
+    "comfirmTitle": "确认退出？"
+  },
+  "game": {
+    "categories": {
+      "all": "全部",
+      "slots": "电子",
+      "fishing": "捕鱼",
+      "sports": "体育",
+      "live": "真人",
+      "lottery": "彩票"
+    },
+    "banner": {
+      "newUserBonus": "新用户注册送888元",
+      "firstDepositBonus": "首充即送100%奖金",
+      "dailyCheckIn": "每日签到送好礼",
+      "weeklyReward": "连续签到7天送豪华大奖",
+      "weekendCarnival": "周末狂欢节",
+      "doubleReward": "充值享受双倍返水",
+      "joinNow": "立即参与"
+    },
+    "section": {
+      "popularGames": "热门游戏",
+      "allGames": "全部游戏",
+      "gameCount": "游戏"
+    },
+    "games": {
+      "crazySlot": "疯狂老虎机",
+      "fishing3D": "捕鱼达人3D",
+      "footballBet": "足球竞猜",
+      "baccarat": "百家乐",
+      "luckyWheel": "幸运转盘",
+      "texasHoldem": "德州扑克"
+    },
+    "promo": {
+      "dailyCheckIn": "每日签到",
+      "dailyCheckInDesc": "连续签到送豪礼",
+      "leaderboard": "排行榜",
+      "leaderboardDesc": "争夺周冠军奖励",
+      "latestEvents": "最新活动",
+      "latestEventsDesc": "查看限时优惠"
+    },
+    "stats": {
+      "players": "人在线",
+      "jackpot": "奖金池"
+    },
+    "badges": {
+      "hot": "HOT",
+      "new": "NEW"
+    }
+  }
+}

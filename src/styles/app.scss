@@ -1,0 +1,154 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--van-gray-1);
+  font-size: var(--van-font-size-lg);
+  color-scheme: light;
+  /* 禁用双击缩放 */
+  -ms-touch-action: manipulation;
+  /* IE兼容 */
+  overscroll-behavior: none;
+}
+
+html.dark {
+  background: #222;
+  color-scheme: dark;
+}
+
+#app {
+  position: relative;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100vh;
+  // Dynamic Viewport Units
+  height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.van-nav-bar--fixed,
+.van-tabbar--fixed,
+.van-overlay {
+  left: 0 !important;
+  width: 100% !important;
+}
+
+.slide-fadein-left-enter-active,
+.slide-fadein-left-leave-active,
+.slide-fadein-right-enter-active,
+.slide-fadein-right-leave-active {
+  transition:
+    opacity 0.3s,
+    transform 0.4s,
+    -webkit-transform 0.4s;
+}
+
+.slide-fadein-left-enter-from,
+.slide-fadein-right-leave-to {
+  transform: translateX(40px);
+  opacity: 0;
+}
+
+.slide-fadein-left-leave-to,
+.slide-fadein-right-enter-from {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
+//移动端隐藏滚动条
+.mobile {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave {
+  opacity: 1;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.35s;
+}
+
+//路由动画
+.go-enter-from {
+  transform: translateX(100%);
+}
+
+.back-enter-to,
+.back-enter-from,
+.go-enter-to,
+.go-leave-from {
+  transform: translateX(0);
+}
+
+.go-leave-to {
+  transform: translateX(-100%);
+}
+
+.go-enter-active,
+.go-leave-active,
+.back-enter-active,
+.back-leave-active {
+  transition: transform 0.3s;
+}
+
+.back-enter-from {
+  transform: translateX(-100%);
+}
+
+.back-leave-to {
+  transform: translateX(100%);
+}
+
+:root {
+  --sat: constant(safe-area-inset-top);
+
+  --sar: constant(safe-area-inset-right);
+
+  --sab: constant(safe-area-inset-bottom);
+
+  --sal: constant(safe-area-inset-left);
+
+  --sat: env(safe-area-inset-top);
+
+  --sar: env(safe-area-inset-right);
+
+  --sab: env(safe-area-inset-bottom);
+
+  --sal: env(safe-area-inset-left);
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+input::-webkit-input-placeholder {
+  color: #979797 !important;
+  font-size: 14px !important;
+}

@@ -1,0 +1,152 @@
+{
+  "menus": {
+    "home": "🏠 Home",
+    "profile": "My Center",
+    "darkMode": "🌗 Dark Mode",
+    "mockGuide": "💿 Mock Guide",
+    "language": "📚 Language",
+    "404Demo": "🙅 Page 404 Demo",
+    "echartsDemo": "📊 Echarts Demo",
+    "persistPiniaState": "🍍 Persistent Pinia state",
+    "unocssExample": "🎨 Unocss example",
+    "keepAlive": "🧡 KeepAlive Demo",
+    "scrollCache": "📜 Scroll Cache Demo",
+    "login": "🔒 Login",
+    "register": "Register",
+    "settings": "Settings",
+    "basicSettings": "Basic Settings",
+    "exampleComponents": "Example components",
+    "forgot-password": "Forgot Password"
+  },
+  "mock": {
+    "fromAsyncData": "Data from asynchronous requests",
+    "noData": "No data",
+    "pull": "Pull",
+    "reset": "Reset"
+  },
+  "charts": {
+    "January": "Jan",
+    "February": "Feb",
+    "March": "Mar",
+    "April": "Apr",
+    "May": "May",
+    "June": "Jun"
+  },
+  "layouts": {
+    "home": "HOME",
+    "profile": "PROFILE"
+  },
+  "profile": {
+    "login": "Login",
+    "settings": "Settings",
+    "docs": "Docs"
+  },
+  "keepAlive": {
+    "label": "The current component will be cached"
+  },
+  "scrollCache": {
+    "sectionTitle": "Section title",
+    "sectionText": "Section text text text text text text text text text text",
+    "finished": "Already at the bottom ~",
+    "loading": "Loading..."
+  },
+  "login": {
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "pleaseEnterEmail": "Please enter email",
+    "pleaseEnterPassword": "Please enter password",
+    "sign-up": "Click to sign up",
+    "forgot-password": "Forgot password?"
+  },
+  "forgot-password": {
+    "email": "Email",
+    "code": "Code",
+    "password": "Password",
+    "comfirmPassword": "Password again",
+    "pleaseEnterEmail": "Please enter email",
+    "pleaseEnterCode": "Please enter code",
+    "pleaseEnterPassword": "Please enter password",
+    "pleaseEnterConfirmPassword": "Please enter password again",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "confirm": "Confirm",
+    "backToLogin": "Back to login",
+    "getCode": "Get code",
+    "gettingCode": "Getting code",
+    "sendCodeSuccess": "Sent, the code is",
+    "passwordResetSuccess": "Password reset succeeded"
+  },
+  "register": {
+    "email": "Email",
+    "code": "Code",
+    "nickname": "Nickname",
+    "password": "Password",
+    "comfirmPassword": "Password again",
+    "pleaseEnterEmail": "Please enter email",
+    "pleaseEnterCode": "Please enter code",
+    "pleaseEnterNickname": "Please enter nickname",
+    "pleaseEnterPassword": "Please enter password",
+    "pleaseEnterConfirmPassword": "Please enter password again",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "confirm": "Confirm",
+    "backToLogin": "Back to login",
+    "getCode": "Get code",
+    "gettingCode": "Getting code",
+    "sendCodeSuccess": "Sent, the code is",
+    "registerSuccess": "Register succeeded"
+  },
+  "settings": {
+    "logout": "Sign Out",
+    "currentVersion": "Current Version",
+    "comfirmTitle": "Confirm Exit?"
+  },
+  "game": {
+    "categories": {
+      "all": "All",
+      "slots": "Slots",
+      "fishing": "Fishing",
+      "sports": "Sports",
+      "live": "Live",
+      "lottery": "Lottery"
+    },
+    "banner": {
+      "newUserBonus": "New User Bonus $888",
+      "firstDepositBonus": "100% First Deposit Bonus",
+      "dailyCheckIn": "Daily Check-in Rewards",
+      "weeklyReward": "7-Day Check-in Luxury Rewards",
+      "weekendCarnival": "Weekend Carnival",
+      "doubleReward": "Double Cashback on Deposits",
+      "joinNow": "Join Now"
+    },
+    "section": {
+      "popularGames": "Popular Games",
+      "allGames": "All Games",
+      "gameCount": "Games"
+    },
+    "games": {
+      "crazySlot": "Crazy Slot Machine",
+      "fishing3D": "Fishing Master 3D",
+      "footballBet": "Football Betting",
+      "baccarat": "Baccarat",
+      "luckyWheel": "Lucky Wheel",
+      "texasHoldem": "Texas Hold'em"
+    },
+    "promo": {
+      "dailyCheckIn": "Daily Check-in",
+      "dailyCheckInDesc": "Consecutive check-in rewards",
+      "leaderboard": "Leaderboard",
+      "leaderboardDesc": "Compete for weekly champion rewards",
+      "latestEvents": "Latest Events",
+      "latestEventsDesc": "View limited-time offers"
+    },
+    "stats": {
+      "players": " online",
+      "jackpot": "Jackpot"
+    },
+    "badges": {
+      "hot": "HOT",
+      "new": "NEW"
+    }
+  }
+}
