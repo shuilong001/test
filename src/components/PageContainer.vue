@@ -20,7 +20,7 @@ props.isPage && useTabBar(() => props.hasFooter)
 const contentStyle = computed(() => {
   return {
     height: '100%',
-    paddingBottom: props.hasFooter ? `calc(var(--van-tabbar-height) + var(--sab))` : `calc(var(--sab))`,
+    paddingBottom: props.hasFooter ? `calc(var(--tabbar-height) + var(--sab))` : `calc(var(--sab))`,
   }
 })
 
@@ -30,7 +30,7 @@ const mainContentClass = computed(() => {
 </script>
 
 <template>
-  <main :style="contentStyle" class="flex flex-col wh-full left-0 top-0 absolute">
+  <main :style="contentStyle" class="flex flex-col wh-full">
     <slot name="header" class="z-1">
       <div class="flex flex-col">
         <NavBar v-if="props.hasHeader || props.hasFixedHeader" v-bind="props.navBarProps" :fixed="props.hasFixedHeader" class="flex-shrink-0 flex-grow-0">
@@ -44,19 +44,17 @@ const mainContentClass = computed(() => {
             <slot v-if="$slots.right" name="right" />
           </template>
         </NavBar>
-        <slot name="header-sticky" />
+        <slot name="header-sticky">
+          <HomeHeader />
+        </slot>
       </div>
     </slot>
     <slot name="not-fixed-header" />
-    <div class="flex-grow-1 w-full relative z-1 overflow-hidden">
+    <div class="flex-grow-1 w-full relative z-1">
       <transition-group name="fade">
-        <div key="main" class="wh-full top-0 absolute overflow-hidden">
-          <SavePosition>
-            <HomeSideMenu class="hidden md:block" />
-            <div id="page-container-content" class="wh-full transition-all duration-300 overflow-y-auto" :class="mainContentClass">
-              <slot />
-            </div>
-          </SavePosition>
+        <HomeSideMenu class="hidden md:block" />
+        <div id="page-container-content" class="wh-full transition-all duration-300" :class="mainContentClass">
+          <slot />
         </div>
       </transition-group>
     </div>

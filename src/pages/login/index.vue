@@ -6,13 +6,16 @@ import { useUserStore } from '@/stores'
 import logo from '~/images/logo.svg'
 import logoDark from '~/images/logo-dark.svg'
 import vw from '@/utils/inline-px-to-vw'
+import { aaa, bbb, device_model, getDeviceId } from '@/web-base/net/Utils'
+import { IP } from '@/web-base/utils/useStoreMethods'
 
 const { t } = useI18n()
-const router = useRouter()
 const userStore = useUserStore()
+const router = useRouter()
 const loading = ref(false)
-
+const route = useRoute()
 const dark = ref<boolean>(isDark.value)
+const SliderVerifyRef = ref()
 
 watch(
   () => isDark.value,
@@ -21,13 +24,16 @@ watch(
   },
 )
 
-const postData = reactive({
-  email: '',
+const postData = reactive<{
+  username: string
+  password: string
+}>({
+  username: '',
   password: '',
 })
 
 const rules = reactive({
-  email: [
+  username: [
     { required: true, message: t('login.pleaseEnterEmail') },
   ],
   password: [
@@ -35,10 +41,31 @@ const rules = reactive({
   ],
 })
 
-async function login(values: any) {
-  try {
+function handleSubmit() {
+  console.log('handleSubmit--------')
+  SliderVerifyRef.value.open()
+}
+
+async function login(captcha: string) {
     loading.value = true
-    await userStore.login({ ...postData, ...values })
+    const device_id = await getDeviceId()
+    const ip = await IP()
+    userStore.getUserLoginInfo({
+      login_type: 4,
+      username: postData.username,
+      password: postData.password,
+      device_id,
+      device_model,
+      captcha,
+      channel_id: Number(route.query.channel_id) || 123,
+      aaa: aaa.toString(),
+      bbb,
+      ip,
+    })
+    
+}
+watch([() => userStore.isLogin, () => loading.value], ([isLogin, loadingVal]) => {
+  if (isLogin && loadingVal) {
     const { redirect, ...othersQuery } = router.currentRoute.value.query
     router.push({
       name: (redirect as keyof RouteMap) || 'home',
@@ -47,10 +74,7 @@ async function login(values: any) {
       },
     })
   }
-  finally {
-    loading.value = false
-  }
-}
+})
 </script>
 
 <template>
@@ -58,14 +82,15 @@ async function login(values: any) {
     <div class="mb-32 mt-20">
       <van-image :src="dark ? logoDark : logo" class="h-120 w-120" alt="brand logo" />
     </div>
+    <div class="i-custom:avatar" style="width: 100px; height: 100px;" />
 
-    <van-form :model="postData" :rules="rules" validate-trigger="onSubmit" @submit="login">
+    <van-form :model="postData" :rules="rules" validate-trigger="onSubmit" @submit="handleSubmit">
       <div class="rounded-3xl overflow-hidden">
         <van-field
-          v-model="postData.email"
-          :rules="rules.email"
-          name="email"
-          :placeholder="$t('login.email')"
+          v-model="postData.username"
+          :rules="rules.username"
+          name="username"
+          :placeholder="$t('login.username')"
         />
       </div>
 
@@ -98,6 +123,8 @@ async function login(values: any) {
     <GhostButton block to="forgot-password">
       {{ $t('login.forgot-password') }}
     </GhostButton>
+    <!-- 拖动校验 -->
+    <SliderVerify ref="SliderVerifyRef" type="login" @loading="loading = true" @loaded="loading = false" @success="login" />
   </div>
 </template>
 

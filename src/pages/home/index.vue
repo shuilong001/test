@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import { MessageMapRegister } from '@/web-base/netBase/MessageMapRegister'
-import PKwebsocket from '@/web-base/socket/Ws'
-import { NetPacket } from '@/web-base/netBase/NetPacket'
-import { WsEventName } from '@/types/ws-events'
-import { wsRequest } from '@/composables/useWsRequest'
-
 interface Game {
   id: number
   name: string
@@ -66,23 +60,10 @@ const filteredGames = computed(() => {
   }
   return filtered
 })
-async function getMatch() {
-  const info = NetPacket.req_slots_match_list()
-  const res = await wsRequest(info, WsEventName.SlotsMatchList)
-  console.log('data111111111--------: ', res)
-}
-MessageMapRegister.register()
-onMounted(() => {
-  PKwebsocket.instance.init() // 初始化websocket
-  getMatch()
-})
 </script>
 
 <template>
   <PageContainer :has-header="false">
-    <template #header-sticky>
-      <HomeHeader />
-    </template>
     <div class="test-size-16 mt-60">
       {{ filteredGames }}
     </div>

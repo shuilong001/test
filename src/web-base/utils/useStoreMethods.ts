@@ -4,11 +4,7 @@ import { useUserStore } from '@/stores/modules/user'
 import { Local, Session } from '@/web-base/utils/storage'
 import router from '@/router'
 
-const { settings } = storeToRefs(usePageStore())
-const {
-  lang,
-} = storeToRefs(usePageStore())
-const { info, roleInfo, currencyRate, isLocalLoggedIn } = storeToRefs(useUserStore())
+// const { info, roleInfo, currencyRate, isLocalLoggedIn } = storeToRefs(useUserStore())
 export function get<T>(url: string): Promise<T> {
   return new Promise((resole, reject) => {
     const xhr = new XMLHttpRequest()
@@ -38,6 +34,7 @@ export function get<T>(url: string): Promise<T> {
  *
  */
 export function unserialize(v: any, isPlatform: boolean) {
+  const { lang } = storeToRefs(usePageStore())
   if (!v)
     return ''
   const obj: any = {
@@ -114,6 +111,7 @@ export function getFastestUrl(): Promise<string> {
     // if (fastUrl) {
     //     resolve(fastUrl)
     // } else {
+    const { settings } = storeToRefs(usePageStore())
     if (settings.value?.server_testUrls?.length > 0) {
       const promises: Promise<{ cost: number, index: number }>[] = settings.value.server_testUrls.map((urls: any[], index: any) => {
         const url = urls[0]
@@ -185,6 +183,7 @@ export function IP(): Promise<string> {
     let fastCost = 99999
     let fastIndex = 0
     let _ip = ''
+    const { settings } = storeToRefs(usePageStore())
     const promises: Promise<{ cost: number, index: number, str: string }>[] = settings.value.GET_IP_LIST.map((url: any, index: any) => {
       return new Promise((resolve) => {
         const startTime = new Date().getTime()
@@ -260,7 +259,7 @@ export function convert2ServerMoney(num: number) {
 
 export async function onPlayGame(v: any) {
   if (!isLocalLoggedIn.value) {
-    await useUserStore().setLogin(true)
+    // await useUserStore().setLogin(true)
     return
   }
 
@@ -294,23 +293,24 @@ export async function onPlayGame(v: any) {
 // 未登录汇率
 export async function handleCurrencyRate(data: any) {
   console.log('汇率', data)
-  await useUserStore().getCurrencyRate(data)
+  // await useUserStore().getCurrencyRate(data)
 }
 // 绑定资金密码后，需要更新 store
 export async function updateStorePayPwd(val: any) {
   const newData = { ...roleInfo.value }
   newData.withdraw_pwd = val
   newData.withdraw_pwd_status = 2 // 已绑定资金密码
-  await useUserStore().getRoleInfo(newData)
+  // await useUserStore().getRoleInfo(newData)
 }
 // 绑定手机号码后，需要更新 store
 export async function updateUserInfo(val: any) {
   const newData = { ...info.value }
   newData.mobile = val
-  await useUserStore().getInfo(newData)
+  // await useUserStore().getInfo(newData)
 }
 // 获取ip对应得地址 保存到session中
 export async function getIPAddress(data: any) {
+  const { settings } = storeToRefs(usePageStore())
   const ips = Session.get('ips') || {}
   for (let index = 0; index < data.length; index++) {
     if (data[index].ip && !ips[data[index].ip]) {

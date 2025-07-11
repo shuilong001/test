@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRouteCacheStore } from '@/stores'
+import { useOverFlow } from '@/web-base/hooks/useOverFlow'
+import { useAppSetting } from '@/web-base/hooks/useAppSetting'
 
 useHead({
   title: 'PKBET',
@@ -16,24 +18,28 @@ useHead({
 })
 
 const routeCacheStore = useRouteCacheStore()
-
+const { initApp, initEventBus } = useAppSetting()
+initApp()
+initEventBus()
 const keepAliveRouteNames = computed(() => {
   return routeCacheStore.routeCaches
 })
-
 const mode = computed(() => {
   return isDark.value ? 'dark' : 'light'
 })
+useOverFlow()
 </script>
 
 <template>
-  <van-config-provider :theme="mode" class="h-full">
+  <van-config-provider :theme="mode" class="wh-full overflow-hidden">
+    <!-- <div class="wh-full overflow-hidden"> -->
     <router-view v-slot="{ Component }">
       <keep-alive :include="keepAliveRouteNames">
         <component :is="Component" />
       </keep-alive>
     </router-view>
     <TabBar />
+  <!-- </div> -->
   </van-config-provider>
 </template>
 

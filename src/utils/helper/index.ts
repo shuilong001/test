@@ -1,3 +1,18 @@
+import router from '@/router'
+import { usePageStore } from '@/stores/modules/page'
+
+// 判断是否在桌面版本中
+export function isRunningAsPWA() {
+  // 通用检测
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+
+  // iOS检测
+  const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase())
+  const isStandaloneIOS = isIOS && ('standalone' in window.navigator) && window.navigator.standalone
+
+  return isStandalone || isStandaloneIOS
+}
+
 // 用于游戏数据分割成有分页的效果
 export function splitArrayIntoChunks(array: any, chunkSize: number) {
   const result = []
@@ -22,4 +37,14 @@ export function joinURL(baseURL: any, path: any) {
   }
   // 拼接 URL
   return `${baseURL}/${path}`
+}
+
+export function historyBack() {
+  const pageStore = usePageStore()
+  if (window.history.state.back) {
+    router.back()
+  }
+  else {
+    router.replace(pageStore.homePath)
+  }
 }

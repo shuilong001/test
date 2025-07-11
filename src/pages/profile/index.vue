@@ -5,7 +5,7 @@ import defaultAvatar from '@/assets/images/default-avatar.svg'
 
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
-const isLogin = computed(() => !!userInfo.value.uid)
+const isLogin = computed(() => !!userInfo.value?.full_name)
 
 function login() {
   if (isLogin.value)
@@ -16,15 +16,14 @@ function login() {
 </script>
 
 <template>
-  <div>
+  <PageContainer content-class="pt-80" :has-header="false">
     <VanCellGroup :inset="true">
       <van-cell center :is-link="!isLogin" @click="login">
         <template #title>
-          <van-image :src="userInfo.avatar || defaultAvatar" round class="h-56 w-56" />
+          <van-image :src="userInfo?.real_name || defaultAvatar" round class="h-56 w-56" />
         </template>
-
         <template #value>
-          <span v-if="isLogin">{{ userInfo.name }}</span>
+          <span v-if="isLogin">{{ userInfo?.full_name }}</span>
           <span v-else>{{ $t('profile.login') }}</span>
         </template>
       </van-cell>
@@ -37,7 +36,7 @@ function login() {
         </template>
       </van-cell>
     </VanCellGroup>
-  </div>
+  </PageContainer>
 </template>
 
 <route lang="json5">

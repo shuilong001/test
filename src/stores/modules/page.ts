@@ -3,13 +3,13 @@ import { joinURL, splitArrayIntoChunks } from '@/utils/helper'
 import { langObjMap } from '@/constants/emums/langEnum'
 import { GameType } from '@/constants/emums/gameEnum'
 import { dingZhiActivity } from '@/constants/emums/activityEnum'
-import { webSetting } from '@/config/setting'
 
 /**
  * 页面信息
  * @methods setUserInfos 设置用户信息
  */
 interface PageState {
+  homePath: string // 首页路径
   menuActive: number
   countryOptions: any
   bannerArr: any
@@ -37,15 +37,18 @@ interface PageState {
   rechargeSuccessShow: boolean
 }
 
-export const usePageStore = defineStore('pages', {
-
+export const usePageStore = defineStore('page-store', {
   state: (): PageState => ({
+    homePath: '/home',
+    settings: null,
+
+    // 下面是暂时项目没用到的数据，后续看情况删除
     menuActive: -1,
     countryOptions: null,
     bannerArr: [],
     textAnnouncement: [],
     serviceUrlObj: {},
-    settings: webSetting,
+
     gameDatas: {
       game: [],
       kind: [],
@@ -348,6 +351,11 @@ export const usePageStore = defineStore('pages', {
     //     gameId: "21003",
     //     kindId: 2
     //   }))
+  },
+  persist: {
+    storage: sessionStorage,
+    key: 'page-store',
+    pick: ['settings'],
   },
 })
 

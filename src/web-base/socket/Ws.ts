@@ -1,31 +1,33 @@
 // websocket 类
 import { useSystemStore } from '@/stores/modules/system'
-import { useUserStore } from '@/stores/modules/user'
-import { getFastestUrl, IP } from '@/web-base/utils/useStoreMethods'
+import { getFastestUrl } from '@/web-base/utils/useStoreMethods'
 import { RingBuffer } from '@/web-base/net/RingBuffer'
 import { MessageMap } from '@/web-base/net/MessageMap'
-import { getDeviceId } from '@/web-base/net/Utils'
 import { EncodeUtils } from '@/web-base/net/EncodeUtils'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 import { NetPacket } from '@/web-base/netBase/NetPacket'
-import { NetEnumDef } from '@/web-base/netBase/NetEnumDef'
 import eventBus from './eventBus'
-// import { showToast } from '@nutui/nutui'
 import { i18n } from '@/utils/i18n'
-import { Local } from '@/web-base/utils/storage'
 import { usePageStore } from '@/stores/modules/page'
-import router from '@/router/index'
+import { NET_VERSION } from '@/constants'
+import { showToast } from 'vant'
 
-const NET_VERSION = 2 // 协议版本，目前写死为2
-const systemStore = useSystemStore()
-const userStore = useUserStore()
-const pageStore = usePageStore()
-const t = i18n.global.t
-const showToast = {
-  fail: (msg: string) => {
-    console.error(msg)
-  },
+// NOTE: 由于此文件在 Pinia 完成 app.use(pinia) 之前就可能被导入，
+// 直接调用 useSystemStore/useUserStore 等会导致 "getActivePinia() was called" 的报错。
+// 因此改为 **延迟** 获取，等到真正使用时再初始化。
+
+let systemStore: ReturnType<typeof useSystemStore>
+let pageStore: ReturnType<typeof usePageStore>
+
+function initStores() {
+  if (!systemStore)
+    systemStore = useSystemStore()
+
+  if (!pageStore)
+    pageStore = usePageStore()
 }
+
+const t = i18n.global.t
 
 // 根据协议在什么状态能发送分为3种：1，只能登录前发送；2，只能登录后发送；3，任何状态可以发送
 // 这里是不需要判断状态的协议
@@ -159,6 +161,8 @@ export class WsClass {
 
   // 构造
   private constructor() {
+    // 确保在实例化时已正确初始化 Pinia store
+    initStores()
     this.reset()
   }
 
@@ -183,7 +187,7 @@ export class WsClass {
       this.pause = false
       this.loading = false
       this.fasterLoading = false
-      showToast.fail(t('reconnect'))
+      showToast(t('reconnect'))
       this.init()
     }, 1000)
   }
@@ -379,7 +383,7 @@ export class WsClass {
         const notShowMsg = ['account_type_error', 'withdraw_password_can_be_bound', 'get_withdraw_password_status_success', 'withdraw_password_open_success', 'withdraw_password_operate_failed', 'captcha_incorrect', 'account_or_password_incorrect']
         if (!notShowMsg.includes(message.message)) {
           const errorContent = message.message || `${t('home_all_internet_error')}: ${msgID}`
-          showToast.fail(t(errorContent))
+          showToast(t(errorContent))
         }
       }
     }
@@ -488,6 +492,10 @@ export class WsClass {
     this.ws?.send(sendbuffer)
   }
 
+  sendAll(needLogin: boolean) {
+    QueuePool.sendAll(needLogin)
+  }
+
   calcPacketCount() {
     const count = this.packageCount++
     if (this.packageCount > 255) {
@@ -501,7 +509,7 @@ export class WsClass {
 export default WsClass
 
 // 通过id获取消息的key
-function getMsgType(msgID: number) {
+export function getMsgType(msgID: number) {
   const msgType: any = NetMsgType.msgType
   for (const key in msgType) {
     if (msgType[key] === msgID) {
@@ -515,111 +523,3 @@ function getMsgType(msgID: number) {
 eventBus.on('unknownType', (res) => {
   console.error('-- 接收到未知消息 --', res)
 })
-
-/* 监听一些全局事件 */
-
-eventBus.on('msg_notify_check_version', (res: any) => { // 版本检测
-  if (res.result === 2) { // 版本信息异常
-    showToast.fail(t('home_all_version_error'))
-    setInterval(() => {
-      showToast.fail(t('home_all_version_error'))
-    }, 6000)
-    return
-  }
-  // 如果本地已经登录了，那么同步服务端状态
-  if (userStore.token) {
-    // 登录服务器
-    console.error('登录服务器11')
-    syncLoginStatusFromServe()
-  }
-})
-eventBus.on('msg_nodify_login', (res: any) => { // 登录成功，需要同步服务器登录状态
-  if (res.code === 1) {
-    // 登录服务器
-    console.error('登录服务器22')
-    syncLoginStatusFromServe()
-    // 发送邀请码
-    const agent_id = localStorage.getItem('agent_id')
-    if (Number(agent_id)) {
-      const rq = NetPacket.req_set_invitecode()
-      rq.superior_id = agent_id as string
-      WsClass.instance.send(rq, true)
-    }
-  }
-})
-
-eventBus.on('msg_notify_login_result', (res: any) => { // 监听登录成功，然后释放登录等待池
-  sessionStorage.setItem('dis_repeat_login', '')
-  if (res && res.result === 1) { // 登录成功
-    systemStore.setLoggedIn(true)
-    // pageStore.setPageLoading(false)
-    const req_user_info = NetPacket.req_user_info()
-    setTimeout(() => {
-      // 同步用户数据
-      WsClass.instance.send(req_user_info, true, {
-        callbackName: 'msg_notify_user_info',
-        callback: (data: any) => {
-          userStore.getInfo(data)
-        },
-      })
-      // 同步会员信息
-      const vipInfoReq = NetPacket.req_vip_info()
-      WsClass.instance.send(vipInfoReq, true, {
-        callbackName: 'msg_notify_vip_info',
-        callback: (data: any) => {
-          userStore.getVIPInfo(data)
-        },
-      })
-
-      pageStore.setReConnectWs(false)
-
-      // 我的收藏
-      const req = NetPacket.req_my_games()
-      WsClass.instance.send(req, true, {
-        callbackName: 'msg_notify_req_my_games',
-        callback: (res: any) => {
-          userStore.getCollected(res.collected)
-        },
-      })
-    }, 1000)
-    setTimeout(() => {
-      if (!systemStore.isWsLogin)
-        return
-      QueuePool.sendAll(true)
-    }, 2000)
-  }
-  else { // 登录失败，清空缓存，退出登录状态
-    if (!res.hideTip) { // 主动触发时不用提示信息
-      showToast.fail(t('home_all_login_error'))
-    }
-    setTimeout(() => {
-      Local.remove('user')
-      systemStore.setWsConnected(false)
-      systemStore.setLoggedIn(false)
-      userStore.getUserLoginInfo(null)
-      router.replace({
-        path: '/',
-      })
-      setTimeout(() => {
-        WsClass.instance.closeWs()
-      })
-    }, res.hideTip ? 400 : 1000)
-  }
-})
-
-export async function syncLoginStatusFromServe() {
-  console.error('同步登录状态')
-  // 同步登录状态
-  const tb_req = NetPacket.req_role_login_with_ip()
-  tb_req.uid = String(userStore.userInfo.user_id)
-  tb_req.server_id = 2
-  tb_req.token = userStore.userInfo.token
-  tb_req.type = NetEnumDef.connect_type.re_connect
-  tb_req.version = NET_VERSION
-  tb_req.device_id = await getDeviceId()
-  tb_req.ip = await IP()
-  WsClass.instance.send(tb_req, false)
-  // 记录一个标识，当在登录成功前 收到  msg_notify_repeat_login 消息，则忽略。
-  // 登录成功后 清除这个标识
-  sessionStorage.setItem('dis_repeat_login', '1')
-}

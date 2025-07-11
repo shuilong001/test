@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
+import { routeWhiteList } from '@/config/routes'
 
 const appStore = useAppStore()
 const showSearch = ref(false)
+const route = useRoute()
 
+const show = computed(() => {
+  return route.name && routeWhiteList.includes(route.name)
+})
 function toggleSidebar() {
   appStore.sidebarCollapsed = !appStore.sidebarCollapsed
   appStore.mobileMenuOpen = !appStore.mobileMenuOpen
@@ -11,7 +16,7 @@ function toggleSidebar() {
 </script>
 
 <template>
-  <header class="px-16 border-b border-gray-200 bg-white flex h-60 transition-colors duration-300 items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800">
+  <header v-show="show" class="px-16 border-b border-gray-200 bg-white flex h-60 transition-colors duration-300 items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800">
     <div class="flex gap-6 items-center">
       <!-- PC端汉堡菜单按钮 -->
       <div class="flex flex-col gap-4 w-16 cursor-pointer justify-center" @click="toggleSidebar">

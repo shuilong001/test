@@ -33,9 +33,6 @@ export const useSystemStore = defineStore('system', {
     isWsLogin(state) {
       return state.wsLoginStatus
     },
-    getTheme(state) {
-      return GET_THEME(state.theme)
-    },
   },
 })
 

@@ -18,21 +18,46 @@ html.dark {
   background: #222;
   color-scheme: dark;
 }
+body {
+  overscroll-behavior: none;
+}
 
 #app {
   position: relative;
+  /* iOS 平滑滚动 */
+  top: 0;
+  left: 0;
+
   width: 100% !important;
   max-width: none !important;
-  height: 100vh;
-  // Dynamic Viewport Units
-  height: 100dvh;
-  position: relative;
+  min-height: calc(var(--full-height) - var(--sat));
   overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain; // 限制滚动边界
 }
 
-::-webkit-scrollbar {
-  width: 0;
-  background: transparent;
+/* 全局滚动条隐藏 - 最高优先级 */
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* 针对特定元素的滚动条 */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#app::-webkit-scrollbar,
+.overflow-app::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 .van-nav-bar--fixed,
@@ -62,13 +87,6 @@ html.dark {
 .slide-fadein-right-enter-from {
   transform: translateX(-40px);
   opacity: 0;
-}
-
-//移动端隐藏滚动条
-.mobile {
-  ::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 .fade-enter,
