@@ -7,7 +7,7 @@ const appStore = useAppStore()
 const showSearch = ref(false)
 const route = useRoute()
 const userStore = useUserStore()
-
+const router = useRouter()
 const isLogin = computed(() => userStore.isLogin)
 
 const show = computed(() => {
@@ -54,8 +54,8 @@ function logout() {
         <DefaultBtn text="退出" @click="logout" />
       </div>
       <div v-else class="flex gap-8 items-center">
-        <DefaultBtn text="登录" />
-        <DefaultBtn text="注册" type="primary" />
+        <DefaultBtn text="登录" @click="router.push('/login')" />
+        <DefaultBtn text="注册" type="primary" @click="router.push('/login')" />
       </div>
 
       <!-- 多语言 -->

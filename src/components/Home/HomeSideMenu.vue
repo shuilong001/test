@@ -158,8 +158,8 @@ function handleRedirect(item: any) {
 <template>
   <div>
     <!-- 移动端下拉菜单 -->
-    <div class="border-b border-gray-200 bg-white transform transition-colors transition-transform duration-300 duration-300 left-0 right-0 top-60 fixed z-40 dark:border-gray-700 dark:bg-gray-800 md:hidden" :class="{ '-translate-y-full': !mobileMenuOpen }">
-      <div v-if="mobileMenuOpen" class="max-h-[calc(100vh-5rem)] overflow-y-auto">
+    <div v-if="mobileMenuOpen" class="border-b border-gray-200 bg-white transform transition-colors transition-transform duration-300 duration-300 left-0 right-0 top-60 fixed z-40 dark:border-gray-700 dark:bg-gray-800 md:hidden">
+      <div class="max-h-[calc(100vh-5rem)] overflow-y-auto">
         <div v-for="item in menuItems" :key="item.id" class="border-b border-gray-100 dark:border-gray-700/50">
           <div
             class="px-6 py-4 flex cursor-pointer transition-colors items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700"

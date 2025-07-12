@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { routeWhiteList } from '@/config/routes'
-import { TabBarList } from '@/constants'
 
 const active = ref(0)
 const route = useRoute()
@@ -26,6 +25,28 @@ function handleTabClick() {
     }
   }, 100)
 }
+const TabBarList = [
+  {
+    name: '选单',
+    icon: 'i-carbon:home',
+    to: '/home',
+  },
+  {
+    name: '探索',
+    icon: 'i-carbon:search',
+    to: '/demo1',
+  },
+  {
+    name: '赌场',
+    icon: 'i-carbon:chart-line',
+    to: '/demo1',
+  },
+  {
+    name: '聊天',
+    icon: 'i-carbon:user',
+    to: '/profile',
+  },
+]
 </script>
 
 <template>

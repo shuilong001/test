@@ -7,6 +7,8 @@ import { version } from '~root/package.json'
 const { t } = useI18n()
 const userStore = useUserStore()
 
+const isLogin = computed(() => userStore.isLogin)
+
 function Logout() {
   showConfirmDialog({
     title: t('settings.comfirmTitle'),
@@ -21,11 +23,8 @@ function Logout() {
 
 <template>
   <PageContainer>
-    <VanCellGroup :inset="true">
-      <van-cell v-if="userStore.isLogin" :title="$t('settings.logout')" clickable class="van-text-color" @click="Logout" />
-    </VanCellGroup>
-
     <div class="mt-10">
+      <van-cell v-if="isLogin" :title="$t('settings.logout')" clickable class="van-text-color" @click="Logout" />
       {{ $t("settings.currentVersion") }}: v{{ version }}
     </div>
   </PageContainer>
