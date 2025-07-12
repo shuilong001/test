@@ -35,6 +35,12 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain; // 限制滚动边界
 }
+.overflow-app {
+  & > .app-container {
+    height: calc(var(--full-height) - env(safe-area-inset-top) + 1px);
+    overflow-y: auto;
+  }
+}
 
 /* 全局滚动条隐藏 - 最高优先级 */
 * {

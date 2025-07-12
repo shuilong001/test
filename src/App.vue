@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <van-config-provider :theme="mode" class="wh-full overflow-hidden">
+  <van-config-provider :theme="mode" class="app-container wh-full">
     <!-- <div class="wh-full overflow-hidden"> -->
     <router-view v-slot="{ Component }">
       <keep-alive :include="keepAliveRouteNames">
