@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { routeWhiteList } from '@/config/routes'
+import { TabBarList } from '@/constants'
 
 const active = ref(0)
 const route = useRoute()
@@ -29,34 +30,10 @@ function handleTabClick() {
 
 <template>
   <van-tabbar v-if="show" v-model="active" class="md:hidden" route placeholder active-color="#24ee89" @change="handleTabClick">
-    <van-tabbar-item replace to="/home">
-      选单
+    <van-tabbar-item v-for="item in TabBarList" :key="item.name" :replace="true" :to="item.to">
+      {{ item.name }}
       <template #icon>
-        <div class="i-carbon:home" />
-      </template>
-    </van-tabbar-item>
-    <van-tabbar-item replace to="/demo1">
-      探索
-      <template #icon>
-        <div class="i-carbon:search" />
-      </template>
-    </van-tabbar-item>
-    <van-tabbar-item replace to="/demo1">
-      赌场
-      <template #icon>
-        <div class="i-carbon:chart-line" />
-      </template>
-    </van-tabbar-item>
-    <van-tabbar-item replace to="/demo1">
-      体育
-      <template #icon>
-        <div class="i-carbon:menu" />
-      </template>
-    </van-tabbar-item>
-    <van-tabbar-item replace to="/profile">
-      聊天
-      <template #icon>
-        <div class="i-carbon:user" />
+        <div :class="item.icon" />
       </template>
     </van-tabbar-item>
   </van-tabbar>

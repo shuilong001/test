@@ -25,23 +25,24 @@ export const useUserStore = defineStore('user-store', {
     },
     async getUserLoginInfo(loginInfo: ReqLoginPacket) {
       const res = await wsRequest<ReqLoginPacket, ResLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login)
-      console.log('getUserLoginInfo----res: ', res)
       this.loginInfo = res
     },
     async getUserInfo() {
-      const userInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_user_info, true)
-      console.log('userInfo-----: ', userInfo);
-      this.userInfo = userInfo
+      this.userInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_user_info, true)
     },
     async getVIPInfo() {
-      const vipInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_vip_info, true)
-      this.vipInfo = vipInfo
+      this.vipInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_vip_info, true)
     },
     async getUserCollected() {
       const collected = await wsRequest({}, NetMsgType.msgType.msg_notify_req_my_games, true)
       this.collected = collected
     },
-
+    logout() {
+      this.loginInfo = null
+      this.vipInfo = null
+      this.userInfo = null
+      this.roleInfo = null
+    },
   },
   getters: {
     token(state) {
@@ -51,7 +52,7 @@ export const useUserStore = defineStore('user-store', {
     //   return state.loginInfo || {}
     // },
     // 是否有本地登录信息
-    isLogin(state) { 
+    isLogin(state) {
       return state.loginInfo?.token && state.userInfo?.full_name
     },
   },
@@ -63,18 +64,6 @@ export const useUserStore = defineStore('user-store', {
 })
 
 export default useUserStore
-
-interface LoginInfo {
-  uid: string
-  server_id: number
-  token: string
-  type: number
-  version: number
-  device_id: string
-  ip: string
-  flag_id: number
-  flag_type: number
-}
 
 export interface VipInfo {
   total_bet_money: number

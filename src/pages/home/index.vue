@@ -64,7 +64,7 @@ const filteredGames = computed(() => {
 
 <template>
   <PageContainer :has-header="false">
-    <div class="test-size-16 mt-60">
+    <div class="test-size-16 p-16">
       {{ filteredGames }}
     </div>
   </PageContainer>

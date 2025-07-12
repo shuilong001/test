@@ -72,19 +72,12 @@ export function useOverFlow() {
   watch(
     () => router.currentRoute.value.name,
     (name: string) => {
-      // isFullScreen.value = document.documentElement.clientHeight < window.innerHeight
-      console.log('isFullScreen.value: ', isFullScreen.value)
       isHtmlOverflow(name)
     },
     {
       immediate: true,
     },
   )
-  // 监听路由变化
-  // onBeforeRouteUpdate((to, from) => {
-  //   console.log('to, from: ', to, from)
-  //   isHtmlOverflow(to.name as string)
-  // })
   onUnmounted(() => {
     window.removeEventListener('resize', () => {})
   })

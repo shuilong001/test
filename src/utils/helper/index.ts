@@ -1,6 +1,3 @@
-import router from '@/router'
-import { usePageStore } from '@/stores/modules/page'
-
 // 判断是否在桌面版本中
 export function isRunningAsPWA() {
   // 通用检测
@@ -37,14 +34,4 @@ export function joinURL(baseURL: any, path: any) {
   }
   // 拼接 URL
   return `${baseURL}/${path}`
-}
-
-export function historyBack() {
-  const pageStore = usePageStore()
-  if (window.history.state.back) {
-    router.back()
-  }
-  else {
-    router.replace(pageStore.homePath)
-  }
 }

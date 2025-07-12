@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/modules/app'
+import { useUserStore } from '@/stores/modules/user'
 import { routeWhiteList } from '@/config/routes'
 
 const appStore = useAppStore()
 const showSearch = ref(false)
 const route = useRoute()
+const userStore = useUserStore()
+
+const isLogin = computed(() => userStore.isLogin)
 
 const show = computed(() => {
   return route.name && routeWhiteList.includes(route.name)
@@ -13,10 +17,18 @@ function toggleSidebar() {
   appStore.sidebarCollapsed = !appStore.sidebarCollapsed
   appStore.mobileMenuOpen = !appStore.mobileMenuOpen
 }
+
+function logout() {
+  userStore.logout()
+  showToast('已退出登录')
+}
 </script>
 
 <template>
-  <header v-show="show" class="px-16 border-b border-gray-200 bg-white flex h-60 transition-colors duration-300 items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800">
+  <header
+    class="px-16 border-b border-gray-200 bg-white h-60 w-full hidden transition-colors duration-300 items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800 md:!flex"
+    :class="[show ? '!flex' : 'hidden']"
+  >
     <div class="flex gap-6 items-center">
       <!-- PC端汉堡菜单按钮 -->
       <div class="flex flex-col gap-4 w-16 cursor-pointer justify-center" @click="toggleSidebar">
@@ -35,8 +47,16 @@ function toggleSidebar() {
       <div class="text-gray-500 rounded-lg flex-center h-24 w-24 hidden cursor-pointer transition-colors dark:text-gray-400 md:flex dark:hover:text-white dark:hover:bg-gray-700" @click="showSearch = true">
         <van-icon name="search" />
       </div>
-      <DefaultBtn text="登录" />
-      <DefaultBtn text="注册" type="primary" />
+      <div v-if="isLogin" class="flex gap-8 items-center">
+        <div class="text-size-14">
+          {{ userStore.userInfo.full_name }}
+        </div>
+        <DefaultBtn text="退出" @click="logout" />
+      </div>
+      <div v-else class="flex gap-8 items-center">
+        <DefaultBtn text="登录" />
+        <DefaultBtn text="注册" type="primary" />
+      </div>
 
       <!-- 多语言 -->
       <!-- <div
@@ -58,4 +78,5 @@ function toggleSidebar() {
       </div> -->
     </div>
   </header>
+  <div class="h-60 hidden md:flex" :class="[show ? '!flex' : 'hidden']" />
 </template>

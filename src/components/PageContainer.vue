@@ -4,7 +4,6 @@ import { useAppStore } from '@/stores/modules/app'
 
 const props = withDefaults(defineProps<{
   hasHeader?: boolean
-  hasFixedHeader?: boolean
   hasFooter?: boolean
   contentClass?: string
   navBarProps?: NavBarPropsType
@@ -25,7 +24,7 @@ const contentStyle = computed(() => {
 })
 
 const mainContentClass = computed(() => {
-  return `${props.contentClass} ${appStore.sidebarCollapsed ? 'md:ml-100' : 'md:ml-200'}`
+  return `${props.contentClass} ${appStore.sidebarCollapsed ? 'md:pl-80' : 'md:pl-200'}`
 })
 </script>
 
@@ -33,7 +32,7 @@ const mainContentClass = computed(() => {
   <main :style="contentStyle" class="flex flex-col wh-full">
     <slot name="header" class="z-1">
       <div class="flex flex-col">
-        <NavBar v-if="props.hasHeader || props.hasFixedHeader" v-bind="props.navBarProps" :fixed="props.hasFixedHeader" class="flex-shrink-0 flex-grow-0">
+        <NavBar v-if="props.hasHeader" v-bind="props.navBarProps" class="flex-shrink-0 flex-grow-0 md:hidden">
           <template #left>
             <slot v-if="$slots.left" name="left" />
           </template>
@@ -52,7 +51,7 @@ const mainContentClass = computed(() => {
     <slot name="not-fixed-header" />
     <div class="flex-grow-1 w-full relative z-1">
       <transition-group name="fade">
-        <HomeSideMenu class="hidden md:block" />
+        <HomeSideMenu />
         <div id="page-container-content" class="wh-full transition-all duration-300" :class="mainContentClass">
           <slot />
         </div>

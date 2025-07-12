@@ -18,8 +18,8 @@ useHead({
 })
 
 const routeCacheStore = useRouteCacheStore()
-const { initApp, initEventBus } = useAppSetting()
-initApp()
+const { initPKwebsocket, initEventBus, cleanupEventBus } = useAppSetting()
+initPKwebsocket()
 initEventBus()
 const keepAliveRouteNames = computed(() => {
   return routeCacheStore.routeCaches
@@ -28,6 +28,9 @@ const mode = computed(() => {
   return isDark.value ? 'dark' : 'light'
 })
 useOverFlow()
+onBeforeUnmount(() => {
+  cleanupEventBus()
+})
 </script>
 
 <template>

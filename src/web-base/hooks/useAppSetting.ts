@@ -8,18 +8,16 @@ import { getDeviceId } from '@/web-base/net/Utils'
 import { IP } from '@/web-base/utils/useStoreMethods'
 import PKwebsocket from '@/web-base/socket/Ws'
 import { NetEnumDef } from '@/web-base/netBase/NetEnumDef'
-import { Local } from '@/web-base/utils/storage'
 import { useSystemStore } from '@/stores/modules/system'
 import { usePageStore } from '@/stores/modules/page'
 import { NET_VERSION } from '@/constants'
 
 export function useAppSetting() {
-  const pageStore = usePageStore()
-
-  let appSetting = pageStore.settings || {}
   const getAppSetting = async () => {
+    const pageStore = usePageStore()
+    let appSetting = pageStore.settings || {}
     const query = router.currentRoute.value.query
-    const c = query.c || sessionStorage.getItem('c') || 'switch'
+    const c = query.c || sessionStorage.getItem('c') || import.meta.env.VITE_SERVER_NAME || 'develop'
     const settingUrl = `https://config.pkbet.cloud/pkbet_${c}.json`
     if (!appSetting.third_game_manage) {
       const settingsRes1 = await fetch(`${settingUrl}?${new Date().getTime()}`)
@@ -39,12 +37,12 @@ export function useAppSetting() {
     appSetting.backend_upload = appSetting.media_url
     pageStore.setSettings(appSetting)
   }
-  const initApp = async () => {
+  const initPKwebsocket = async () => {
     await getAppSetting()
     PKwebsocket.instance.init()
   }
+  /* 监听一些全局事件 */
   function initEventBus() {
-    /* 监听一些全局事件 */
     const userStore = useUserStore()
     const systemStore = useSystemStore()
     const pageStore = usePageStore()
@@ -89,7 +87,7 @@ export function useAppSetting() {
         setTimeout(() => {
         // 同步用户数据
         // 同步用户数据
-        userStore.getUserInfo()
+          userStore.getUserInfo()
 
           // 同步会员信息
           userStore.getVIPInfo()
@@ -97,7 +95,6 @@ export function useAppSetting() {
           pageStore.setReConnectWs(false)
           // 我的收藏
           // userStore.getUserCollected()
-
         }, 1000)
         setTimeout(() => {
           if (!systemStore.isWsLogin)
@@ -110,10 +107,8 @@ export function useAppSetting() {
           showToast(t('home_all_login_error'))
         }
         setTimeout(() => {
-          Local.remove('user')
+          userStore.logout()
           systemStore.setWsConnected(false)
-          systemStore.setLoggedIn(false)
-          userStore.getUserLoginInfo(null)
           router.replace({
             path: '/',
           })
@@ -122,6 +117,10 @@ export function useAppSetting() {
           })
         }, res.hideTip ? 400 : 1000)
       }
+    })
+    // 监听未知的事件
+    eventBus.on('unknownType', (res) => {
+      console.error('-- 接收到未知消息 --', res)
     })
 
     async function syncLoginStatusFromServe() {
@@ -142,5 +141,11 @@ export function useAppSetting() {
       sessionStorage.setItem('dis_repeat_login', '1')
     }
   }
-  return { getAppSetting, initApp, initEventBus }
+  function cleanupEventBus() {
+    eventBus.off('msg_notify_check_version')
+    eventBus.off('msg_nodify_login')
+    eventBus.off('msg_notify_login_result')
+    eventBus.off('unknownType')
+  }
+  return { getAppSetting, initPKwebsocket, initEventBus, cleanupEventBus }
 }

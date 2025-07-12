@@ -71,6 +71,7 @@ export function createVitePlugins(mode: string) {
       dirs: [
         'src/composables',
         'src/hooks',
+        'src/web-base/utils/index.ts',
         'src/types/ws-events.ts',
         'src/types/net-packet.d.ts',
       ],

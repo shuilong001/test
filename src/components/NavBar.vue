@@ -1,7 +1,6 @@
 <script setup lang="ts">
 interface VanNavBarProps {
   title?: string
-  fixed?: boolean
   zIndex?: number | string
   border?: boolean
   rightText?: string
@@ -11,7 +10,6 @@ interface VanNavBarProps {
   placeholder?: boolean
   safeAreaInsetTop?: boolean
   clickable?: boolean
-  showLeftBg?: boolean
 }
 export interface NavBarPropsType extends VanNavBarProps {
   onClickRight?: () => void
@@ -31,7 +29,6 @@ const props = withDefaults(defineProps<NavBarPropsType>(), {
   leftArrow: true,
   mode: 'light',
   showTitle: true,
-  showLeftBg: false,
 })
 
 const route = useRoute()
@@ -53,6 +50,9 @@ function onBack() {
   if (props.onBack) {
     props.onBack()
   }
+  else {
+    historyBack()
+  }
 }
 </script>
 
@@ -66,18 +66,12 @@ function onBack() {
   >
     <template #left>
       <slot name="left">
-        <div v-if="props.leftArrow && props.showLeftBg" :class="{ 'w-26 h-26 flex items-center justify-center  rounded-full': props.mode === 'dark' }">
+        <div v-if="props.leftArrow " :class="{ 'w-26 h-26 flex items-center justify-center  rounded-full': props.mode === 'dark' }">
           <span
-            v-if="props.leftArrow"
             class="i-custom:new-nav-arrow pl-8 h-20 w-12 inline-block"
             :class="{ '!text-#fff !w-10 !h-16': props.mode === 'dark' }"
           />
         </div>
-        <div
-          v-if="props.leftArrow && !props.showLeftBg"
-          class="i-custom:new-nav-arrow pl-8 h-20 w-12 inline-block"
-          :class="{ '!text-#fff !w-10 !h-16': props.mode === 'dark' }"
-        />
       </slot>
     </template>
     <template #title>

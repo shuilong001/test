@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { historyBack } from '@/utils/helper'
 import router from '@/router'
 
 const route = useRoute('index')

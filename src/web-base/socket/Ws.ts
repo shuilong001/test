@@ -518,8 +518,3 @@ export function getMsgType(msgID: number) {
   }
   return 'unknownType'
 }
-
-// 监听未知的事件
-eventBus.on('unknownType', (res) => {
-  console.error('-- 接收到未知消息 --', res)
-})
