@@ -28,7 +28,6 @@ function useFooterBox() {
 }
 
 function isHtmlOverflow(routeName: string) {
-  console.log('routeName: ', routeName)
   // if (window.matchMedia("(display-mode: standalone)").matches) {
   //     return
   // }

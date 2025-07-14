@@ -22,6 +22,7 @@ export default antfu(
     ignores: [
       'src/web-base/net/**',
       'src/web-base/netBase/**',
+      'README.md',
     ],
   },
 )

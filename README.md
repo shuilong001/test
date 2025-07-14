@@ -1,6 +1,7 @@
 <h1 align="center">PKBET</h1>
 
 ### 项目架构规范
+
 **核心目录**
 
 ```
@@ -93,7 +94,7 @@ pnpm preview
 
 - 开发环境：`.env.development`
 - 生产环境：`.env.production`
-- 本地环境：`.env.local`（不提交到版本控制）
+- 本地环境：`.env.development.local`（不提交到版本控制, 从.env.development拷贝出来，修改为自己本地的开发配置）
 
 #### 2.4 版本管理规范
 
@@ -102,10 +103,6 @@ pnpm preview
 - `main`：主分支，用于生产环境
 - `develop`：开发分支，用于集成测试
 - `feature/*`：功能分支，用于新功能开发
-
-
-
-
 
 ### 2. 代码规范
 
@@ -220,6 +217,7 @@ import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 //     callbackId: numeber         // 回调事件 ID
 //   }
 // ): Promise<ResponseType>
+
 async getUserLoginInfo(loginInfo: ReqLoginPacket) {
   return await wsRequest<ReqLoginPacket, ResNodifyLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login, {
     callbackId: NetMsgType.msgType.msg_nodify_login,
@@ -248,29 +246,30 @@ useWsEvent('msg_nodify_login', (payload: any) => {
   }
 })
 ```
+
 #### 3.2 svg icon使用示例
 
 **自定义SVG图标**
 
 ```vue
+<script setup lang="ts">
+// SVG图标会自动从 src/assets/svg/ 目录加载
+// 文件名会自动转换为图标名称
+</script>
+
 <template>
   <!-- 使用自定义SVG图标 -->
   <div class="flex gap-4 items-center">
     <!-- 方式一：使用 i-custom: 前缀 -->
     <div class="i-custom:avatar text-size-24 text-blue-500" />
-    
+
     <!-- 方式二：使用 i-svg: 前缀 -->
     <div class="i-svg:dark-close_icon text-size-20 text-red-500" />
-    
+
     <!-- 方式三：使用 i-svg: 前缀（带路径） -->
     <div class="i-svg:dark-refresh text-size-18 text-green-500" />
   </div>
 </template>
-
-<script setup lang="ts">
-// SVG图标会自动从 src/assets/svg/ 目录加载
-// 文件名会自动转换为图标名称
-</script>
 ```
 
 **图标使用示例**
@@ -280,15 +279,14 @@ useWsEvent('msg_nodify_login', (payload: any) => {
   <div class="icon-demo">
     <!-- 基础图标 -->
     <div class="i-custom:avatar" />
-    
+
     <!-- 带样式的图标 -->
     <div class="i-custom:avatar text-size-24 text-red-500 hover:text-red-700" />
-    
+
     <!-- 响应式图标 -->
-    <div class="i-custom:avatar text-size-16 md:text-size-20 lg:text-size-24" />
+    <div class="i-custom:avatar text-size-16 lg:text-size-24 md:text-size-20" />
   </div>
 </template>
-
 ```
 
 #### 3.3 深浅模式使用示例
@@ -296,27 +294,6 @@ useWsEvent('msg_nodify_login', (payload: any) => {
 **基础使用**
 
 ```vue
-<template>
-  <div class="theme-demo">
-    <!-- 使用 dark: 前缀的响应式类 -->
-    <div class="bg-white text-gray-900 dark:bg-gray-800 dark:text-white p-4 rounded-lg">
-      <h2 class="text-size-20 font-bold mb-4">深浅模式示例</h2>
-      
-      <!-- 卡片组件 -->
-      <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg mb-4">
-        <p class="text-gray-700 dark:text-gray-300">
-          这是一个支持深浅模式的卡片组件
-        </p>
-      </div>
-      
-      <!-- 按钮组件 -->
-      <button class="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-        切换主题
-      </button>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { isDark, toggleDark } from '@/composables/dark'
 
@@ -325,24 +302,55 @@ function handleToggleTheme() {
   toggleDark()
 }
 </script>
+
+<template>
+  <div class="theme-demo">
+    <!-- 使用 dark: 前缀的响应式类 -->
+    <div class="text-gray-900 p-4 rounded-lg bg-white dark:text-white dark:bg-gray-800">
+      <h2 class="text-size-20 font-bold mb-4">
+        深浅模式示例
+      </h2>
+
+      <!-- 卡片组件 -->
+      <div class="mb-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700">
+        <p class="text-gray-700 dark:text-gray-300">
+          这是一个支持深浅模式的卡片组件
+        </p>
+      </div>
+
+      <!-- 按钮组件 -->
+      <button class="text-white px-4 py-2 rounded-lg bg-blue-500 transition-colors dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700">
+        切换主题
+      </button>
+    </div>
+  </div>
+</template>
 ```
 
 **组件中的深浅模式**
 
 ```vue
+<script setup lang="ts">
+import { isDark, toggleDark } from '@/composables/dark'
+
+function handleToggleTheme() {
+  toggleDark()
+}
+</script>
+
 <template>
   <div class="component-demo">
     <!-- 导航栏 -->
-    <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-      <div class="flex justify-between items-center px-4 py-3">
-        <h1 class="text-size-18 font-bold text-gray-900 dark:text-white">
+    <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+      <div class="px-4 py-3 flex items-center justify-between">
+        <h1 class="text-size-18 text-gray-900 font-bold dark:text-white">
           应用标题
         </h1>
-        
+
         <!-- 主题切换按钮 -->
-        <button 
+        <button
+          class="p-2 rounded-lg bg-gray-100 transition-colors dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
           @click="handleToggleTheme"
-          class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
         >
           <div v-if="isDark" class="i-carbon:sun text-size-20 text-yellow-500" />
           <div v-else class="i-carbon:moon text-size-20 text-gray-600" />
@@ -351,14 +359,6 @@ function handleToggleTheme() {
     </nav>
   </div>
 </template>
-
-<script setup lang="ts">
-import { isDark, toggleDark } from '@/composables/dark'
-
-function handleToggleTheme() {
-  toggleDark()
-}
-</script>
 ```
 
 #### 3.4 文件路由配置示例
@@ -367,6 +367,10 @@ function handleToggleTheme() {
 
 ```vue
 <!-- src/pages/home/index.vue -->
+<script setup lang="ts">
+// 页面逻辑
+</script>
+
 <template>
   <PageContainer>
     <div class="home-page">
@@ -374,10 +378,6 @@ function handleToggleTheme() {
     </div>
   </PageContainer>
 </template>
-
-<script setup lang="ts">
-// 页面逻辑
-</script>
 
 <route lang="json5">
 {
@@ -395,6 +395,11 @@ function handleToggleTheme() {
 
 ```vue
 <!-- src/pages/user/[id].vue -->
+<script setup lang="ts">
+const route = useRoute()
+const userId = computed(() => route.params.id)
+</script>
+
 <template>
   <PageContainer>
     <div class="user-detail">
@@ -402,11 +407,6 @@ function handleToggleTheme() {
     </div>
   </PageContainer>
 </template>
-
-<script setup lang="ts">
-const route = useRoute()
-const userId = computed(() => route.params.id)
-</script>
 
 <route lang="json5">
 {
@@ -423,6 +423,12 @@ const userId = computed(() => route.params.id)
 
 ```vue
 <!-- src/pages/product/[category]/[id].vue -->
+<script setup lang="ts">
+const route = useRoute()
+const category = computed(() => route.params.category)
+const productId = computed(() => route.params.id)
+</script>
+
 <template>
   <PageContainer>
     <div class="product-detail">
@@ -432,12 +438,6 @@ const userId = computed(() => route.params.id)
     </div>
   </PageContainer>
 </template>
-
-<script setup lang="ts">
-const route = useRoute()
-const category = computed(() => route.params.category)
-const productId = computed(() => route.params.id)
-</script>
 
 <route lang="json5">
 {

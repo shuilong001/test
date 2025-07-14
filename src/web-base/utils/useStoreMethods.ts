@@ -1,6 +1,5 @@
 import { storeToRefs } from 'pinia'
 import { usePageStore } from '@/stores/modules/page'
-import { useUserStore } from '@/stores/modules/user'
 import { Local, Session } from '@/web-base/utils/storage'
 import router from '@/router'
 
