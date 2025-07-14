@@ -114,7 +114,9 @@ async function loadCaptcha(init: boolean) {
     is_success: number
     url: string
     y_pos: number
-  }>(moving_check, cbNameMap[props.type], false)
+  }>(moving_check, cbNameMap[props.type], {
+    needLogin: false,
+  })
   loading.value = false
   setTimeout(() => {
     handLoading.value = false

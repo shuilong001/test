@@ -24,16 +24,24 @@ export const useUserStore = defineStore('user-store', {
       this.loginInfo = loginInfo
     },
     async getUserLoginInfo(loginInfo: ReqLoginPacket) {
-      wsRequest<ReqLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login)
+      return await wsRequest<ReqLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login, {
+        callbackId: NetMsgType.msgType.msg_nodify_login,
+      })
     },
     async getUserInfo() {
-      this.userInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_user_info, true)
+      this.userInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_user_info, {
+        needLogin: true,
+      })
     },
     async getVIPInfo() {
-      this.vipInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_vip_info, true)
+      this.vipInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_vip_info, {
+        needLogin: true,
+      })
     },
     async getUserCollected() {
-      const collected = await wsRequest({}, NetMsgType.msgType.msg_notify_req_my_games, true)
+      const collected = await wsRequest({}, NetMsgType.msgType.msg_notify_req_my_games, {
+        needLogin: true,
+      })
       this.collected = collected
     },
     logout() {

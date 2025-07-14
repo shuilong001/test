@@ -15,27 +15,35 @@ import type { PacketBase } from '@/types/net-packet'
 export function wsRequest<P, T = any>(
   data: P,
   msgId: number,
-  needLogin = false,
-  timeout = 10_000,
+  config: {
+    callbackId?: number
+    needLogin?: boolean
+    timeout?: number
+  } = {
+    needLogin: false,
+    timeout: 10000,
+  },
 ): Promise<T> {
+  const { callbackId, needLogin = false, timeout = 10000 } = config || {}
   // 发送，先把 id 转为协议字符串，确保与后端返回保持一致
-  const eventName = getMsgType(msgId as number) as string
+  const eventName =  getMsgType(msgId as number) as string
+  const callbackName = callbackId ? getMsgType(callbackId as number) as string : eventName
   return new Promise((resolve, reject) => {
     // 超时处理
     const timer = setTimeout(() => {
-      eventBus.off(eventName, handler as any)
-      reject(new Error(`WebSocket request timeout: ${String(eventName)}`))
+      eventBus.off(callbackName, handler as any)
+      reject(new Error(`WebSocket request timeout: ${String(callbackName)}`))
     }, timeout)
 
     // 单次回调
     function handler(payload: T) {
       clearTimeout(timer)
-      eventBus.off(eventName, handler as any)
+      eventBus.off(callbackName, handler as any)
       resolve(payload)
     }
 
     // 绑定事件
-    eventBus.on(eventName, handler as any)
+    eventBus.on(callbackName, handler as any)
     // msg_req_login --> req_login
     // msg_notify_user_info --> req_user_info
     // msg_notify_req_my_games --> notify_req_my_games
@@ -49,7 +57,7 @@ export function wsRequest<P, T = any>(
       const base = NetPacket[findPacket(eventName)]()
       const packet = isEmpty(data) ? base : merge(base, data)
       PKwebsocket.instance.send(packet as unknown as P extends PacketBase ? P : PacketBase, needLogin, {
-        callbackName: String(eventName),
+        callbackName: String(callbackName),
       })
     }
     else {
