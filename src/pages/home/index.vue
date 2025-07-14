@@ -64,6 +64,16 @@ const filteredGames = computed(() => {
 
 <template>
   <PageContainer :has-header="false">
+    <div class="flex flex-wrap">
+      <LazyImage
+        v-for="item in 20"
+        :key="item"
+        height="400px"
+        width="400px"
+        :img-url="`https://picsum.photos/200/300?random=${item}`"
+        fit="cover"
+      />
+    </div>
     <div class="test-size-16 p-16">
       {{ filteredGames }}
     </div>
