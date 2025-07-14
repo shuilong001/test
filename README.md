@@ -210,55 +210,26 @@ const { t } = useI18n()
 
 ```typescript
 // 引入 wsRequest
-import { wsRequest } from '@/composables/useWsRequest'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
-
-// wsRequest 函数签名
 // wsRequest<RequestType, ResponseType>(
 //   data: RequestType,           // 请求数据
 //   msgId: number,              // 消息ID
-//   needLogin: boolean = false, // 是否需要登录
-//   timeout: number = 10000     // 超时时间（毫秒）
+//   config: {
+//     needLogin: boolean = false, // 是否需要登录
+//     timeout: number = 10000     // 超时时间（毫秒）
+//     callbackId: numeber         // 回调事件 ID
+//   }
 // ): Promise<ResponseType>
-
-// 用户登录请求
-async function login(loginData: LoginInfoRequest) {
-  try {
-    const res = await wsRequest<LoginInfoRequest, ResLoginPacket>(
-      loginData, 
-      NetMsgType.msgType.msg_req_login,
-      false // 不需要登录
-    )
-    
-    // 处理登录成功
-    userStore.setLoginInfo(res)
-    return res
-  } catch (error) {
-    console.error('登录失败:', error)
-    throw error
-  }
-}
-
-// 获取用户信息
-async function getUserInfo() {
-  try {
-    const userInfo = await wsRequest<{}, UserInfo>(
-      {}, // 空请求体
-      NetMsgType.msgType.msg_notify_user_info,
-      true // 需要登录
-    )
-    
-    userStore.userInfo = userInfo
-    return userInfo
-  } catch (error) {
-    console.error('获取用户信息失败:', error)
-    throw error
-  }
-}
-
-
-
-
+async getUserLoginInfo(loginInfo: ReqLoginPacket) {
+  return await wsRequest<ReqLoginPacket, ResNodifyLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login, {
+    callbackId: NetMsgType.msgType.msg_nodify_login,
+  })
+},
+async getUserInfo() {
+  this.userInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_user_info, {
+    needLogin: true,
+  })
+},
 ```
 
 **全局事件监听（推荐使用 useWsEvent）**
