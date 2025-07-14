@@ -24,8 +24,7 @@ export const useUserStore = defineStore('user-store', {
       this.loginInfo = loginInfo
     },
     async getUserLoginInfo(loginInfo: ReqLoginPacket) {
-      const res = await wsRequest<ReqLoginPacket, ResLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login)
-      this.loginInfo = res
+      wsRequest<ReqLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login)
     },
     async getUserInfo() {
       this.userInfo = await wsRequest({}, NetMsgType.msgType.msg_notify_user_info, true)
@@ -132,35 +131,4 @@ export interface Vip_level_reward_config {
   promotional_reward_status: Promotional_reward_statu
   gift_money_amount: number
   ratio: string
-}
-// req_login.username = form.value.username;
-// req_login.login_type = _isEmail ? 5 : 4;
-// req_login.password = form.value.password;
-// req_login.captcha = v;
-// req_login.device_id = await getDeviceId();
-// req_login.device_model = device_model;
-// req_login.channel_id = Number(route.query.channel_id) || 123;
-// req_login.aaa = aaa.toString();
-// req_login.bbb = bbb;
-// req_login.ip = await IP();
-
-export interface LoginInfoRequest {
-  username: string
-  password: string
-  // 登录类型 5: 邮箱 4: 手机号
-  login_type: 5 | 4
-  // 验证码
-  captcha: string
-  // 设备ID
-  device_id: string
-  // 设备型号
-  device_model: string
-  // 渠道ID
-  channel_id: number
-  // ip
-  ip: string
-  // 随机数
-  aaa: string
-  // 随机数
-  bbb: string
 }

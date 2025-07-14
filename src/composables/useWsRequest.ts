@@ -12,7 +12,7 @@ import type { PacketBase } from '@/types/net-packet'
  * @param needLogin 是否需要登录，默认 false
  * @param timeout  超时时间（ms），默认 10s
  */
-export function wsRequest<P, T>(
+export function wsRequest<P, T = any>(
   data: P,
   msgId: number,
   needLogin = false,

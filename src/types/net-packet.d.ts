@@ -30,12 +30,13 @@ export interface ResLoginPacket {
   flag_type: number
 }
 
+
 export interface ResNodifyLoginPacket {
   code: number
   message: string
   user_id: number
   token: string
-  account_type: numbers
+  account_type: number
   is_default_bankpwd: number
   tokenid: string
   newguidestate: number
