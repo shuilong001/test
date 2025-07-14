@@ -3,9 +3,6 @@ import { useRouter } from 'vue-router'
 import type { RouteMap } from 'vue-router'
 import { useUserStore } from '@/stores'
 
-import logo from '~/images/logo.svg'
-import logoDark from '~/images/logo-dark.svg'
-import vw from '@/utils/inline-px-to-vw'
 import { aaa, bbb, device_model, getDeviceId } from '@/web-base/net/Utils'
 import { IP } from '@/web-base/utils/useStoreMethods'
 
@@ -50,7 +47,7 @@ async function login(captcha: string) {
   loading.value = true
   const device_id = await getDeviceId()
   const ip = await IP()
-  userStore.getUserLoginInfo({
+  const res = await userStore.getUserLoginInfo({
     login_type: 4,
     username: postData.username,
     password: postData.password,
@@ -62,6 +59,17 @@ async function login(captcha: string) {
     bbb,
     ip,
   })
+  console.log('login----res: ', res);
+  if(res.code === 1) {
+    showToast(res.message || '登录成功')
+  } else {
+    SliderVerifyRef.value.error(res.message)
+    if (res.message == 'account_or_password_incorrect') { // 密码错误自动关闭
+      setTimeout(() => {
+        SliderVerifyRef.value.close()
+      }, 1000)
+    }
+  }
 }
 watch([() => userStore.isLogin, () => loading.value], ([isLogin, loadingVal]) => {
   if (isLogin && loadingVal) {

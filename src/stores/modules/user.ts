@@ -24,7 +24,7 @@ export const useUserStore = defineStore('user-store', {
       this.loginInfo = loginInfo
     },
     async getUserLoginInfo(loginInfo: ReqLoginPacket) {
-      return await wsRequest<ReqLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login, {
+      return await wsRequest<ReqLoginPacket, ResNodifyLoginPacket>(loginInfo, NetMsgType.msgType.msg_req_login, {
         callbackId: NetMsgType.msgType.msg_nodify_login,
       })
     },
