@@ -21,7 +21,7 @@ function handleClick(key: string) {
   name: 'home',
   meta: {
     title: '首页',
-    i18n: 'menus.home'
+    i18n: 'menus.home',
   },
 }
 </route>

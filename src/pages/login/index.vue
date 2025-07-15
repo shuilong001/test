@@ -59,12 +59,13 @@ async function login(captcha: string) {
     bbb,
     ip,
   })
-  console.log('login----res: ', res);
-  if(res.code === 1) {
-    showToast(res.message || '登录成功')
-  } else {
+  console.log('login----res: ', res)
+  if (res.code === 1) {
+    showToast('登录成功')
+  }
+  else {
     SliderVerifyRef.value.error(res.message)
-    if (res.message == 'account_or_password_incorrect') { // 密码错误自动关闭
+    if (res.message === 'account_or_password_incorrect') { // 密码错误自动关闭
       setTimeout(() => {
         SliderVerifyRef.value.close()
       }, 1000)
@@ -75,7 +76,7 @@ watch([() => userStore.isLogin, () => loading.value], ([isLogin, loadingVal]) =>
   if (isLogin && loadingVal) {
     const { redirect, ...othersQuery } = router.currentRoute.value.query
     router.push({
-      name: (redirect as keyof RouteMap) || 'home',
+      path: (redirect as string) || '/home',
       query: {
         ...othersQuery,
       },

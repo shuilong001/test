@@ -18,7 +18,9 @@
     name: 'lazy-image',
     meta: {
       title: '图片懒加载',
-      i18n: 'menus.lazyImage'
+      i18n: 'menus.lazyImage',
+      keepAlive: true,
+      requireAuth: true,
     },
   }
   </route>
