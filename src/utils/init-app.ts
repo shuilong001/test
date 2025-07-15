@@ -15,7 +15,23 @@ import 'vant/es/notify/style'
 import 'vant/es/image-preview/style'
 
 import { MessageMapRegister } from '@/web-base/netBase/MessageMapRegister'
+import router from '@/router'
+import { createHead } from '@unhead/vue/client'
+import pinia from '@/stores'
+import { i18n } from '@/utils/i18n'
+import { Lazyload } from 'vant'
 
-export function initApp() {
+export function initApp(app) {
   MessageMapRegister.register()
+  const head = createHead()
+  app.use(head)
+  app.use(router)
+  app.use(pinia)
+  app.use(i18n)
+  // 注册时可以配置额外的选项
+  app.use(Lazyload, {
+    lazyComponent: true,
+    attempt: 1,
+    observer: true,
+  })
 }
