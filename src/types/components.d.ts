@@ -8,8 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BaseSwiper: typeof import('./../components/Base/SwiperTabs/BaseSwiper.vue')['default']
     Chart: typeof import('./../components/Chart/index.vue')['default']
     DefaultBtn: typeof import('./../components/Base/DefaultBtn.vue')['default']
+    ESwiper: typeof import('./../components/Base/SwiperTabs/ESwiper.vue')['default']
     GhostButton: typeof import('./../components/GhostButton.vue')['default']
     HomeHeader: typeof import('./../components/Home/HomeHeader.vue')['default']
     HomeSideMenu: typeof import('./../components/Home/HomeSideMenu.vue')['default']
@@ -18,8 +20,11 @@ declare module 'vue' {
     PageContainer: typeof import('./../components/Base/PageContainer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScrollKeeper: typeof import('./../components/Base/ScrollKeeper.vue')['default']
     SideMenu: typeof import('./../components/SideMenu.vue')['default']
     SliderVerify: typeof import('./../components/SliderVerify.vue')['default']
+    Swiper: typeof import('./../components/Base/SwiperTabs/Swiper.vue')['default']
+    SwiperTabs: typeof import('./../components/Base/SwiperTabs/index.vue')['default']
     TabBar: typeof import('./../components/TabBar.vue')['default']
     TopHeader: typeof import('./../components/TopHeader.vue')['default']
     VanBackTop: typeof import('vant/es')['BackTop']

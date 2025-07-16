@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '404': RouteRecordInfo<'404', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     'demo': RouteRecordInfo<'demo', '/demo', Record<never, never>, Record<never, never>>,
     'lazy-image': RouteRecordInfo<'lazy-image', '/demo/Image', Record<never, never>, Record<never, never>>,
+    'demo-swiper': RouteRecordInfo<'demo-swiper', '/demo/swiper', Record<never, never>, Record<never, never>>,
     'demo1': RouteRecordInfo<'demo1', '/demo1', Record<never, never>, Record<never, never>>,
     'home': RouteRecordInfo<'home', '/home', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,

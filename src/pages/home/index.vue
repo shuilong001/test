@@ -13,6 +13,9 @@ function handleClick(key: string) {
     <van-cell-group inset>
       <van-cell title="图片懒加载" is-link @click="handleClick('image')" />
     </van-cell-group>
+    <van-cell-group inset>
+      <van-cell title="swiper" is-link @click="handleClick('swiper')" />
+    </van-cell-group>
   </PageContainer>
 </template>
 
