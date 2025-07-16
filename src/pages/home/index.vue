@@ -1,10 +1,27 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { DemoDialog, DemoModal } from '@/components/Modal'
 
 const router = useRouter()
 
 function handleClick(key: string) {
-  router.push({ path: `/demo/${key}` })
+  if (key === 'modal') {
+    console.log('DemoModal: ', DemoModal)
+    DemoModal.show({
+      title: 'modal',
+      content: 'modal content',
+    })
+  }
+  else if (key === 'dialog') {
+    console.log('DemoDialog: ', DemoDialog)
+    DemoDialog.show({
+      title: 'dialog',
+      content: 'dialog content',
+    })
+  }
+  else {
+    router.push({ path: `/demo/${key}` })
+  }
 }
 </script>
 
@@ -15,6 +32,10 @@ function handleClick(key: string) {
     </van-cell-group>
     <van-cell-group inset>
       <van-cell title="swiper" is-link @click="handleClick('swiper')" />
+    </van-cell-group>
+    <van-cell-group inset>
+      <van-cell title="modal" is-link @click="handleClick('modal')" />
+      <van-cell title="dialog" is-link @click="handleClick('dialog')" />
     </van-cell-group>
   </PageContainer>
 </template>

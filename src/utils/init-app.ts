@@ -20,6 +20,7 @@ import { createHead } from '@unhead/vue/client'
 import pinia from '@/stores'
 import { i18n } from '@/utils/i18n'
 import { Lazyload } from 'vant'
+import { VueNiceModalPluginForVue3 } from 'vue-nice-modal'
 
 export function initApp(app) {
   MessageMapRegister.register()
@@ -34,4 +35,5 @@ export function initApp(app) {
     attempt: 1,
     observer: true,
   })
+  app.use(VueNiceModalPluginForVue3)
 }

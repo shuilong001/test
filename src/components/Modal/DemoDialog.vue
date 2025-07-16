@@ -1,0 +1,71 @@
+<script setup lang="ts">
+import type { INiceModalHandlers } from 'vue-nice-modal'
+
+interface IProps extends INiceModalHandlers {
+  visible: boolean
+  title: string
+  content: string
+  showFooter: boolean
+  showCancel: boolean
+  cancelText: string
+  displayConfirmText: string
+  confirmClass: string
+  isConfirmDisabled: boolean
+}
+
+interface IEmits {
+  (e: 'update:visible', visible: boolean): void
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  title: '',
+  titleClass: '',
+  content: '',
+  cancelText: '取消',
+  confirmText: '确定',
+  contentClass: '',
+  showCancel: true,
+  showFooter: true,
+  dialogClass: '',
+  confirmClass: '',
+  countdown: 0,
+})
+const emit = defineEmits<IEmits>()
+
+async function handleConfirm() {
+  props.callback('confirm', {})
+  props.hide()
+}
+function handleCancel() {
+  props.callback('cancel')
+  props.hide()
+}
+</script>
+
+<template>
+  <van-dialog
+    :show="visible"
+    :title="title"
+    :show-confirm-button="false"
+    :show-cancel-button="false"
+    @close="props.hide()"
+    @update:show="emit('update:visible', false)"
+  >
+    <img src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg">
+    <div v-if="showFooter" class="mb-20 mt-50 p-x-15 flex-center gap-x-16 w-full">
+      <DefaultBtn type="default" :text="cancelText" @click="handleCancel" />
+
+      <DefaultBtn
+        type="primary"
+        :text="displayConfirmText"
+        :class="confirmClass"
+        :disabled="isConfirmDisabled"
+        @click="handleConfirm"
+      />
+    </div>
+  </van-dialog>
+</template>
+
+<style lang="scss" scoped>
+
+</style>
