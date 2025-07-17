@@ -30,7 +30,6 @@ export interface ResLoginPacket {
   flag_type: number
 }
 
-
 export interface ResNodifyLoginPacket {
   code: number
   message: string

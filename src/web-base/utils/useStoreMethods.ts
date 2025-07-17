@@ -1,7 +1,6 @@
 import { storeToRefs } from 'pinia'
 import { usePageStore } from '@/stores/modules/page'
-import { Local, Session } from '@/web-base/utils/storage'
-import router from '@/router'
+import { Session } from '@/web-base/utils/storage'
 
 // const { info, roleInfo, currencyRate, isLocalLoggedIn } = storeToRefs(useUserStore())
 export function get<T>(url: string): Promise<T> {
@@ -228,85 +227,85 @@ export function IP(): Promise<string> {
 }
 
 // convert the display money, all the money need to call this function before display
-export function convert2DisplayMoney(num: number = 0, isShowDecimal: boolean = false, isToLocal: boolean = true) {
-  if (typeof num === 'string') {
-    num = Number(num)
-  }
-  if (Number.isNaN(num)) {
-    return 0 // 或者返回默认值
-  }
-  const rate = isLocalLoggedIn.value ? roleInfo.value.currencyrate : currencyRate.value
-  if (Number.isNaN(rate) || rate === 0) {
-    return 0 // 或者返回默认值
-  }
-  num = isShowDecimal
-    ? Number((num / rate).toFixed(0))
-    : Number((num / rate).toFixed())
-  let result
-  if (isToLocal) {
-    result = num.toLocaleString()
-  }
-  else {
-    result = num
-  }
-  return result || 0
-}
-// for the input money and need to send to server
-export function convert2ServerMoney(num: number) {
-  return num * roleInfo.value.currencyrate
-}
+// export function convert2DisplayMoney(num: number = 0, isShowDecimal: boolean = false, isToLocal: boolean = true) {
+//   if (typeof num === 'string') {
+//     num = Number(num)
+//   }
+//   if (Number.isNaN(num)) {
+//     return 0 // 或者返回默认值
+//   }
+//   const rate = isLocalLoggedIn.value ? roleInfo.value.currencyrate : currencyRate.value
+//   if (Number.isNaN(rate) || rate === 0) {
+//     return 0 // 或者返回默认值
+//   }
+//   num = isShowDecimal
+//     ? Number((num / rate).toFixed(0))
+//     : Number((num / rate).toFixed())
+//   let result
+//   if (isToLocal) {
+//     result = num.toLocaleString()
+//   }
+//   else {
+//     result = num
+//   }
+//   return result || 0
+// }
+// // for the input money and need to send to server
+// export function convert2ServerMoney(num: number) {
+//   return num * roleInfo.value.currencyrate
+// }
 
-export async function onPlayGame(v: any) {
-  if (!isLocalLoggedIn.value) {
-    // await useUserStore().setLogin(true)
-    return
-  }
+// export async function onPlayGame(v: any) {
+//   if (!isLocalLoggedIn.value) {
+//     // await useUserStore().setLogin(true)
+//     return
+//   }
 
-  // if (v.agentId == 30) {
-  //     v.kindId = '7'
-  // }
+//   // if (v.agentId == 30) {
+//   //     v.kindId = '7'
+//   // }
 
-  // if(v.agentId == 16||v.id == 16) {
-  //     v.gameId = '301'
-  //     v.kindId = '999'
-  // }
+//   // if(v.agentId == 16||v.id == 16) {
+//   //     v.gameId = '301'
+//   //     v.kindId = '999'
+//   // }
 
-  if (v.has_next === 1 && v.three_game_kind?.length) {
-    router.push({
-      path: '/categoryPage',
-      query: {
-        type: v.three_game_kind[0].id,
-        platformId: v.id,
-      },
-    })
-  }
-  else {
-    usePageStore().setShowRight(false)
-    Local.set('selectedGameItem', v)
-    router.push({
-      path: '/game',
-      query: { id: v.gameId || v.id },
-    })
-  }
-}
+//   if (v.has_next === 1 && v.three_game_kind?.length) {
+//     router.push({
+//       path: '/categoryPage',
+//       query: {
+//         type: v.three_game_kind[0].id,
+//         platformId: v.id,
+//       },
+//     })
+//   }
+//   else {
+//     usePageStore().setShowRight(false)
+//     Local.set('selectedGameItem', v)
+//     router.push({
+//       path: '/game',
+//       query: { id: v.gameId || v.id },
+//     })
+//   }
+// }
 // 未登录汇率
 export async function handleCurrencyRate(data: any) {
   console.log('汇率', data)
   // await useUserStore().getCurrencyRate(data)
 }
 // 绑定资金密码后，需要更新 store
-export async function updateStorePayPwd(val: any) {
-  const newData = { ...roleInfo.value }
-  newData.withdraw_pwd = val
-  newData.withdraw_pwd_status = 2 // 已绑定资金密码
-  // await useUserStore().getRoleInfo(newData)
-}
-// 绑定手机号码后，需要更新 store
-export async function updateUserInfo(val: any) {
-  const newData = { ...info.value }
-  newData.mobile = val
-  // await useUserStore().getInfo(newData)
-}
+// export async function updateStorePayPwd(val: any) {
+//   const newData = { ...roleInfo.value }
+//   newData.withdraw_pwd = val
+//   newData.withdraw_pwd_status = 2 // 已绑定资金密码
+//   // await useUserStore().getRoleInfo(newData)
+// }
+// // 绑定手机号码后，需要更新 store
+// export async function updateUserInfo(val: any) {
+//   const newData = { ...info.value }
+//   newData.mobile = val
+//   // await useUserStore().getInfo(newData)
+// }
 // 获取ip对应得地址 保存到session中
 export async function getIPAddress(data: any) {
   const { settings } = storeToRefs(usePageStore())

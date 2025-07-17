@@ -1,7 +1,4 @@
 <script setup>
-import { SwiperSlide } from 'swiper/vue'
-import SavePosition from '@/components/Base/SavePosition.tsx'
-
 const tabsData = [
   { name: '首页', id: 'home' },
   { name: '分类', id: 'category' },
@@ -19,12 +16,12 @@ const tabsData = [
 </script>
 
 <template>
-  <PageContainer :has-header="false" >
+  <PageContainer :has-header="false">
     <SwiperTabs
       :tabs="tabsData"
     >
       <template #tab="{ tab }">
-        <div class="flex flex-col gap-16 p-16">
+        <div class="p-16 flex flex-col gap-16">
           {{ tab }}
           <LazyImage
             v-for="item in 20"

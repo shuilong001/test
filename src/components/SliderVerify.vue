@@ -277,9 +277,9 @@ defineExpose({
   <div v-if="show" class="slider-verify" :class="{ loadingverify: loadingPics >= 2 }">
     <div class="verify-con" :class="[errorStatus ? 'shake' : '']">
       <div class="title">
-        <div class="i-custom:dark-refresh refresh" :class="{ loading }" @click="handLoadingCaptcha" />
+        <div class="refresh i-custom:dark-refresh" :class="{ loading }" @click="handLoadingCaptcha" />
         <span style="flex: 1;text-align: center;font-weight: 600;">{{ t('login_page_verify') }}</span>
-        <div class="i-custom:dark-close close" @click="close" />
+        <div class="close i-custom:dark-close" @click="close" />
       </div>
 
       <div class="pic" :class="{ aniOut, aniIn }">
@@ -315,7 +315,7 @@ defineExpose({
           @touchend.stop="onEnd"
           @mouseup.stop="onEnd"
         >
-          <div class="i-custom:dark-right right" />
+          <div class="right i-custom:dark-right" />
         </div>
         <div v-show="!sliderLeft" class="slider-tip" @touchmove.prevent>
           {{ t('login_page_verify_tip') }}

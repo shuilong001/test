@@ -26,7 +26,7 @@ export function wsRequest<P, T = any>(
 ): Promise<T> {
   const { callbackId, needLogin = false, timeout = 10000 } = config || {}
   // 发送，先把 id 转为协议字符串，确保与后端返回保持一致
-  const eventName =  getMsgType(msgId as number) as string
+  const eventName = getMsgType(msgId as number) as string
   const callbackName = callbackId ? getMsgType(callbackId as number) as string : eventName
   return new Promise((resolve, reject) => {
     // 超时处理
@@ -48,9 +48,9 @@ export function wsRequest<P, T = any>(
     // msg_notify_user_info --> req_user_info
     // msg_notify_req_my_games --> notify_req_my_games
     // 按上述顺序匹配，找到type of function 的包
-    const formatFuncList  = [
-      (name: string) => name.replace(/^msg_(req|notify)_(.+)$/, 'req_$2'), 
-      (name: string) => name.replace(/^msg_(req|notify)_(.+)$/, 'notify_$2'), 
+    const formatFuncList = [
+      (name: string) => name.replace(/^msg_(req|notify)_(.+)$/, 'req_$2'),
+      (name: string) => name.replace(/^msg_(req|notify)_(.+)$/, 'notify_$2'),
     ]
     const findPacket = formatFuncList.find(func => typeof NetPacket[func(eventName)] === 'function')
     if (findPacket) {

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import type { RouteMap } from 'vue-router'
 import { useUserStore } from '@/stores'
 
 import { aaa, bbb, device_model, getDeviceId } from '@/web-base/net/Utils'

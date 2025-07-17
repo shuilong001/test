@@ -3,14 +3,13 @@ import type { INiceModalHandlers } from 'vue-nice-modal'
 
 interface IProps extends INiceModalHandlers {
   visible: boolean
-  title: string
-  content: string
-  showFooter: boolean
-  showCancel: boolean
-  cancelText: string
-  displayConfirmText: string
-  confirmClass: string
-  isConfirmDisabled: boolean
+  title?: string
+  content?: string
+  showCancel?: boolean
+  cancelText?: string
+  displayConfirmText?: string
+  confirmClass?: string
+  isConfirmDisabled?: boolean
 }
 
 interface IEmits {
@@ -19,13 +18,10 @@ interface IEmits {
 
 const props = withDefaults(defineProps<IProps>(), {
   title: '',
-  titleClass: '',
   content: '',
   cancelText: '取消',
-  confirmText: '确定',
-  contentClass: '',
+  displayConfirmText: '确定',
   showCancel: true,
-  showFooter: true,
   dialogClass: '',
   confirmClass: '',
   countdown: 0,
@@ -46,13 +42,13 @@ function handleCancel() {
   <van-dialog
     :show="visible"
     :title="title"
-    :show-confirm-button="false"
-    :show-cancel-button="false"
+    :show-confirm-button="showCancel"
+    :show-cancel-button="showCancel"
     @close="props.hide()"
     @update:show="emit('update:visible', false)"
   >
     <img src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg">
-    <div v-if="showFooter" class="mb-20 mt-50 p-x-15 flex-center gap-x-16 w-full">
+    <div class="mb-20 mt-50 p-x-15 flex-center gap-x-16 w-full">
       <DefaultBtn type="default" :text="cancelText" @click="handleCancel" />
 
       <DefaultBtn
