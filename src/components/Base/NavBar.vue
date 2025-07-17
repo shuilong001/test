@@ -58,11 +58,9 @@ function onBack() {
 
 <template>
   <VanNavBar
-    safe-area-inset-top
     v-bind="vanNavBarProps"
     class="back-nav"
-    placeholder
-    fixed
+    :safe-area-inset-top="false"
     @click-left="onBack"
     @click-right="onClickRight"
   >
