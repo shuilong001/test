@@ -48,6 +48,19 @@ function onSwiperChange(swiper) {
       >
         <slot name="tab" :tab="item" :index="index" />
       </SwiperSlide>
+      <div class="bar-disabled-left" />
     </BaseSwiper>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.bar-disabled-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  z-index: 999;
+  touch-action: pan-x;
+}
+</style>

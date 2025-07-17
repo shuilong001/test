@@ -2,9 +2,6 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 import { initApp } from '@/utils/init-app'
 
-// PWA 检查工具
-import '@/utils/pwa-check'
-
 const app = createApp(App)
 
 initApp(app)
