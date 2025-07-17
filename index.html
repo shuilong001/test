@@ -14,9 +14,31 @@
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="x5-orientation" content="portrait" />
     <meta name="x5-fullscreen" content="true" />
-    <meta name="msapplication-TileColor" content="#f6d2d2" />
-    <!-- Apple Touch 图标 (iOS) -->
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="PKBET" />
+    <meta name="apple-mobile-web-app-title" content="PKBET" />
+    <meta name="description" content="PKBET 是一个专业的移动游戏平台，提供优质的游戏体验" />
+    <meta name="keywords" content="PKBET,游戏,娱乐,移动应用" />
+
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#100e26" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Apple Touch Icons -->
     <link rel="apple-touch-icon" href="/pwa/logo_192x192.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/pwa/logo_192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/pwa/logo_192x192.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/pwa/logo_192x192.png" />
+
+    <!-- Splash Screens for iOS -->
+    <link rel="apple-touch-startup-image" href="/pwa/logo_512x512.png" />
+
+    <!-- Favicon -->
+    <link rel="mask-icon" href="/favicon.svg" color="#100e26" />
     <script>
       ;(function () {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

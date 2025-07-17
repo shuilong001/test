@@ -121,12 +121,20 @@ export function createVitePlugins(mode: string) {
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
       registerType: 'autoUpdate', // 自动更新 Service Worker
+
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'PKBET',
+        name: 'PKBET - 专业游戏平台',
         short_name: 'PKBET',
+        description: 'PKBET 是一个专业的移动游戏平台，提供优质的游戏体验',
+        lang: 'zh-CN',
+        start_url: '/',
+        scope: '/',
         background_color: '#100e26',
         theme_color: '#100e26',
-        display: 'standalone', // 全屏
+        display: 'standalone',
+        orientation: 'portrait-primary',
+        categories: ['games', 'entertainment'],
         icons: [
           {
             src: '/pwa/logo_192x192.png',
@@ -140,36 +148,98 @@ export function createVitePlugins(mode: string) {
             type: 'image/png',
             purpose: 'any maskable',
           },
+          {
+            src: '/favicon.ico',
+            sizes: '64x64 32x32 24x24 16x16',
+            type: 'image/x-icon',
+          },
+        ],
+        shortcuts: [
+          {
+            name: '首页',
+            short_name: '首页',
+            description: '快速访问首页',
+            url: '/',
+            icons: [{ src: '/pwa/logo_192x192.png', sizes: '192x192' }],
+          },
+          {
+            name: '登录',
+            short_name: '登录',
+            description: '用户登录',
+            url: '/login',
+            icons: [{ src: '/pwa/logo_192x192.png', sizes: '192x192' }],
+          },
+        ],
+        screenshots: [
+          {
+            src: '/pwa/screenshot-wide.png',
+            sizes: '1280x720',
+            type: 'image/png',
+            form_factor: 'wide',
+            label: 'PKBET 桌面版截图',
+          },
+          {
+            src: '/pwa/screenshot-narrow.png',
+            sizes: '750x1334',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'PKBET 移动版截图',
+          },
         ],
       },
       workbox: {
         globPatterns: [
-          '**/*.js',
-          '**/*.css',
-          '**/*.html',
-          '**/*.{ico,png,jpg,jpeg,svg,webp,gif,avif,json,woff2}',
+          '**/*.{js,css,html,ico,png,jpg,jpeg,svg,webp,gif,avif,json,woff2,woff,ttf,eot}',
         ],
         clientsClaim: true,
         skipWaiting: true,
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [
+          /^\/_/,
+          /\/[^/?]+\.[a-z0-9]+$/i,
+          /^\/api\//,
+          /^\/mock\//,
+        ],
+        cleanupOutdatedCaches: true,
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
         runtimeCaching: [
+          // API 接口缓存策略
+          {
+            urlPattern: /^\/api\//,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              networkTimeoutSeconds: 3,
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 5 * 60, // 5分钟
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          // 开发配置文件始终从网络获取
           {
             urlPattern: /pkbet_develop\.json$/,
-            handler: 'NetworkOnly', // 总是从网络获取
+            handler: 'NetworkOnly',
           },
+          // 静态资源缓存策略
           {
             urlPattern: /\.(?:js|css)$/,
-            handler: 'StaleWhileRevalidate', // 优先使用缓存，同时后台更新
+            handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'critical-assets',
+              cacheName: 'static-js-css',
               expiration: {
-                maxEntries: 50,
+                maxEntries: 60,
                 maxAgeSeconds: 7 * 24 * 60 * 60, // 7天
               },
             },
           },
+          // HTML 文件缓存策略
           {
             urlPattern: /\.html$/,
-            handler: 'NetworkFirst', // 对HTML使用网络优先
+            handler: 'NetworkFirst',
             options: {
               cacheName: 'html-cache',
               expiration: {
@@ -178,26 +248,43 @@ export function createVitePlugins(mode: string) {
               },
             },
           },
+          // 图片缓存策略
           {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/,
-            handler: 'CacheFirst', // 图片最后缓存
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|avif|ico)$/,
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'images',
+              cacheName: 'images-cache',
               expiration: {
-                maxEntries: 100,
+                maxEntries: 200,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30天
+              },
+            },
+          },
+          // 字体文件缓存策略
+          {
+            urlPattern: /\.(?:woff|woff2|ttf|eot)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fonts-cache',
+              expiration: {
+                maxEntries: 30,
                 maxAgeSeconds: 60 * 24 * 60 * 60, // 60天
               },
             },
           },
+          // 其他资源缓存策略
+          {
+            urlPattern: /\.(?:json|xml)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'data-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 24 * 60 * 60, // 1天
+              },
+            },
+          },
         ],
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        // 添加预缓存忽略选项
-        navigateFallback: null,
-        navigateFallbackDenylist: [/\.(?:png|jpg|jpeg|svg)$/],
-        // 自定义预缓存策略
-        modifyURLPrefix: {
-          // 'assets/': '/assets/'
-        },
       },
     }),
   ]

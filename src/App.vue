@@ -2,6 +2,7 @@
 import { useRouteCacheStore } from '@/stores'
 import { useOverFlow } from '@/web-base/hooks/useOverFlow'
 import { useAppSetting } from '@/web-base/hooks/useAppSetting'
+import InstallPrompt from '@/components/PWA/InstallPrompt.vue'
 
 useHead({
   title: 'PKBET',
@@ -42,6 +43,7 @@ onBeforeUnmount(() => {
       </keep-alive>
     </router-view>
     <TabBar />
+    <InstallPrompt />
   <!-- </div> -->
   </van-config-provider>
 </template>
