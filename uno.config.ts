@@ -99,7 +99,7 @@ export default defineConfig({
       return `w-${v} h-${v}`
     }],
     [/^h-safe:(.*)$/, ([, v]) => {
-      return `h-[calc(var(--vh)*100-var(--sab)-var(--sat)-${v})]`
+      return `h-[calc(var(--full-height)-var(--sab)-var(--sat)-${v})]`
     }],
     ['btn', 'px-6 py-3 rounded-4 border-none inline-block bg-green-400 text-white cursor-pointer outline-hidden hover:bg-green-600 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
   ],

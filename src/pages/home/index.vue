@@ -36,6 +36,7 @@ function handleClick(key: string) {
     <van-cell-group inset>
       <van-cell title="modal" is-link @click="handleClick('modal')" />
       <van-cell title="dialog" is-link @click="handleClick('dialog')" />
+      <van-cell title="下拉刷新" is-link @click="handleClick('pull')" />
     </van-cell-group>
   </PageContainer>
 </template>

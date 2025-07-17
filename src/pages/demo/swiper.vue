@@ -44,7 +44,7 @@ const tabsData = [
   {
     name: 'demo-swiper',
     meta: {
-      title: 'swiper',
+      title: '滑动切换标签',
       i18n: 'menus.demoSwiper',
       keepAlive: true,
     },

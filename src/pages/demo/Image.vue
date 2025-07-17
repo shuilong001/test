@@ -1,5 +1,5 @@
 <template>
-  <PageContainer :has-header="false" content-class="pt-16">
+  <PageContainer content-class="pt-16">
     <div class="flex flex-col gap-16">
       <LazyImage
         v-for="item in 20"
