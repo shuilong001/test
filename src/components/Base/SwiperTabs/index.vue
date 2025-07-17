@@ -25,7 +25,7 @@ function onSwiperChange(swiper) {
 
 <template>
   <div class="swiper-tabs">
-    <div class="p-8 bg-white top-0 sticky z-10 md:p-16 md:top-60">
+    <div class="pb-8 bg-white top-0 sticky z-10 md:p-16 md:top-60">
       <van-tabs v-model:active="activeTab" :sticky="true" @change="onCategoryChange">
         <van-tab v-for="item in tabs" :key="item.id" :title="item.name" />
       </van-tabs>

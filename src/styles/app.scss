@@ -20,7 +20,6 @@ html.dark {
 }
 body {
   overscroll-behavior: none;
-  padding-top: env(safe-area-inset-top);
 }
 
 #app {
@@ -28,10 +27,9 @@ body {
   /* iOS 平滑滚动 */
   top: 0;
   left: 0;
-
   width: 100% !important;
   max-width: none !important;
-  min-height: calc(var(--full-height) - var(--sat));
+  min-height: calc(var(--full-height));
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain; // 限制滚动边界
@@ -138,24 +136,6 @@ div::-webkit-scrollbar {
 
 .back-leave-to {
   transform: translateX(100%);
-}
-
-:root {
-  --sat: constant(safe-area-inset-top);
-
-  --sar: constant(safe-area-inset-right);
-
-  --sab: constant(safe-area-inset-bottom);
-
-  --sal: constant(safe-area-inset-left);
-
-  --sat: env(safe-area-inset-top);
-
-  --sar: env(safe-area-inset-right);
-
-  --sab: env(safe-area-inset-bottom);
-
-  --sal: env(safe-area-inset-left);
 }
 
 .slide-up-enter-active,

@@ -30,8 +30,8 @@ const mainContentClass = computed(() => {
 
 <template>
   <main :style="contentStyle" class="flex flex-col wh-full">
-    <slot name="header" class="z-1">
-      <div class="flex flex-col">
+    <slot name="header" class="">
+      <div class="flex flex-col z-2">
         <NavBar v-if="props.hasHeader" v-bind="props.navBarProps" class="flex-shrink-0 flex-grow-0 md:hidden">
           <template #left>
             <slot v-if="$slots.left" name="left" />
@@ -49,10 +49,10 @@ const mainContentClass = computed(() => {
       </div>
     </slot>
     <slot name="not-fixed-header" />
-    <div class="flex-grow-1 w-full relative z-1">
+    <div class="flex-grow-1 w-full relative z-1 overflow-hidden">
       <transition-group name="fade">
         <HomeSideMenu />
-        <div id="page-container-content" class="wh-full transition-all duration-300" :class="mainContentClass">
+        <div id="page-container-content" class="wh-full transition-all duration-300 relative overflow-y-auto" :class="mainContentClass">
           <slot />
         </div>
       </transition-group>

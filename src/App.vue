@@ -47,11 +47,3 @@ onBeforeUnmount(() => {
   <!-- </div> -->
   </van-config-provider>
 </template>
-
-<style scoped>
-.app-wrapper {
-  width: 100%;
-  position: relative;
-  overflow-x: hidden;
-}
-</style>

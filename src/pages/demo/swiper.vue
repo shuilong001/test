@@ -16,7 +16,7 @@ const tabsData = [
 </script>
 
 <template>
-  <PageContainer :has-header="false">
+  <PageContainer>
     <SwiperTabs
       :tabs="tabsData"
     >
@@ -47,7 +47,6 @@ const tabsData = [
       title: 'swiper',
       i18n: 'menus.demoSwiper',
       keepAlive: true,
-      requireAuth: true,
     },
   }
   </route>

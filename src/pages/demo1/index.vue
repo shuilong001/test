@@ -17,7 +17,7 @@ interface GameCategory {
 }
 
 // 响应式数据
-const activeMenu = ref('casino')
+const activeMenu = ref('card-games')
 
 // 游戏分类数据
 const gameCategories = reactive<GameCategory[]>([

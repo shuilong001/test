@@ -26,7 +26,7 @@ function logout() {
 
 <template>
   <header
-    class="px-16 border-b border-gray-200 bg-white h-60 w-full hidden transition-colors duration-300 items-center left-0 right-0 top-[env(safe-area-inset-top)] justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800 md:!flex"
+    class="px-16 pb-12 pt-[calc(env(safe-area-inset-top)+12px)] border-b border-gray-200 bg-white w-full hidden transition-colors duration-300 items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800 md:!flex"
     :class="[show ? '!flex' : 'hidden']"
   >
     <div class="flex gap-6 items-center">
@@ -78,5 +78,5 @@ function logout() {
       </div> -->
     </div>
   </header>
-  <div class="h-60 hidden md:flex" :class="[show ? '!flex' : 'hidden']" />
+  <div class="mt-[calc(env(safe-area-inset-top))] min-h-60 hidden md:flex" :class="[show ? '!flex' : 'hidden']" />
 </template>
