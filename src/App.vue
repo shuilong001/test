@@ -48,6 +48,6 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .app-container {
-  min-height: calc(var(--full-height) - env(safe-area-inset-top) + 1px);
+  min-height: calc(var(--full-height) - env(safe-area-inset-top));
 }
 </style>

@@ -42,8 +42,8 @@ function handleCancel() {
   <van-dialog
     :show="visible"
     :title="title"
-    :show-confirm-button="showCancel"
-    :show-cancel-button="showCancel"
+    :show-confirm-button="false"
+    :show-cancel-button="false"
     @close="props.hide()"
     @update:show="emit('update:visible', false)"
   >
