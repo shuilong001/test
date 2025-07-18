@@ -21,6 +21,7 @@ import pinia from '@/stores'
 import { i18n } from '@/utils/i18n'
 import { Lazyload } from 'vant'
 import { VueNiceModalPluginForVue3 } from 'vue-nice-modal'
+import { EventManager } from '@/web-base/utils/set-event'
 
 export function initApp(app) {
   MessageMapRegister.register()
@@ -36,4 +37,7 @@ export function initApp(app) {
     observer: true,
   })
   app.use(VueNiceModalPluginForVue3)
+  // 初始化事件管理器
+  const eventManager = new EventManager()
+  eventManager.init()
 }

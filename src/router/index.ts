@@ -15,7 +15,7 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
   routes,
   scrollBehavior() {
-    return { left: 0, top: 0 }
+    return { left: 0, top: 1 }
   },
 })
 
