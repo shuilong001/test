@@ -29,7 +29,7 @@ const mainContentClass = computed(() => {
 </script>
 
 <template>
-  <main :style="contentStyle" class="flex flex-col wh-full">
+  <main :style="contentStyle" class="flex flex-1 flex-col wh-full">
     <slot name="header" class="">
       <div class="flex flex-col z-2">
         <NavBar v-if="props.hasHeader" v-bind="props.navBarProps" class="flex-shrink-0 flex-grow-0 md:hidden">
@@ -48,14 +48,11 @@ const mainContentClass = computed(() => {
         </slot>
       </div>
     </slot>
-    <slot name="not-fixed-header" />
     <div class="flex-grow-1 w-full relative z-1 overflow-hidden">
-      <transition-group name="fade">
-        <HomeSideMenu />
-        <div id="page-container-content" class="wh-full transition-all duration-300 relative overflow-y-auto" :class="mainContentClass">
-          <slot />
-        </div>
-      </transition-group>
+      <HomeSideMenu />
+      <div id="page-container-content" class="wh-full overflow-y-auto" :class="mainContentClass">
+        <slot />
+      </div>
     </div>
   </main>
 </template>

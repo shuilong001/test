@@ -250,28 +250,3 @@ function handleRedirect(item: any) {
     </aside>
   </div>
 </template>
-
-<style scoped>
-/* 隐藏侧边栏和菜单的滚动条 */
-.overflow-y-auto::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  display: none !important;
-}
-
-aside::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  display: none !important;
-}
-
-/* 针对移动端菜单的滚动条 */
-.max-h-\[calc\(100vh-5rem\)\]::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  display: none !important;
-}
-</style>

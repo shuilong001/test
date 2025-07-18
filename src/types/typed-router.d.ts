@@ -24,10 +24,10 @@ declare module 'vue-router/auto-routes' {
     'lazy-image': RouteRecordInfo<'lazy-image', '/demo/Image', Record<never, never>, Record<never, never>>,
     'pull': RouteRecordInfo<'pull', '/demo/pull', Record<never, never>, Record<never, never>>,
     'demo-swiper': RouteRecordInfo<'demo-swiper', '/demo/swiper', Record<never, never>, Record<never, never>>,
-    'demo1': RouteRecordInfo<'demo1', '/demo1', Record<never, never>, Record<never, never>>,
-    'home': RouteRecordInfo<'home', '/home', Record<never, never>, Record<never, never>>,
+    'Demo1': RouteRecordInfo<'Demo1', '/demo1', Record<never, never>, Record<never, never>>,
+    'Home': RouteRecordInfo<'Home', '/home', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
-    'profile': RouteRecordInfo<'profile', '/profile', Record<never, never>, Record<never, never>>,
+    'Profile': RouteRecordInfo<'Profile', '/profile', Record<never, never>, Record<never, never>>,
     'ScrollCache': RouteRecordInfo<'ScrollCache', '/scroll-cache', Record<never, never>, Record<never, never>>,
     'settings': RouteRecordInfo<'settings', '/settings', Record<never, never>, Record<never, never>>,
   }

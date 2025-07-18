@@ -3,6 +3,10 @@ import router from '@/router'
 import { useUserStore } from '@/stores'
 import defaultAvatar from '@/assets/images/default-avatar.svg'
 
+defineOptions({
+  name: 'Profile',
+})
+
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
 const isLogin = computed(() => !!userInfo.value?.full_name)
@@ -41,10 +45,11 @@ function login() {
 
 <route lang="json5">
 {
-  name: 'profile',
+  name: 'Profile',
   meta: {
     title: '个人中心',
-    i18n: 'menus.profile'
+    i18n: 'menus.profile',
+    keepAlive: true,
   },
 }
 </route>

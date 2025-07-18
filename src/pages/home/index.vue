@@ -2,6 +2,13 @@
 import { useRouter } from 'vue-router'
 import { DemoDialog, DemoModal } from '@/components/Modal'
 
+defineOptions({
+  name: 'Home',
+})
+
+onActivated(() => {
+  console.log('onActivated')
+})
 const router = useRouter()
 
 function handleClick(key: string) {
@@ -27,26 +34,29 @@ function handleClick(key: string) {
 
 <template>
   <PageContainer :has-header="false" content-class="pt-16">
-    <van-cell-group inset>
-      <van-cell title="图片懒加载" is-link @click="handleClick('image')" />
-    </van-cell-group>
-    <van-cell-group inset>
+    <div class="px-16">
       <van-cell title="swiper" is-link @click="handleClick('swiper')" />
-    </van-cell-group>
-    <van-cell-group inset>
+      <van-cell title="图片懒加载" is-link @click="handleClick('image')" />
       <van-cell title="modal" is-link @click="handleClick('modal')" />
       <van-cell title="dialog" is-link @click="handleClick('dialog')" />
       <van-cell title="下拉刷新" is-link @click="handleClick('pull')" />
-    </van-cell-group>
+      <div class="py-16">
+        测试滚动
+      </div>
+      <div v-for="i in 100" :key="i" class="p-10">
+        {{ i }}
+      </div>
+    </div>
   </PageContainer>
 </template>
 
 <route lang="json5">
 {
-  name: 'home',
+  name: 'Home',
   meta: {
     title: '首页',
     i18n: 'menus.home',
+    keepAlive: true,
   },
 }
 </route>

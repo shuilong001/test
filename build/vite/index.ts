@@ -19,6 +19,7 @@ import { loadEnv } from 'vite'
 import { createViteVConsole } from './vconsole'
 import Icons from 'unplugin-icons/vite'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+import VueJsx from '@vitejs/plugin-vue-jsx'
 
 export function createVitePlugins(mode: string) {
   const env = loadEnv(mode, process.cwd())
@@ -32,6 +33,7 @@ export function createVitePlugins(mode: string) {
     }),
 
     vue(),
+    VueJsx(),
 
     // https://github.com/jbaubree/vite-plugin-sitemap
     Sitemap({

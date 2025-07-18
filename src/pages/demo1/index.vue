@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { showToast } from 'vant'
 
+defineOptions({
+  name: 'Demo1',
+})
 interface Game {
   id: number
   name: string
@@ -166,10 +169,11 @@ function handleGameCategoryChange(category: string) {
 
 <route lang="json5">
 {
-  name: 'demo1',
+  name: 'Demo1',
   meta: {
     title: '首页',
-    i18n: 'menus.demo1'
+    i18n: 'menus.demo1',
+    keepAlive: true
   },
 }
 </route>
@@ -199,29 +203,6 @@ function handleGameCategoryChange(category: string) {
 }
 :deep(.van-tabs__nav--card) {
   @apply flex gap-16;
-}
-
-/* 隐藏滚动条 */
-.overflow-y-auto::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  display: none !important;
-}
-
-aside::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  display: none !important;
-}
-
-/* 针对移动端菜单的滚动条 */
-.max-h-\[calc\(100vh-5rem\)\]::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-  display: none !important;
 }
 
 /* 动画效果 */

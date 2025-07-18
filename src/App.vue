@@ -35,8 +35,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <van-config-provider :theme="mode" class="app-container wh-full">
-    <!-- <div class="wh-full overflow-hidden"> -->
+  <van-config-provider :theme="mode" class="app-container flex flex-col wh-full">
     <router-view v-slot="{ Component }">
       <keep-alive :include="keepAliveRouteNames">
         <component :is="Component" />
@@ -44,6 +43,11 @@ onBeforeUnmount(() => {
     </router-view>
     <TabBar />
     <InstallPrompt />
-  <!-- </div> -->
   </van-config-provider>
 </template>
+
+<style lang="scss" scoped>
+.app-container {
+  min-height: calc(var(--full-height) - env(safe-area-inset-top) + 1px);
+}
+</style>

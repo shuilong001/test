@@ -1,6 +1,6 @@
 import router from '@/router'
 /** 允许html滚动的页面路由 name */
-export const whiteList = ['home', 'activity', 'categoryPage', 'demo1']
+export const whiteList = ['Home', 'ScrollCache', 'Demo1']
 
 const isFullScreen = ref(false)
 
@@ -28,10 +28,6 @@ function useFooterBox() {
 }
 
 function isHtmlOverflow(routeName: string) {
-  // if (window.matchMedia("(display-mode: standalone)").matches) {
-  //     return
-  // }
-
   const { addFooterBox, removeFooterBox } = useFooterBox()
 
   const appEl = document.getElementById('app')

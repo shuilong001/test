@@ -6,10 +6,10 @@ defineOptions({
 const loading = ref(false)
 const finished = ref(false)
 const list = ref([])
-
+onLoad()
 function onLoad() {
   setTimeout(() => {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
       list.value.push(`${list.value.length + 1}`)
     }
 
@@ -21,28 +21,22 @@ function onLoad() {
   }, 1000)
 }
 
-const scrollTop = ref(0)
+// const scrollTop = ref(0)
 
-onActivated(() => {
-  window.scrollTo(0, scrollTop.value)
-})
+// onActivated(() => {
+//   window.scrollTo(0, scrollTop.value)
+// })
 
-onBeforeRouteLeave(() => {
-  scrollTop.value
-    = window.scrollY
-      || document.documentElement.scrollTop
-      || document.body.scrollTop
-})
+// onBeforeRouteLeave(() => {
+//   scrollTop.value
+//     = window.scrollY
+//       || document.documentElement.scrollTop
+//       || document.body.scrollTop
+// })
 </script>
 
 <template>
-  <van-list
-    v-model:loading="loading"
-    :finished="finished"
-    :finished-text="$t('scrollCache.finished')"
-    :loading-text="$t('scrollCache.loading')"
-    @load="onLoad"
-  >
+  <PageContainer :has-header="false" :has-footer="true">
     <ul class="space-y-10">
       <li v-for="item in list" :key="item" class="p-3 flex gap-12">
         <div class="shrink-0">
@@ -66,7 +60,7 @@ onBeforeRouteLeave(() => {
         </div>
       </li>
     </ul>
-  </van-list>
+  </PageContainer>
 </template>
 
 <route lang="json5">

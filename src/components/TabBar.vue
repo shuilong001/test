@@ -17,7 +17,7 @@ const TabBarList = [
   {
     name: '探索',
     icon: 'i-carbon:search',
-    to: '/demo1',
+    to: '/scroll-cache',
   },
   {
     name: '赌场',
@@ -30,10 +30,14 @@ const TabBarList = [
     to: '/profile',
   },
 ]
+
+// function handleChange() {
+//   window.scrollTo(0, 1)
+// }
 </script>
 
 <template>
-  <van-tabbar v-if="show" v-model="active" class="md:hidden" route placeholder active-color="#24ee89">
+  <van-tabbar v-if="show" v-model="active" class="md:hidden" active-color="#24ee89">
     <van-tabbar-item v-for="item in TabBarList" :key="item.name" :replace="true" :to="item.to">
       {{ item.name }}
       <template #icon>
