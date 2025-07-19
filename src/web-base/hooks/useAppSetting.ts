@@ -5,12 +5,11 @@ import { showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 import { NetPacket } from '@/web-base/netBase/NetPacket'
 import { getDeviceId } from '@/web-base/net/Utils'
-import { IP } from '@/web-base/utils/useStoreMethods'
-import PKwebsocket from '@/web-base/socket/Ws'
 import { NetEnumDef } from '@/web-base/netBase/NetEnumDef'
-import { useSystemStore } from '@/stores/modules/system'
 import { usePageStore } from '@/stores/modules/page'
 import { NET_VERSION } from '@/constants'
+import { WebSocketClient } from '@/web-base/socket'
+import { IP } from '@/web-base/utils/useStoreMethods'
 
 export function useAppSetting() {
   const getAppSetting = async () => {
@@ -39,16 +38,15 @@ export function useAppSetting() {
   }
   const initPKwebsocket = async () => {
     await getAppSetting()
-    PKwebsocket.instance.init()
+    // 确保WebSocket客户端实例在连接之前被创建，这样事件监听器会被正确设置
+    const wsClient = WebSocketClient.instance
+    await wsClient.init()
   }
   /* 监听一些全局事件 */
   function initEventBus() {
     const userStore = useUserStore()
-    const systemStore = useSystemStore()
-    const pageStore = usePageStore()
     const { t } = useI18n()
     eventBus.on('msg_notify_check_version', (res: any) => { // 版本检测
-      console.log('msg_notify_check_version--res: ', res)
       if (res.result === 2) { // 版本信息异常
         showToast(t('home_all_version_error'))
         setInterval(() => {
@@ -58,15 +56,11 @@ export function useAppSetting() {
       }
       // 如果本地已经登录了，那么同步服务端状态
       if (userStore.token) {
-      // 登录服务器
-        console.error('登录服务器11')
         syncLoginStatusFromServe()
       }
     })
     eventBus.on('msg_nodify_login', (res: ResNodifyLoginPacket) => { // 登录成功，需要同步服务器登录状态
       if (res.code === 1) {
-      // 登录服务器
-        console.error('登录服务器22')
         userStore.setLoginInfo(res)
         syncLoginStatusFromServe()
         // 发送邀请码
@@ -74,7 +68,7 @@ export function useAppSetting() {
         if (Number(agent_id)) {
           const rq = NetPacket.req_set_invitecode()
           rq.superior_id = agent_id as string
-          PKwebsocket.instance.send(rq, true)
+          WebSocketClient.instance.send(rq, true)
         }
       }
     })
@@ -82,25 +76,14 @@ export function useAppSetting() {
     eventBus.on('msg_notify_login_result', (res: any) => { // 监听登录成功，然后释放登录等待池
       sessionStorage.setItem('dis_repeat_login', '')
       if (res && res.result === 1) { // 登录成功
-        systemStore.setLoggedIn(true)
-        // pageStore.setPageLoading(false)
-        setTimeout(() => {
         // 同步用户数据
-        // 同步用户数据
-          userStore.getUserInfo()
+        userStore.getUserInfo()
 
-          // 同步会员信息
-          userStore.getVIPInfo()
-
-          pageStore.setReConnectWs(false)
-          // 我的收藏
-          // userStore.getUserCollected()
-        }, 1000)
-        setTimeout(() => {
-          if (!systemStore.isWsLogin)
-            return
-          PKwebsocket.instance.sendAll(true)
-        }, 2000)
+        // 同步会员信息
+        userStore.getVIPInfo()
+        // 我的收藏
+        // userStore.getUserCollected()
+        WebSocketClient.instance.sendAll(true)
       }
       else { // 登录失败，清空缓存，退出登录状态
         if (!res.hideTip) { // 主动触发时不用提示信息
@@ -108,12 +91,11 @@ export function useAppSetting() {
         }
         setTimeout(() => {
           userStore.logout()
-          systemStore.setWsConnected(false)
           router.replace({
             path: '/',
           })
           setTimeout(() => {
-            PKwebsocket.instance.closeWs()
+            WebSocketClient.instance.closeWs()
           })
         }, res.hideTip ? 400 : 1000)
       }
@@ -124,7 +106,6 @@ export function useAppSetting() {
     })
 
     async function syncLoginStatusFromServe() {
-      console.error('同步登录状态')
       const res = userStore.loginInfo
       // 同步登录状态
       const tb_req = NetPacket.req_role_login_with_ip()
@@ -135,7 +116,7 @@ export function useAppSetting() {
       tb_req.version = NET_VERSION
       tb_req.device_id = await getDeviceId()
       tb_req.ip = await IP()
-      PKwebsocket.instance.send(tb_req, false)
+      WebSocketClient.instance.send(tb_req, false)
       // 记录一个标识，当在登录成功前 收到  msg_notify_repeat_login 消息，则忽略。
       // 登录成功后 清除这个标识
       sessionStorage.setItem('dis_repeat_login', '1')

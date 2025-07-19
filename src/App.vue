@@ -3,6 +3,7 @@ import { useRouteCacheStore } from '@/stores'
 import { useOverFlow } from '@/web-base/hooks/useOverFlow'
 import { useAppSetting } from '@/web-base/hooks/useAppSetting'
 import InstallPrompt from '@/components/PWA/InstallPrompt.vue'
+import { useSystemStore } from '@/stores/modules/system'
 
 useHead({
   title: 'PKBET',
@@ -19,9 +20,14 @@ useHead({
 })
 
 const routeCacheStore = useRouteCacheStore()
-const { initPKwebsocket, initEventBus, cleanupEventBus } = useAppSetting()
-initPKwebsocket()
+const systemStore = useSystemStore()
+const { initEventBus, cleanupEventBus } = useAppSetting()
 initEventBus()
+onMounted(() => {
+  if (!systemStore.isWebSocketReady) {
+    systemStore.initWebSocket()
+  }
+})
 const keepAliveRouteNames = computed(() => {
   return routeCacheStore.routeCaches
 })

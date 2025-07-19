@@ -92,7 +92,7 @@ async function loadCaptcha(init: boolean) {
     register: NetMsgType.msgType.msg_notify_register_moving_check,
   }
   // PKwebsocket.instance.send(moving_check, false, {
-  //   callbackName: cbNameMap[props.type],
+  //   callbackName: callbackMap[props.type],
   //   callback: (res: any) => {
   //     loading.value = false
   //     setTimeout(() => {
@@ -121,6 +121,7 @@ async function loadCaptcha(init: boolean) {
   setTimeout(() => {
     handLoading.value = false
   }, 1000)
+  console.log('res2222222222: ', res)
   if (res.is_success === 1 || props.type === 'login') {
     captchaUrl.value = res.url
     sliderUrl.value = res.url.replace('_2.png', '_1.png')

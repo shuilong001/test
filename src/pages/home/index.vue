@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { DemoDialog, DemoModal } from '@/components/Modal'
+import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 
 defineOptions({
   name: 'Home',
@@ -29,6 +30,39 @@ function handleClick(key: string) {
   else {
     router.push({ path: `/demo/${key}` })
   }
+}
+onMounted(async () => {
+  const data = await getMatchDetail()
+  await getRankRecord(data.round)
+})
+
+async function getRankRecord(round: number) {
+  const data = await wsRequest(
+    {
+      round,
+    },
+    NetMsgType.msgType.msg_req_slots_match_record,
+    {
+      callbackId: NetMsgType.msgType.msg_notify_req_slots_match_record,
+      needLogin: true,
+    },
+  )
+  return data
+}
+
+async function getMatchDetail() {
+  const data = await wsRequest(
+    {
+      query_info: {
+        match_id: 0,
+      },
+    },
+    NetMsgType.msgType.msg_req_slots_match_info,
+    {
+      callbackId: NetMsgType.msgType.msg_notify_slots_match_info,
+    },
+  )
+  return data
 }
 </script>
 

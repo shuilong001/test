@@ -1,7 +1,5 @@
-import { useSystemStore } from '@/stores/modules/system'
 import { isRunningAsPWA } from '@/utils/helper'
 import eventBus from '@/web-base/socket/eventBus'
-import PKwebsocket from '@/web-base/socket/Ws'
 
 /**
  * 设备检测工具
@@ -175,11 +173,11 @@ class VisibilityManager {
     eventBus.emit('window_visible')
 
     // WebSocket 重连
-    setTimeout(() => {
-      if (!useSystemStore().isWsConnected) {
-        PKwebsocket.instance.init()
-      }
-    }, this.WS_RECONNECT_DELAY)
+    // setTimeout(() => {
+    //   if (!useSystemStore().isWsConnected) {
+    //     PKwebsocket.instance.init()
+    //   }
+    // }, this.WS_RECONNECT_DELAY)
 
     // 安卓设备高度调整
     if (DeviceDetector.isAndroid()) {

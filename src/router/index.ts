@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router/auto'
+import { createRouter, createWebHistory } from 'vue-router/auto'
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
 
 import NProgress from 'nprogress'
@@ -12,7 +12,7 @@ import setPageTitle from '@/utils/set-page-title'
 NProgress.configure({ showSpinner: false, parent: '#app' })
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
+  history: createWebHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
   routes,
   scrollBehavior() {
     return { left: 0, top: 1 }

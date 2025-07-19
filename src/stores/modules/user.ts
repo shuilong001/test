@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
+import { WebSocketClient } from '@/web-base/socket'
 
 interface UserState {
   // 登录信息
@@ -49,6 +50,8 @@ export const useUserStore = defineStore('user-store', {
       this.vipInfo = null
       this.userInfo = null
       this.roleInfo = null
+      // 重新初始化WebSocket连接
+      WebSocketClient.instance?.reInit()
     },
   },
   getters: {
