@@ -79,10 +79,10 @@ export class WebSocketClient implements IWebSocketClient {
       // console.log('连接已暂停，跳过发送')
       return false
     }
-
+    const state = this.connectionManager.getStateManager().getState()
     // 检查登录状态
     if (needLogin) {
-      if (!this.connectionManager.getStateManager().getState().isLoggedIn) {
+      if (!state.isLoggedIn) {
         // console.log('未登录，添加到登录队列', obj)
         this.addToQueue(obj, needLogin, config)
         return
@@ -90,7 +90,7 @@ export class WebSocketClient implements IWebSocketClient {
     }
     else {
       // 检查连接状态
-      if (this.connectionManager.getStateManager().getState().connectionState !== WsConnectionState.CONNECTED) {
+      if (state.connectionState !== WsConnectionState.CONNECTED) {
         // console.log('未连接，添加到连接队列', obj)
         this.addToQueue(obj, needLogin, config)
         return
@@ -218,8 +218,7 @@ export class WebSocketClient implements IWebSocketClient {
     const isLoginSuccess = (
       msgID === NetMsgType.msgType.msg_notify_login_result
       || msgID === NetMsgType.msgType.msg_nodify_login
-    ) && message.code === 1
-
+    ) && message.result === 1
     if (isLoginSuccess) {
       console.log('登录成功，更新状态')
       // 使用状态管理器更新登录状态
