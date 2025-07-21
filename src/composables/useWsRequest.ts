@@ -69,7 +69,7 @@ type FormatFunction = (name: string) => string
  * )
  * ```
  */
-export async function wsRequest<P = Record<string, any>, T = any>(
+export async function wsRequest<T = any, P = Record<string, any>>(
   requestData: WsRequestConfig<P>,
 ): Promise<T> {
   const {
