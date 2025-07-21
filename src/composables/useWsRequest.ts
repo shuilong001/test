@@ -8,7 +8,9 @@ import { useSystemStore } from '@/stores/modules/system'
 /**
  * WebSocket 请求配置接口
  */
-export interface WsRequestConfig {
+export interface WsRequestConfig<P = Record<string, any>> {
+  data: P
+  msgId: number
   /** 回调消息ID，如果不提供则使用 msgId */
   callbackId?: number
   /** 是否需要登录验证 */
@@ -68,10 +70,15 @@ type FormatFunction = (name: string) => string
  * ```
  */
 export async function wsRequest<P = Record<string, any>, T = any>(
-  data: P,
-  msgId: number,
-  config: WsRequestConfig = {},
+  requestData: WsRequestConfig<P>,
 ): Promise<T> {
+  const {
+    data,
+    msgId,
+    callbackId,
+    needLogin = false,
+    timeout = 10000,
+  } = requestData
   // 参数验证
   if (typeof msgId !== 'number' || msgId <= 0) {
     return Promise.reject(new WsRequestError(
@@ -79,12 +86,6 @@ export async function wsRequest<P = Record<string, any>, T = any>(
       'INVALID_MSG_ID',
     ))
   }
-
-  const {
-    callbackId,
-    needLogin = false,
-    timeout = 10000,
-  } = config
 
   // 类型安全的超时验证
   if (timeout <= 0 || timeout > 60000) {
@@ -103,7 +104,9 @@ export async function wsRequest<P = Record<string, any>, T = any>(
 
     // 获取事件名称
     const eventName = getMsgType(msgId)
-    const callbackName = callbackId ? getMsgType(callbackId) : eventName
+    // msg_req_slots_match_info --> msg_notify_slots_match_info
+    const defaultCallbackName = eventName.replace(/^msg_req_/, 'msg_notify_')
+    const callbackName = callbackId ? getMsgType(callbackId) : defaultCallbackName
 
     // 验证事件名称
     if (eventName === 'unknownType') {
@@ -239,43 +242,4 @@ function buildRequestPacket<P>(
 
   console.error(`${eventName} 无法自动匹配到请求包构造函数`)
   return null
-}
-
-/**
- * 带重试机制的 WebSocket 请求
- * @param data 请求数据
- * @param msgId 消息ID
- * @param config 请求配置
- * @param retryTimes 重试次数
- * @param retryDelay 重试延迟（毫秒）
- * @returns Promise<T>
- */
-export async function wsRequestWithRetry<P = any, T = any>(
-  data: P,
-  msgId: number,
-  config: WsRequestConfig = {},
-  retryTimes: number = 3,
-  retryDelay: number = 1000,
-): Promise<T> {
-  let lastError: Error
-
-  for (let i = 0; i <= retryTimes; i++) {
-    try {
-      return await wsRequest<P, T>(data, msgId, config)
-    }
-    catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error))
-
-      if (i < retryTimes) {
-        console.warn(`请求失败，${retryDelay}ms 后进行第 ${i + 1} 次重试:`, lastError.message)
-        await new Promise(resolve => setTimeout(resolve, retryDelay))
-      }
-    }
-  }
-
-  throw new WsRequestError(
-    `请求重试 ${retryTimes} 次后仍然失败`,
-    'RETRY_EXHAUSTED',
-    lastError,
-  )
 }

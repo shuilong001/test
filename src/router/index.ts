@@ -34,7 +34,7 @@ router.beforeEach(async (to: EnhancedRouteLocation) => {
 
   // Set page title
   setPageTitle(to.meta.title)
-  if (to.meta.requireAuth) {
+  if (to.meta.auth) {
     if (!userStore.isLogin) {
       return {
         path: '/login',
