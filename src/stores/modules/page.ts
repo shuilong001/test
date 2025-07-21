@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { joinURL, splitArrayIntoChunks } from '@/utils/helper'
 import { langObjMap } from '@/constants/emums/langEnum'
-import { GameType } from '@/constants/emums/gameEnum'
+
 import { dingZhiActivity } from '@/constants/emums/activityEnum'
 
 /**
@@ -109,69 +109,7 @@ export const usePageStore = defineStore('page-store', {
           })
       }
     },
-    async setGameData(value: any) {
-      this.gameDatas = value
-    },
-    async setHomePageGameData(data: any) {
-      data.forEach((e: any) => {
-        if (e.id === 0) { // 热门一组8个
-          e.newList = splitArrayIntoChunks(e.three_platform.slice(0, 80), 8)
-        }
-        else { // 其他一组6个
-          const hosList: any = []
-          e.three_platform.forEach((plat: any) => {
-            if (!plat.gameId && !plat.agentId) {
-              plat.agentId = plat.id
-              plat.gameId = plat.venue_id
-            }
 
-            // if ([GameType.Live, GameType.Sports, GameType.Lottery].includes(e.id)) {
-            //     plat.agentId = plat.id
-            //     plat.gameId = plat.venue_id
-            // }
-            if ([GameType.Live, GameType.Sports, GameType.Lottery].includes(plat.venue_id)) {
-              // plat.agentId = plat.id
-              // plat.gameId = plat.venue_id
-              if (plat.is_hot === 1) {
-                hosList.push(plat)
-              }
-            }
-            else {
-              if (plat.three_game_kind) {
-                plat.three_game_kind.forEach((room: any) => {
-                  if (room.three_game) {
-                    room.three_game.forEach((game: any) => {
-                      if (game.is_hot === 1) {
-                        hosList.push(game)
-                      }
-                    })
-                  }
-                })
-              }
-              else {
-                if (!plat.gameId && !plat.agentId) {
-                  plat.agentId = plat.id
-                  plat.gameId = plat.venue_id
-                }
-              }
-            }
-          })
-          e.newList = e.id === GameType.Live ? splitArrayIntoChunks(hosList.slice(0, 30), 3) : splitArrayIntoChunks(hosList.slice(0, 60), 6)
-        }
-      })
-      data.forEach((e: any) => {
-        let target: any = this.homeGameData.find((b: any) => b.id === e.id)
-        if (!target) {
-          this.homeGameData.push(e)
-        }
-        else {
-          target = e
-        }
-      })
-      // this.homeGameData = JSON.parse(JSON.stringify(this.homeGameData))
-      sessionStorage.setItem('global_homeGameData', JSON.stringify(this.homeGameData))
-      console.log('[this.homeGameData]', this.homeGameData)
-    },
     async setSettings(value: any) {
       this.settings = value
     },

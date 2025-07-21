@@ -33,6 +33,7 @@ async function getGameFullInfo() {
   })
   console.log('getGameFullInfo------', data)
 };
+
 function handleEnterGame() {
   console.log('进入游戏')
 }

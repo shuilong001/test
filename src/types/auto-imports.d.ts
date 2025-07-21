@@ -1473,4 +1473,7 @@ declare global {
   // @ts-ignore
   export type { PacketBase, ReqLoginPacket, ResLoginPacket, ResNodifyLoginPacket, ResNodifyUserInfo } from './net-packet.d'
   import('./net-packet.d')
+  // @ts-ignore
+  export type { MultiLanguageName, GameKind, GamePlatform, Game, GameDataUrls, RawGameData } from './game.d'
+  import('./game.d')
 }

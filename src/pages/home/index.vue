@@ -27,6 +27,9 @@ function handleClick(key: string) {
       content: 'dialog content',
     })
   }
+  else if (key === 'category') {
+    router.push({ path: `/game/category` })
+  }
   else {
     router.push({ path: `/demo/${key}` })
   }
@@ -68,6 +71,7 @@ async function getMatchDetail() {
       <van-cell title="modal" is-link @click="handleClick('modal')" />
       <van-cell title="dialog" is-link @click="handleClick('dialog')" />
       <van-cell title="下拉刷新" is-link @click="handleClick('pull')" />
+      <van-cell title="游戏分类页" is-link @click="handleClick('category')" />
       <div class="py-16">
         测试滚动
       </div>

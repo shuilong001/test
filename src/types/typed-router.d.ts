@@ -26,6 +26,7 @@ declare module 'vue-router/auto-routes' {
     'demo-swiper': RouteRecordInfo<'demo-swiper', '/demo/swiper', Record<never, never>, Record<never, never>>,
     'Demo1': RouteRecordInfo<'Demo1', '/demo1', Record<never, never>, Record<never, never>>,
     'GameDetail': RouteRecordInfo<'GameDetail', '/game/:gameId', { gameId: ParamValue<true> }, { gameId: ParamValue<false> }>,
+    'GameCategory': RouteRecordInfo<'GameCategory', '/game/category', Record<never, never>, Record<never, never>>,
     'Home': RouteRecordInfo<'Home', '/home', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'Profile': RouteRecordInfo<'Profile', '/profile', Record<never, never>, Record<never, never>>,

@@ -2,6 +2,7 @@
 import { useRouteCacheStore } from '@/stores'
 import { useOverFlow } from '@/web-base/hooks/useOverFlow'
 import { useAppSetting } from '@/web-base/hooks/useAppSetting'
+import { useAppData } from '@/web-base/hooks/useAppData'
 import InstallPrompt from '@/components/PWA/InstallPrompt.vue'
 import { useSystemStore } from '@/stores/modules/system'
 
@@ -22,11 +23,15 @@ useHead({
 const routeCacheStore = useRouteCacheStore()
 const systemStore = useSystemStore()
 const { initEventBus, cleanupEventBus } = useAppSetting()
-initEventBus()
+
+const { loadGameData } = useAppData()
+
 onMounted(() => {
   if (!systemStore.isWebSocketReady) {
     systemStore.initWebSocket()
   }
+  initEventBus()
+  loadGameData()
 })
 const keepAliveRouteNames = computed(() => {
   return routeCacheStore.routeCaches

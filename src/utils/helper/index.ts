@@ -18,6 +18,9 @@ export function splitArrayIntoChunks(array: any, chunkSize: number) {
   }
   return result
 }
+export function isValid(value) {
+  return value !== undefined && value !== null
+}
 
 export function joinURL(baseURL: any, path: any) {
   if (!path)

@@ -9,7 +9,7 @@ import { useSystemStore } from '@/stores/modules/system'
  * WebSocket 请求配置接口
  */
 export interface WsRequestConfig<P = Record<string, any>> {
-  data: P
+  data?: P
   msgId: number
   /** 回调消息ID，如果不提供则使用 msgId */
   callbackId?: number
@@ -73,7 +73,7 @@ export async function wsRequest<P = Record<string, any>, T = any>(
   requestData: WsRequestConfig<P>,
 ): Promise<T> {
   const {
-    data,
+    data = {},
     msgId,
     callbackId,
     needLogin = false,

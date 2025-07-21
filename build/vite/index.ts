@@ -76,6 +76,7 @@ export function createVitePlugins(mode: string) {
         'src/web-base/utils/index.ts',
         'src/types/ws-events.ts',
         'src/types/net-packet.d.ts',
+        'src/types/game.d.ts',
       ],
       resolvers: [VantResolver()],
     }),
