@@ -75,7 +75,39 @@ pnpm lint
 pnpm lint:fix
 ```
 
-#### 1.3 构建部署规范
+#### 1.3 环境变量配置
+
+**环境变量文件**
+
+项目使用环境变量进行配置，支持多层级环境变量文件：
+
+```bash
+.env                # 默认环境变量
+.env.development    # 开发环境变量
+.env.production     # 生产环境变量
+.env.development.local  # 本地开发环境变量（不会被提交到版本控制）
+```
+
+**本地开发配置**
+
+建议创建 `.env.development.local` 文件进行个人本地开发配置：
+
+```bash
+# 创建本地开发配置文件
+touch .env.development.local
+
+# 在文件中添加个人配置
+echo "VITE_PORT=3002" >> .env.development.local
+```
+
+**环境变量优先级**
+
+1. `.env.development.local` (最高优先级，本地开发配置)
+2. `.env.development` (开发环境配置)
+3. `.env` (默认配置)
+
+
+#### 1.4 构建部署规范
 
 **构建命令**
 
