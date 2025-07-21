@@ -13,6 +13,7 @@ declare global {
   const REQUEST_TOKEN_KEY: typeof import('../utils/request')['REQUEST_TOKEN_KEY']
   const Session: typeof import('../web-base/utils/storage')['Session']
   const WsEventName: typeof import('./ws-events')['WsEventName']
+  const WsRequestError: typeof import('../composables/useWsRequest')['WsRequestError']
   const accounting_change_record: typeof import('../web-base/netBase/NetPacket')['accounting_change_record']
   const action_info: typeof import('../web-base/netBase/NetPacket')['action_info']
   const activity_info: typeof import('../web-base/netBase/NetPacket')['activity_info']
@@ -1447,6 +1448,7 @@ declare global {
   const whenever: typeof import('@vueuse/core')['whenever']
   const withdraw_record: typeof import('../web-base/netBase/NetPacket')['withdraw_record']
   const wsRequest: typeof import('../composables/useWsRequest')['wsRequest']
+  const wsRequestWithRetry: typeof import('../composables/useWsRequest')['wsRequestWithRetry']
   const wucaishen_line_item: typeof import('../web-base/netBase/NetPacket')['wucaishen_line_item']
   const yxx_area_bet: typeof import('../web-base/netBase/NetPacket')['yxx_area_bet']
   const yxx_chip: typeof import('../web-base/netBase/NetPacket')['yxx_chip']
@@ -1462,6 +1464,9 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { WsRequestError, WsRequestConfig } from '../composables/useWsRequest'
+  import('../composables/useWsRequest')
   // @ts-ignore
   export type { SlotsMatchListPayload, VersionCheckPayload, WsEventNameType, WsEvents } from './ws-events'
   import('./ws-events')
