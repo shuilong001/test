@@ -62,5 +62,6 @@
     "default": true,
     "MD033": false,
     "MD041": false
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

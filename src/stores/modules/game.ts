@@ -10,7 +10,7 @@ interface GameStoreState {
   homeGameData: GameKind[]
 }
 
-export const useGameStore = defineStore('game', {
+export const useGameStore = defineStore('game-store', {
   state: (): GameStoreState => ({
     // 三方游戏数据缓存
     gameCache: null as GameCacheData | null,

@@ -2,6 +2,7 @@
 import { useTitle } from '@vueuse/core'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 import { useGameStore } from '@/stores/modules/game'
+import type { ResMyGames } from '@/types/net-packet'
 
 defineOptions({
   name: 'GameCategory',
@@ -20,33 +21,57 @@ async function getMyGames() {
     callbackId: NetMsgType.msgType.msg_notify_req_my_games,
     needLogin: true,
   })
-  console.log('getMyGames------', data)
   myRecentGames.value = data.recently
   myCollectedGames.value = data.collected
-};
-const gameInfo = computed(() => {
-  const [first] = myRecentGames.value
-  if (!first) {
-    return null
-  }
-  const data = gameStore.getGame({
-    gameId: first.game_id,
-    agentId: first.agent_id,
-  })
-  console.log('gameInfo-------data111: ', data)
-  return data
+}
+
+const allGames = computed(() => {
+  // 全部游戏
+  return gameStore.homeGameData
+    .filter(plat => plat.id > 0 && plat.three_platform)
+    .flatMap(plat =>
+      plat.three_platform.flatMap((e) => {
+        if (e.three_game_kind) {
+          // 先把 e（但 three_game_kind 置空）加入
+          const result = [{ ...e, three_game_kind: [] }]
+          // 再把所有 kind 下的 game 扁平加入
+          e.three_game_kind.forEach((kind) => {
+            if (kind.three_game) {
+              result.push(...kind.three_game as any[])
+            }
+          })
+          return result
+        }
+        else {
+          return [e]
+        }
+      }),
+    )
 })
 
 onMounted(() => {
   getMyGames()
 })
+
+const collectedGames = computed(() => {
+  return allGames.value.filter(game => myCollectedGames.value.some(g => `${g.agent_id}-${g.game_id}` === `${game.agentId}-${game.gameId}`))
+})
 </script>
 
 <template>
   <PageContainer :nav-bar-props="{ title: pageTitle }">
-    <div class="flex flex-col gap-10 items-center justify-center">
-      <h1>Game Category</h1>
-      <div>{{ gameInfo?.game }}</div>
+    <div class="p-10 py-16 flex flex-col justify-center">
+      <div>
+        <van-cell-group>
+          <van-cell v-for="game in collectedGames" :key="game.gameId" :title="game.name['zh-CN'] || game.name['en-US']" :label="game.gameId">
+            <template #right-icon>
+              <van-button type="primary" size="small">
+                进入游戏
+              </van-button>
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
     </div>
   </PageContainer>
 </template>

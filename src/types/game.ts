@@ -32,6 +32,7 @@ export interface GameKind {
   three_platform?: GamePlatform[]
   /** 游戏列表分块（首页展示用） */
   newList?: (Game | GamePlatform)[][]
+  three_game?: Game[]
 }
 
 // 游戏平台数据接口
@@ -95,7 +96,7 @@ export interface GamePlatform {
   /** 游戏ID */
   gameId: number
   /** 三方游戏分类（平台下的游戏分组） */
-  three_game_kind?: GameKindWithGames[]
+  three_game_kind?: GameKind[]
 }
 
 // 游戏数据接口
