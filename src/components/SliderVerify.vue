@@ -1,7 +1,7 @@
 <!--  拖动校验 -->
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { aaa, bbb, getDeviceId, getRandomSign } from '@/web-base/net/Utils'
+import { aaa, bbb, getDeviceId, getRandomSign } from '@/web-base/network/Utils'
 import { NetPacket } from '@/web-base/netBase/NetPacket'
 import { wsRequest } from '@/composables/useWsRequest'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'

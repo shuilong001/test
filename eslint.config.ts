@@ -20,7 +20,7 @@ export default antfu(
   },
   {
     ignores: [
-      'src/web-base/net/**',
+      'src/web-base/network/**',
       'src/web-base/netBase/**',
       'README.md',
     ],

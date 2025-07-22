@@ -307,7 +307,8 @@ get_struct_def() ->
         {string, gameId},                                   % 游戏ID,自身平台是room_id
         {string, kindId},                                   % 游戏类型(备用,大部分平台只需一个gameId参数,少数平台需要用到2个参数)
         {int, lang},                                        % 语言
-        {int, device_type}                                  % 登录设备类型
+        {int, device_type},                                 % 登录设备类型
+        {int, trial}                                        %  整形,  1 = 试玩,  0 = 非试玩
       ],
       % 通知三方游戏平台登录结果
       [notify_3rd_game_login_result,
@@ -426,16 +427,6 @@ get_struct_def() ->
     %%% 服务器内部协议 web api
     %%%===================================================================================================
     [proto_lobby_webapi_1200],
-      % 服务器内部请求充值
-      [req_recharge,
-        {int, order_id},                                    % 订单号
-        {uint64, user_id},                                  % 帐号Id
-        {uint64, role_id},                                  % 角色Id
-        {int, charge_from},                                 % 充值来源 (预留字段)
-        {int, recharge_id},                                 % 充值Id
-        {int, channel_id},                                  % 渠道号
-        {uint64, money}                                     % 充值金额
-      ],
       % api/user/load_ip
       [req_load_ip,
         {uint64, role_id},                                    % 角色id
@@ -931,16 +922,6 @@ get_struct_def() ->
         {int, order_status},                                % 充值记录：交易状态:1成功0失败-1交易中2回调成功 / 提现记录：1:审核中，2:交易完成，3:审核异常，4:处理中
         {stime, pay_time}                                   % 充值记录：支付时间 / 提现记录：提现时间
       ],
-      [withdraw_record,
-        {int64, id},
-        {int, type},
-        {string, trans_id},
-        {uint64, money},
-        {string, bank_card_id},
-        {stime, createtime},
-        {int, status},                                      % 状态 0=>等待审核 1=>打款中 2=>交易完成 3=>审核异常 4=>交易取消
-        {string, remark}                                    % 备注
-      ],
       % 获取充值记录
       [req_get_recharge_record_list,
         {int, page},
@@ -1344,23 +1325,6 @@ get_struct_def() ->
       [notify_get_reward,
         {int, id}
       ],                                                     % 领取成功返回
-
-      [req_get_login_award,                                  % 领取登录奖励
-        {int, days}                                          % 天数
-      ],
-
-      [notify_get_login_award,
-        {int, days}
-      ],
-      % 领取签到奖励
-      [req_get_sign_award,
-        {int, days}                                          % 天数
-      ],
-
-      [notify_get_sign_award,
-        {int, days}
-      ],
-
     %%%===================================================================================================
     %%% 大厅房间协议
     %%%===================================================================================================
@@ -1377,11 +1341,6 @@ get_struct_def() ->
       % 返回房间桌子列表列表
       [notify_desk_list,
         {array, desk, desk_list}
-      ],
-
-      [room_msg_kv,
-        {string, key},
-        {string, val}
       ],
       % 角色基础信息
       [room_role_base,
@@ -1414,18 +1373,13 @@ get_struct_def() ->
         {common_result, result}
       ],
 
-      [notify_room_msg,
-        {array, room_msg_kv, msg_list}
-      ],
-
       [req_enter_room,
-        {int, room_id},                                     % 请求进入房间的ID,在room_tplt的id字段
-        {int, take_money}
+        {int, room_id}                                      % 请求进入房间的ID,在room_tplt的id字段
       ],
       [notify_enter_room_result,
         {common_result, result},
         {string, desk_id},
-        {int, is_first_time}  % 0 表示不是第一次进入，1 表示是第一次进入
+        {int, is_first_time}                                % 0 表示不是第一次进入，1 表示是第一次进入
       ],
 
       [req_enter_desk,
@@ -1444,7 +1398,8 @@ get_struct_def() ->
       % 玩家进入通知
       [notify_role_enter,
         {room_role_base, role},
-        {int, pos}
+        {int, pos},
+        {int, status}                                       % 玩家状态，有需要通知客户端玩家状态的游戏，使用游戏内部定义的玩家状态
       ],
       % 玩家准备通知
       [notify_role_prepare,
@@ -1460,10 +1415,6 @@ get_struct_def() ->
         {array, room_role_money, roles_money_list}
       ],
 
-      [role_get_money_item,
-        {uint64, role_id},
-        {int64, get_money}
-      ],
       % 游戏信息
       [room_game_info, {int, game_type}, {int, role_count}, {game_status, status}], % 游戏类型id, 游戏人数,游戏状态：0:正常，1:维护中
       % 房间配置
@@ -1551,6 +1502,11 @@ get_struct_def() ->
         {array, int, extra2},                               % 房间配置2
         {array, int, extra3}                                % 比赛配置
       ],
+      %solt中奖线
+      [line_item,
+        {int, line},                                        % 线
+        {array, int, pos}                                   % 位置数组
+      ],
       % 修改游戏房间,返回游戏列表
       [req_room_update, {room_update, config}],
       [notify_room_update, {room_config, room}],
@@ -1567,7 +1523,14 @@ get_struct_def() ->
       % 游戏中通知玩家离线
       [notify_room_role_offline, {int64, role_id}],
       % 返回上一次结果
-      [notity_last_spin, {array,int,icon_list}],
+      [notity_last_spin,
+        {uint64, last_money},                               % 最后一把的金额，不管是免费还是付费,有其他额外将池也加在里面 <jackpot, bonus, 转盘，红利游戏等>
+        {uint64, total_money},                              % 普通加免费所有的钱，如果没有免费，就和last_money相等,有其他额外将池也加在里面 <jackpot, bonus, 转盘，红利游戏等>
+        {int, left_free_times},                             % 剩余免费次数, left_free_times 不为0，直接取last_money， 为0 取total_money
+        {int, total_free_times},                            % 当前轮总共获取的免费次数
+        {array, int, icon_list},                            % 最后一屏图标
+        {array, line_item, lines}                           % 最后一屏中奖线<可选>
+      ],
       % 设置押注信息
       [req_set_slots_bet,{slots_bet, bet_info}],
       % 返回设置状态 0失败 1成功
@@ -1587,19 +1550,6 @@ get_struct_def() ->
     %%% 刮刮乐相关协议
     %%%===================================================================================================
     [proto_lobby_scratch_2200],
-      [scratch_item,
-        {int, icon},
-        {int64, money}
-      ],
-      % 请求刮取奖励
-      [req_scratch_ticket,
-        {int, room_id},
-        {int64, count}
-      ],
-      [notify_scratch_ticket,
-        {array, int, times_list}
-      ],
-
     %%%===================================================================================================
     %%% 建议反馈相关协议
     %%%===================================================================================================
@@ -1665,15 +1615,6 @@ get_struct_def() ->
     %%% 邀请升级为vip到期时间通知相关协议
     %%%===================================================================================================
     [proto_lobby_invitetimeout_2600],
-      % 请求vip
-      [req_invite_time_out],
-      % 返回到期时间
-      [notify_invite_time_out,
-        {stime, time_out},
-        {int, is_time_out},                                 % 0:没有过期 1:没有vip 2:过期
-        {int, invite_count}                                 % 邀请人数
-      ],
-
     %%%===================================================================================================
     %%% 签到相关协议
     %%%===================================================================================================
@@ -2009,10 +1950,6 @@ get_struct_def() ->
         {int, item_no},                                     % 奖项ID(与后台配置文件对应)
         {string, win}                                       % 奖励物品
       ],
-      % 推送转盘高分记录
-      [notify_lucky_roulette_record,
-        {lucky_roulette_record, new_record}
-      ],
       % 立即通知用户获得了抽奖机会
       [notify_lucky_roulette_got_chance,
         {int, result}
@@ -2056,11 +1993,6 @@ get_struct_def() ->
       [notify_use_item,
         {common_result, result},                            % 1=>成功，2=>失败
         {bag_item, item}
-      ],
-      % 物品更新的通知
-      [notify_update_item,
-        {int, id},                                          % 物品的编号
-        {int, count}
       ],
 
     %%%===================================================================================================
@@ -2652,10 +2584,6 @@ get_struct_def() ->
     %%% 平台列表和游戏类型列表
     %%%===================================================================================================
     [proto_lobby_platrec_4800],
-      [plat_rec,
-        {int, id},
-        {string, platform}                                  % 平台
-      ],
       [req_platform_gametype_list,
         {stime, start_time},
         {stime, end_time}
@@ -2730,12 +2658,6 @@ get_struct_def() ->
         {int, level},
         {int, is_admin},                                    % 是否管理员
         {int, is_club_creator}                              % 是否俱乐部创建者
-      ],
-      [user_info,
-        {string, username},
-        {string, head_photo},                               % 会员的头像
-        {uint64, role_id},
-        {int, level}                                        % 会员等级
       ],
       [member_state,
         {uint64, role_id},
@@ -3434,18 +3356,18 @@ get_struct_def() ->
       % 我的优惠
       [req_my_recharge_discount],
       [my_recharge_discount,
-        {int, id},                                          % 9020表示签到活动，10005表示新手任务活动
+        {int, id},                                          % 9020表示签到活动，10005表示新手任务活动 10015表示老虎机比赛
         {string, tag},
         {string, name},
         {string, content},
         {string, details},
         {uint64, bonus},
-        {int, status},                                      % 签到活动时表示日签到状态，0可签到，2已签到；新手任务活动时表示活动状态，0可参与，1可领奖, 2已参与
-        {int, bind_card},                                   % 0不需要
-        {int, week_status},                                 % 签到活动在我的优惠显示的7日签到状态，0未达到领取时，1达到领取当日，2完成7日时可领取，3当月的所有七日签到奖励都领取完毕
-        {uint64, week_bonus},                               % 周奖励金额     
+        {int, status},                                      % 签到活动时表示日签到状态，0可签到，2已签到；新手任务活动时表示活动状态，0可参与，1可领奖, 2已参与；老虎机比赛  0 未开始 1进行中 2暂停 3 结束
+        {int, bind_card},                                   % 0不需要; 老虎机比赛（1已报名 0未报名）
+        {int, week_status},                                 % 签到活动在我的优惠显示的7日签到状态，0未达到领取时，1达到领取当日，2完成7日时可领取，3当月的所有七日签到奖励都领取完毕；老虎机比赛（期数）
+        {uint64, week_bonus},                               % 周奖励金额 ；老虎机比赛（开始时间）    
         {int, month_status},                                % 签到活动在我的优惠显示的满月签到状态，0未达到领取时，1达到领取当日，2完成28日即满月时可领取，3当月的满月签到奖励领取完毕
-        {uint64, month_bonus}                               % 月奖励金额
+        {uint64, month_bonus}                               % 月奖励金额；老虎机比赛（结束时间）
       ],
       [notify_my_recharge_discount,
         {array, my_recharge_discount, dis}
@@ -3461,13 +3383,6 @@ get_struct_def() ->
     %%%===================================================================================================
     [proto_lobby_numbersbetting_5500],
       [req_numbers_betting_info],
-      [latest_record,
-        {int, role_id},
-        {string, username},
-        {int, numbers},
-        {int, ranking},
-        {stime, bet_time}
-      ],
       [his_record,
         {int, role_id},
         {string, username},
@@ -4195,10 +4110,7 @@ get_struct_def() ->
     %%% 财神驾到相关协议
     %%%===================================================================================================
     [proto_game_slots_200000],
-      [line_item,
-        {int, line},                                        % 线
-        {array, int, pos}                                   % 位置数组
-      ],
+
       [req_slots_info],
       [notify_slots_info,
         {slots_bet, last_bet},                             % 上次投注
@@ -4328,30 +4240,28 @@ get_struct_def() ->
     %%% 武财神相关协议
     %%%===================================================================================================
     [proto_game_wucaishen_200600],
-      [wucaishen_line_item,
-        {int, line},                                        % 线
-        {array, int, pos}                                   % 位置数组
-      ],
       % 请求信息
       [req_wucaishen_info],
       % 通知游戏状态
       [notify_wucaishen_info,
         {slots_bet, last_bet},                              % 上次投注(配置信息中的索引)
         {slots_bet_list, bet_list},                         % 配置信息
-        {array, int, item_list},                            % 图标列表,3*5个,游戏上次的列表, 主要是用于断网重新进来恢复现场
-        {array, wucaishen_line_item, lines},                % 游戏上次中奖线  主要是用于断网重新进来恢复现场
-        {int, free_total_times},                            % 免费游戏的总次数
-        {int, free_remain_times},                           % 免费游戏剩余次数
-        {int64, jackpot_money}                              % 奖池奖金
+        {int64, jackpot_money},                             % 奖池奖金
+        {int64, last_jackpot},                              % 上次奖池
+        {int64, time}                                       % 时间     
       ],
 
-      [notify_wucaishen_jackpot, {int64, jackpot_money}],
+      [notify_wucaishen_jackpot, 
+        {int64, jackpot_money},                             %当前奖池
+        {int64, last_jackpot},                              %上次奖池
+        {int64, time}                                       %时间
+      ],
       % 请求旋转
       [req_wucaishen_spin, {slots_bet, bet}],
       [notify_wucaishen_spin_result,
         {slots_bet, last_bet},                              % 上次投注(配置信息中的索引)
         {array, int, symbol_list},                          % 图标列表,3*5个
-        {array, wucaishen_line_item, lines},                % 游戏中奖线
+        {array, line_item, lines},                          % 游戏中奖线
         {int64, money},                                     % 中的分数
         {int, free_spins},                                  % 免费次数
         {int64, jackpot_money}                              % 奖池奖金
@@ -4705,10 +4615,6 @@ get_struct_def() ->
       ],
       % 请求昨日排行数据
       [req_dataosha_rank],
-      % 昨日排行数据通知
-      [notify_dataosha_rank,
-        {array, minigame_rank_item, rank_item}
-      ],
       % 请求玩家的历史记录
       [req_dataosha_history],
       % 玩家的历史记录通知
@@ -4813,8 +4719,6 @@ get_struct_def() ->
         {string, game_no},                                  % 游戏局号
         {string, client_key},{string, client_hash}, {string, server_hash}
         ],
-      % 玩家发送准备
-      [req_pdk_ready],
       % 准备成功后，满足开局会收到开始倒计时
       [notify_pdk_start_counting,
         {int64, end_time2}                                  % 结束时间
@@ -5717,9 +5621,6 @@ get_struct_def() ->
       %% 新增上庄和下庄的请求和通知
       [req_lhd_apply_banker],                         % 请求上庄
       [req_lhd_leave_banker],                         % 请求下庄
-      [notify_lhd_banker_info,                        % 通知当前庄家信息
-        {lhd_banker_info, banker_info}                % 玩家金币
-      ],
       [notify_lhd_banker_queue,  % 通知上庄列表
         {array, int64, role_ids},  % 申请上庄的玩家列表
         {array, string, nicknames},
@@ -5947,6 +5848,9 @@ get_struct_def() ->
       [req_queen_free_times,
         {int, times}                                        % 选择的奖金倍数(1, 3, 6)
       ],
+      [notify_queen_free_times,
+        {int, free_times}                                   % 免费次数
+      ],
       % 请求旋转
       [req_queen_spin, {slots_bet, bet}],
       [notify_queen_spin_result,
@@ -5997,7 +5901,8 @@ get_struct_def() ->
       ],
       [notity_last_spin_treasure_aztec,
         {array, az_sym, symbol_list},         % 符文列表
-        {array, s2g, silver2glod_list}        % 银框需要变为金框的符号列表
+        {array, s2g, silver2glod_list},       % 银框需要变为金框的符号列表
+        {uint64, money}
       ],
 
     %%%===================================================================================================

@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 
-import { aaa, bbb, device_model, getDeviceId } from '@/web-base/net/Utils'
+import { aaa, bbb, device_model, getDeviceId } from '@/web-base/network/Utils'
 import { IP } from '@/web-base/utils/useStoreMethods'
 
 const { t } = useI18n()
