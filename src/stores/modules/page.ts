@@ -226,79 +226,12 @@ export const usePageStore = defineStore('page-store', {
       this.hotBoxGames = data
     },
   },
-  getters: {
-    // 获取游戏相关数据， 如果只传 gameId 不能正确查询，gameId不唯一，需要联动 kindId 或者 agentId
-    // 如果只是获取厂商 则只需要传 agentId
-    getGame(state) {
-      // 所以如果要查询游戏，需要传 kindId + gameId  或者 agentId + gameId  或者都传
-      // 如果要查场馆 就传 venueId + kindId 或者 venueId + gameId
-      return (params: {
-        kindId?: any // 分类ID  电子、视讯 之类（kindId）
-        agentId?: any // 厂商ID 有下级游戏的叫厂商 （agentId）
-        venueId?: any // 场馆ID 没有下级游戏的叫场馆 （venueId）
-        gameId?: any // 游戏ID 游戏的ID  （gameId）
-      }) => {
-        let kind: any
-        let agent: any
-        let venue: any
-        let game: any
-        if (isValid(params.venueId)) { // 查找场馆
-          venue = state.gameDatas.platform.find((k: any) => k.venueId === params.venueId)
-          if (isValid(params.kindId)) {
-            kind = state.homeGameData.find((k: any) => k.kindId === params.kindId)
-          }
-          if (isValid(params.gameId)) {
-            game = state.gameDatas.game.find((g: any) => g.venueId === params.venueId && g.gameId === params.gameId)
-          }
-        }
-        else if (isValid(params.gameId)) { // 查找游戏
-          const games = state.gameDatas.game.filter((g: any) => g.gameId === params.gameId)
-          if (isValid(params.agentId)) { // 定位游戏
-            game = games.find((g: any) => g.agentId === params.agentId)
-          }
-          if (isValid(params.kindId)) {
-            game = games.find((g: any) => g.kindId === params.kindId)
-          }
-          if (game) { // 通过游戏来反查分类和厂商
-            kind = state.homeGameData.find((k: any) => k.kindId === game.kindId)
-            if (kind && kind.three_platform) {
-              agent = kind.three_platform.find((k: any) => k.agentId === game.agentId)
-            }
-          }
-        }
-        else { // 查找厂商
-          if (isValid(params.agentId)) {
-            agent = state.gameDatas.platform.find((a: any) => a.agentId === params.agentId)
-          }
-          if (isValid(params.kindId)) {
-            kind = state.homeGameData.find((k: any) => k.kindId === params.kindId)
-            if (isValid(params.agentId)) {
-              agent = kind.three_platform
-                .find((k: any) => k.agentId === params.agentId)
-            }
-          }
-        }
-
-        return { kind, agent, venue, game }
-      }
-    },
-
-    // 查询某个游戏 相关数据
-    //   console.error('查询', getGame.value({
-    //     agentId: 6,
-    //     gameId: "21003",
-    //     kindId: 2
-    //   }))
-  },
+  getters: { },
   persist: {
     storage: sessionStorage,
     key: 'page-store',
     pick: ['settings'],
   },
 })
-
-function isValid(value: any) {
-  return value !== undefined && value !== null
-}
 
 export default usePageStore

@@ -94,6 +94,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const email: typeof import('../web-base/netBase/NetPacket')['email']
+  const envD: typeof import('./env.d')['default']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const follower_detailed_info: typeof import('../web-base/netBase/NetPacket')['follower_detailed_info']
   const free_treasure_rank_data: typeof import('../web-base/netBase/NetPacket')['free_treasure_rank_data']
@@ -1468,12 +1469,15 @@ declare global {
   export type { WsRequestError, WsRequestConfig } from '../composables/useWsRequest'
   import('../composables/useWsRequest')
   // @ts-ignore
+  export type { MultiLanguageName, GameKind, GamePlatform, Game, GameKindWithGames, GameDataUrls, RawGameData, GameCacheData, GameQueryParams, GameQueryResult, GameSearchResult, GameStats, CategoryGamesResult } from './game'
+  import('./game')
+  // @ts-ignore
+  export type { MenuItem, MenuEvent } from './menu'
+  import('./menu')
+  // @ts-ignore
+  export type { PacketBase, ReqLoginPacket, ResLoginPacket, ResNodifyLoginPacket, ResNodifyUserInfo, ResMyGames } from './net-packet'
+  import('./net-packet')
+  // @ts-ignore
   export type { SlotsMatchListPayload, VersionCheckPayload, WsEventNameType, WsEvents } from './ws-events'
   import('./ws-events')
-  // @ts-ignore
-  export type { PacketBase, ReqLoginPacket, ResLoginPacket, ResNodifyLoginPacket, ResNodifyUserInfo } from './net-packet.d'
-  import('./net-packet.d')
-  // @ts-ignore
-  export type { MultiLanguageName, GameKind, GamePlatform, Game, GameDataUrls, RawGameData } from './game.d'
-  import('./game.d')
 }

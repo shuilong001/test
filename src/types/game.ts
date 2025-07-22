@@ -28,6 +28,10 @@ export interface GameKind {
   icon_h5_before: string
   /** 高亮图标路径（可选） */
   icon_light: string | null
+  /** 三方游戏平台 */
+  three_platform?: GamePlatform[]
+  /** 游戏列表分块（首页展示用） */
+  newList?: (Game | GamePlatform)[][]
 }
 
 // 游戏平台数据接口
@@ -90,6 +94,8 @@ export interface GamePlatform {
   agentId: number
   /** 游戏ID */
   gameId: number
+  /** 三方游戏分类（平台下的游戏分组） */
+  three_game_kind?: GameKindWithGames[]
 }
 
 // 游戏数据接口
@@ -132,6 +138,12 @@ export interface Game {
   weight?: number
 }
 
+// 带游戏列表的游戏分类接口
+export interface GameKindWithGames extends GameKind {
+  /** 该分类下的游戏列表 */
+  three_game: Game[]
+}
+
 // 游戏数据接口url
 export interface GameDataUrls {
   kind: string
@@ -147,4 +159,74 @@ export interface RawGameData {
   platform: GamePlatform[]
   /** 游戏数据 */
   game: Game[]
+}
+
+// 游戏缓存数据接口
+export interface GameCacheData {
+  /** 游戏分类数据 */
+  kind: GameKind[]
+  /** 游戏平台数据 */
+  platform: GamePlatform[]
+  /** 游戏数据 */
+  game: Game[]
+  /** 首页游戏数据 */
+  homeGameData: GameKind[]
+  /** 缓存时间戳 */
+  timestamp: number
+}
+
+// 游戏查询参数接口
+export interface GameQueryParams {
+  /** 分类ID - 电子、视讯等类型 */
+  kindId?: number
+  /** 厂商ID - 有下级游戏的平台 */
+  agentId?: number
+  /** 场馆ID - 没有下级游戏的平台 */
+  venueId?: number
+  /** 游戏ID - 具体游戏的ID */
+  gameId?: string
+}
+
+// 游戏查询结果接口
+export interface GameQueryResult {
+  /** 分类信息 */
+  kind?: GameKind
+  /** 厂商信息 */
+  agent?: GamePlatform
+  /** 场馆信息 */
+  venue?: GamePlatform
+  /** 游戏信息 */
+  game?: Game
+}
+
+// 游戏搜索结果接口
+export interface GameSearchResult {
+  /** 结果类型 */
+  type: 'game' | 'platform'
+  /** 匹配的数据 */
+  data: Game | GamePlatform
+  /** 匹配的字段 */
+  matchField: 'name' | 'gameId'
+}
+
+// 游戏统计信息接口
+export interface GameStats {
+  /** 游戏总数 */
+  totalGames: number
+  /** 平台总数 */
+  totalPlatforms: number
+  /** 分类总数 */
+  totalCategories: number
+  /** 缓存是否有效 */
+  cacheValid: boolean
+}
+
+// 分类游戏查询结果接口
+export interface CategoryGamesResult {
+  /** 分类信息 */
+  kind: GameKind | null
+  /** 平台列表 */
+  platforms: GamePlatform[]
+  /** 游戏列表 */
+  games: Game[]
 }

@@ -4,18 +4,6 @@ import { usePageStore } from '@/stores/modules/page'
 import { useGameStore } from '@/stores/modules/game'
 import { db } from '@/web-base/utils/storage'
 
-interface GameDataUrls {
-  kind: string
-  platform: string
-  game: string
-}
-
-interface RawGameData {
-  kind: any[]
-  platform: any[]
-  game: any[]
-}
-
 /**
  * 获取三方游戏数据的 Hook
  */
@@ -51,7 +39,6 @@ export function useAppData() {
 
     // 检查缓存是否有效
     if (gameStore.isCacheValid()) {
-      console.log('使用缓存的游戏数据')
       // 从缓存恢复数据到 pageStore
       const cachedGameData = gameStore.getCachedGameData
       const cachedHomeGameData = gameStore.getCachedHomeGameData
@@ -71,7 +58,6 @@ export function useAppData() {
    */
   const fetchAndDecompressData = async (url: string, name: string): Promise<any[]> => {
     try {
-      console.log(`开始获取${name}数据: ${url}`)
       const response = await fetch(`${url}?${Date.now()}`)
 
       if (!response.ok) {
@@ -83,7 +69,6 @@ export function useAppData() {
       const decompressedString = pako.ungzip(uint8Array, { to: 'string' })
       const data = JSON.parse(decompressedString)
 
-      console.log(`${name}数据获取成功，数量:`, data.length)
       return data
     }
     catch (error) {
@@ -103,9 +88,6 @@ export function useAppData() {
         fetchAndDecompressData(urls.game, '游戏'),
       ])
 
-      console.log('kindData: ', kindData)
-      console.log('platformData: ', platformData)
-      console.log('gameData: ', gameData)
       return {
         kind: kindData,
         platform: platformData,
@@ -121,8 +103,8 @@ export function useAppData() {
   /**
    * 处理游戏数据排序
    */
-  const sortGamesByWeight = (games: any[]): void => {
-    games.sort((a: any, b: any) => {
+  const sortGamesByWeight = (games: Game[]): void => {
+    games.sort((a: Game, b: Game) => {
       // 如果 a 和 b 都有 weight，按 weight 降序排列
       if (a.weight !== undefined && b.weight !== undefined) {
         return b.weight - a.weight
@@ -143,8 +125,8 @@ export function useAppData() {
   /**
    * 处理平台数据排序
    */
-  const sortPlatformsByWeight = (platforms: any[]): void => {
-    platforms.sort((a: any, b: any) => {
+  const sortPlatformsByWeight = (platforms: GamePlatform[]): void => {
+    platforms.sort((a: GamePlatform, b: GamePlatform) => {
       // 如果 a 和 b 都有 weight，按 weight 降序排列
       if (a.weight !== undefined && b.weight !== undefined) {
         return b.weight - a.weight
@@ -165,19 +147,19 @@ export function useAppData() {
   /**
    * 构建平台游戏映射
    */
-  const buildPlatformGameMap = (kindData: any[], gameData: any[]): Record<string, any> => {
-    const platListData: Record<string, any> = {}
+  const buildPlatformGameMap = (kindData: GameKind[], gameData: Game[]): Record<string, GameKindWithGames> => {
+    const platListData: Record<string, GameKindWithGames> = {}
 
-    gameData.forEach((game: any) => {
+    gameData.forEach((game: Game) => {
       const key = `${game.agentId}_${game.kindId}`
 
       if (platListData[key]) {
         platListData[key].three_game.push(game)
       }
       else {
-        const kindInfo = kindData.find((kind: any) => kind.kindId === game.kindId)
+        const kindInfo = kindData.find((kind: GameKind) => kind.kindId === game.kindId)
         if (kindInfo) {
-          const kind = JSON.parse(JSON.stringify(kindInfo))
+          const kind = JSON.parse(JSON.stringify(kindInfo)) as GameKindWithGames
           kind.three_game = [game]
           platListData[key] = kind
         }
@@ -185,7 +167,7 @@ export function useAppData() {
     })
 
     // 排序每个平台下的游戏
-    Object.values(platListData).forEach((kind: any) => {
+    Object.values(platListData).forEach((kind: GameKindWithGames) => {
       if (kind.three_game) {
         sortGamesByWeight(kind.three_game)
       }
@@ -198,14 +180,14 @@ export function useAppData() {
    * 处理平台数据并关联游戏
    */
   const processPlatformData = (
-    homeGameData: any[],
-    platformData: any[],
-    platListData: Record<string, any>,
+    homeGameData: GameKind[],
+    platformData: GamePlatform[],
+    platListData: Record<string, GameKindWithGames>,
   ): void => {
-    platformData.forEach((platform: any) => {
+    platformData.forEach((platform: GamePlatform) => {
       // 如果没有下级游戏，直接关联到分类
       if (platform.has_next === 0) {
-        const targetKind = homeGameData.find((kind: any) => kind.kindId === platform.venueId)
+        const targetKind = homeGameData.find((kind: GameKind) => kind.kindId === platform.venueId)
         if (targetKind) {
           if (!targetKind.three_platform) {
             targetKind.three_platform = []
@@ -215,13 +197,13 @@ export function useAppData() {
       }
       // 如果有下级游戏，处理游戏关联
       else {
-        homeGameData.forEach((kind: any) => {
-          const platformCopy = JSON.parse(JSON.stringify(platform))
+        homeGameData.forEach((kind: GameKind) => {
+          const platformCopy = JSON.parse(JSON.stringify(platform)) as GamePlatform
           const key = `${platform.agentId}_${kind.kindId}`
 
           if (platListData[key]) {
             platformCopy.three_game_kind = [platListData[key]]
-            const targetKind = homeGameData.find((k: any) =>
+            const targetKind = homeGameData.find((k: GameKind) =>
               k.kindId === platListData[key].three_game[0]?.kindId,
             )
 
@@ -240,18 +222,18 @@ export function useAppData() {
   /**
    * 创建热门游戏分类
    */
-  const createHotGamesCategory = (platformData: any[], gameData: any[]): any => {
-    const hotGames: any[] = []
+  const createHotGamesCategory = (platformData: GamePlatform[], gameData: Game[]): GameKind => {
+    const hotGames: (GamePlatform | Game)[] = []
 
     // 收集热门平台
-    platformData.forEach((platform: any) => {
+    platformData.forEach((platform: GamePlatform) => {
       if (platform.is_hot === 1) {
         hotGames.push(platform)
       }
     })
 
     // 收集热门游戏
-    gameData.forEach((game: any) => {
+    gameData.forEach((game: Game) => {
       if (game.is_hot === 1) {
         hotGames.push(game)
       }
@@ -259,14 +241,19 @@ export function useAppData() {
 
     return {
       id: 0,
+      venueId: 0,
+      kindId: 999,
       kind_id: 999,
-      sort: 0,
       name: {
         'zh-CN': '热门',
         'vi-VN': 'Phổ biến',
         'en-US': 'Popular',
       },
-      three_platform: hotGames,
+      icon_h5: '',
+      icon_pc: '',
+      icon_h5_before: '',
+      icon_light: null,
+      three_platform: hotGames as GamePlatform[],
     }
   }
 
@@ -275,12 +262,10 @@ export function useAppData() {
    */
   const mixGameData = async (rawData: RawGameData): Promise<void> => {
     try {
-      console.log('开始处理游戏数据...')
-
       // 深拷贝原始数据，避免修改原数据
-      const homeGameData = JSON.parse(JSON.stringify(rawData.kind))
-      const platformData = JSON.parse(JSON.stringify(rawData.platform))
-      const gameData = JSON.parse(JSON.stringify(rawData.game))
+      const homeGameData: GameKind[] = JSON.parse(JSON.stringify(rawData.kind))
+      const platformData: GamePlatform[] = JSON.parse(JSON.stringify(rawData.platform))
+      const gameData: Game[] = JSON.parse(JSON.stringify(rawData.game))
 
       // 构建平台游戏映射关系
       const platListData = buildPlatformGameMap(homeGameData, gameData)
@@ -289,7 +274,7 @@ export function useAppData() {
       processPlatformData(homeGameData, platformData, platListData)
 
       // 排序每个分类下的平台
-      homeGameData.forEach((kind: any) => {
+      homeGameData.forEach((kind: GameKind) => {
         if (kind.three_platform) {
           sortPlatformsByWeight(kind.three_platform)
         }
@@ -301,8 +286,6 @@ export function useAppData() {
       // 创建热门游戏分类并添加到首位
       const hotGamesCategory = createHotGamesCategory(platformData, gameData)
       const finalHomeGameData = [hotGamesCategory, ...homeGameData]
-
-      console.log('游戏数据处理完成', finalHomeGameData)
 
       // 更新 stores
       await gameStore.setGameData(rawData)
@@ -340,9 +323,9 @@ export function useAppData() {
   const loadGameData = async (): Promise<void> => {
     try {
       // 检查是否需要加载数据
-      // if (!shouldLoadData()) {
-      //   return
-      // }
+      if (!_shouldLoadData()) {
+        return
+      }
 
       // 获取配置的 URL
       const urls = getGameDataUrls()

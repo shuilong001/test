@@ -41,17 +41,7 @@ export interface ResNodifyLoginPacket {
   newguidestate: number
   ipGroupName: string
 }
-// {
-//   "result": 1,
-//   "full_name": "mk123456",
-//   "email": "",
-//   "currency": 1,
-//   "country": 0,
-//   "usdt_rate": 24030,
-//   "real_name": "",
-//   "mobile": "",
-//   "account_type": 3
-// }
+
 export interface ResNodifyUserInfo {
   result: number
   full_name: string
@@ -63,10 +53,14 @@ export interface ResNodifyUserInfo {
   mobile: string
   account_type: number
 }
-declare module '@/web-base/netBase/NetPacket' {
-  /**
-   * 登录请求包
-   */
-  function req_login(): ReqLoginPacket
-  // 其余 NetPacket.xx() 可在此处按需追加声明
+
+export interface ResMyGames {
+  recently: {
+    agent_id: number
+    game_id: string
+  }[]
+  collected: {
+    agent_id: number
+    game_id: string
+  }[]
 }

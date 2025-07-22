@@ -74,9 +74,9 @@ export function createVitePlugins(mode: string) {
         'src/composables',
         'src/hooks',
         'src/web-base/utils/index.ts',
-        'src/types/ws-events.ts',
-        'src/types/net-packet.d.ts',
-        'src/types/game.d.ts',
+        // 除了d.ts文件，其他文件都导入
+        'src/types/*.ts',
+        '!src/types/*.d.ts',
       ],
       resolvers: [VantResolver()],
     }),
