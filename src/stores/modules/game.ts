@@ -8,6 +8,7 @@ interface GameStoreState {
   cacheExpiration: number
   gameDatas: RawGameData
   homeGameData: GameKind[]
+  gameUrl: string
 }
 
 export const useGameStore = defineStore('game-store', {
@@ -23,6 +24,7 @@ export const useGameStore = defineStore('game-store', {
       game: [],
     },
     homeGameData: [],
+    gameUrl: '',
   }),
   actions: {
     // 设置游戏数据缓存
@@ -323,6 +325,9 @@ export const useGameStore = defineStore('game-store', {
 
       return results
     },
+    setGameUrl(url: string) {
+      this.gameUrl = url
+    },
   },
 
   getters: {
@@ -398,6 +403,7 @@ export const useGameStore = defineStore('game-store', {
           }),
         )
     },
+
   },
 
   persist: {

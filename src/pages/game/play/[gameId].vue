@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useTitle } from '@vueuse/core'
 // import { NetMsgType } from '@/web-base/netBase/NetMsgType'
-// import { useGameStore } from '@/stores/modules/game'
+import { useGameStore } from '@/stores/modules/game'
 
 defineOptions({
   name: 'GamePlay',
 })
-const route = useRoute('GamePlay')
+// const route = useRoute('GamePlay')
 // const gameId = route.params.gameId
-const query = route.query as { url: string }
-// const gameStore = useGameStore()
+const gameStore = useGameStore()
+const { gameUrl } = storeToRefs(gameStore)
 const pageTitle = useTitle()
 
 pageTitle.value = `游戏大厅`
@@ -31,8 +32,8 @@ const iframeRef = ref<HTMLIFrameElement>()
     <iframe
       id="iframeId"
       ref="iframeRef"
-      :key="query.url"
-      :src="query.url"
+      :key="gameUrl"
+      :src="gameUrl"
       class="h-full w-full"
       frameborder="0"
       scrolling="auto"

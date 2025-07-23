@@ -56,7 +56,8 @@ async function getNewGameUrl() {
   })
   console.log('res----: ', res)
   if (res.code === 0) {
-    router.push(`/game/play/${gameId}?agentId=${gameInfo.value.agentId}&url=${encodeURIComponent(res.url)}`)
+    router.push(`/game/play/${gameId}`)
+    gameStore.setGameUrl(res.url)
   }
   else if (res.code === -1) {
     showToast(res.msg)
