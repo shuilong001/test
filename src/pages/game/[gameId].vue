@@ -3,11 +3,12 @@ import { useRoute } from 'vue-router'
 import { useTitle } from '@vueuse/core'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 import { useGameStore } from '@/stores/modules/game'
+import { showToast } from 'vant'
 
 defineOptions({
   name: 'GameDetail',
 })
-
+const router = useRouter()
 const route = useRoute('GameDetail')
 const gameStore = useGameStore()
 const gameId = route.params.gameId
@@ -17,6 +18,15 @@ const pageTitle = useTitle()
 pageTitle.value = `游戏详情${gameId}`
 
 const newInfo = ref<any>(null)
+
+const gameInfo = computed(() => {
+  const info = gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${gameId}`)
+  return {
+    ...info,
+    ...newInfo.value,
+  }
+})
+
 async function getGameFullInfo() {
   const data = await wsRequest({
     data: {
@@ -31,16 +41,32 @@ async function getGameFullInfo() {
   })
   newInfo.value = data
 };
-const gameInfo = computed(() => {
-  const info = gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${gameId}`)
-  return {
-    ...info,
-    ...newInfo.value,
+async function getNewGameUrl() {
+  const res = await wsRequest({
+    data: {
+      agentId: query.agentId,
+      gameId,
+      kindId: gameInfo.value.venueId,
+      lang: 1,
+      device_type: 2,
+    },
+    msgId: NetMsgType.msgType.msg_req_3rd_game_login,
+    callbackId: NetMsgType.msgType.msg_notify_3rd_game_login_result,
+    needLogin: true,
+  })
+  console.log('res----: ', res)
+  if (res.code === 0) {
+    router.push(`/game/play/${gameId}?agentId=${gameInfo.value.agentId}&url=${encodeURIComponent(res.url)}`)
   }
-})
+  else if (res.code === -1) {
+    showToast(res.msg)
+  }
+}
 
 function handleEnterGame() {
   console.log('进入游戏')
+  getNewGameUrl()
+  // router.push(`/game/play/${gameId}?agentId=${gameInfo.value.agentId}&venueId=${gameInfo.value.venueId}`)
 }
 onMounted(() => {
   getGameFullInfo()
