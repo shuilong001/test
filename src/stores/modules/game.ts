@@ -375,6 +375,29 @@ export const useGameStore = defineStore('game-store', {
         return count
       }
     },
+    // 第三方所有游戏
+    getAllThreeGames: (state) => {
+      return state.homeGameData
+        .filter(plat => plat.id > 0 && plat.three_platform)
+        .flatMap(plat =>
+          plat.three_platform.flatMap((e) => {
+            if (e.three_game_kind) {
+              // 先把 e（但 three_game_kind 置空）加入
+              const result = [{ ...e, three_game_kind: [] }]
+              // 再把所有 kind 下的 game 扁平加入
+              e.three_game_kind.forEach((kind) => {
+                if (kind.three_game) {
+                  result.push(...kind.three_game as any[])
+                }
+              })
+              return result
+            }
+            else {
+              return [e]
+            }
+          }),
+        )
+    },
   },
 
   persist: {

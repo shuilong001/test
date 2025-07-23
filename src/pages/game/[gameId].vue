@@ -32,8 +32,7 @@ async function getGameFullInfo() {
   newInfo.value = data
 };
 const gameInfo = computed(() => {
-  const { game } = gameStore.gameDatas || {}
-  const info = game.find(item => item.gameId === gameId)
+  const info = gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${gameId}`)
   return {
     ...info,
     ...newInfo.value,
@@ -50,10 +49,19 @@ onMounted(() => {
 
 <template>
   <PageContainer :nav-bar-props="{ title: pageTitle }">
-    <div class="flex flex-col gap-10 items-center justify-center">
+    <div class="p-10 flex flex-col gap-10 items-center justify-center">
       <h1>Game {{ gameInfo.name['zh-CN'] || gameInfo.name['en-US'] }}</h1>
       <DefaultBtn text="进入游戏" type="primary" @click="handleEnterGame" />
-      <div>{{ gameInfo }}</div>
+      <div class="flex flex-col gap-10">
+        <div v-for="(value, key) of gameInfo" :key="key" class="flex gap-10 items-baseline">
+          <div class="w-60">
+            {{ key }}：
+          </div>
+          <div class="flex-1 break-all">
+            {{ value }}
+          </div>
+        </div>
+      </div>
     </div>
   </PageContainer>
 </template>
