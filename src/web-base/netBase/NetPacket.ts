@@ -26047,6 +26047,499 @@ export module NetPacket
 		};
     	return tb;
 	}
+    export function req_red_envelope_entry()
+    {
+        let tb = {
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_red_envelope_entry"];
+    		},
+		    encode:function(buf)
+		    {
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_red_envelope_entry"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_red_envelope_entry()
+    {
+        let tb = {
+    	    is_open : 0,
+    	    money : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_red_envelope_entry"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.is_open, buf);
+    			EncodeUtils.int64ToByte(tb.money, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_red_envelope_entry"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function req_open_red_envelope()
+    {
+        let tb = {
+    	    language_id : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_open_red_envelope"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.language_id, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.language_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_open_red_envelope"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_open_red_envelope()
+    {
+        let tb = {
+    	    is_ok : 0,
+    	    money : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_open_red_envelope"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.is_ok, buf);
+    			EncodeUtils.int64ToByte(tb.money, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.is_ok = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_open_red_envelope"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function red_task()
+    {
+        let tb = {
+    	    task_id : 0,
+    	    status : 0,
+    	    task_content : 0,
+    	    task_progress : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_red_task"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.task_id, buf);
+    		    EncodeUtils.int32ToByte(tb.status, buf);
+    			EncodeUtils.int64ToByte(tb.task_content, buf);
+    			EncodeUtils.int64ToByte(tb.task_progress, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.task_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.task_content = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.task_progress = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_red_task"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function req_receive_red_envelope()
+    {
+        let tb = {
+    	    language_id : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_receive_red_envelope"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.language_id, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.language_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_receive_red_envelope"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_receive_red_envelope()
+    {
+        let tb = {
+    	    is_ok : 0,
+    	    money : 0,
+    	    level : 0,
+    	    status : 0,
+    	    rule : '',
+    	    red_task_list : [],
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_receive_red_envelope"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.is_ok, buf);
+    			EncodeUtils.int64ToByte(tb.money, buf);
+    		    EncodeUtils.int32ToByte(tb.level, buf);
+    		    EncodeUtils.int32ToByte(tb.status, buf);
+    			EncodeUtils.utf8StrtoBytes(tb.rule, buf);
+        		EncodeUtils.uInt16ToByte(tb.red_task_list.length, buf);
+        		for (let i = 0; i < tb.red_task_list.length; ++i)
+				{
+            		tb.red_task_list[i].encode(buf);
+	     		}
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.is_ok = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.level = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let rule_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.rule = rule_value[0];
+ 				startIndex += rule_value[1];
+        		let red_task_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+        		startIndex += 2;
+        		for(let i = 0; i < red_task_list_len; ++i)
+				{
+            		let tmp = red_task();
+            		startIndex += tmp.decode(buf, startIndex);
+            		tb.red_task_list.push(tmp);
+        		}
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_receive_red_envelope"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function req_complete_task_and_get_red_envelope()
+    {
+        let tb = {
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_complete_task_and_get_red_envelope"];
+    		},
+		    encode:function(buf)
+		    {
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_complete_task_and_get_red_envelope"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_complete_task_and_get_red_envelope()
+    {
+        let tb = {
+    	    is_ok : 0,
+    	    money : 0,
+    	    is_next_open : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_complete_task_and_get_red_envelope"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.is_ok, buf);
+    			EncodeUtils.int64ToByte(tb.money, buf);
+    		    EncodeUtils.int32ToByte(tb.is_next_open, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.is_ok = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.is_next_open = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_complete_task_and_get_red_envelope"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function red_envelope_receive_record()
+    {
+        let tb = {
+    	    receive_time : 0,
+    	    nickname : '',
+    	    money : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_red_envelope_receive_record"];
+    		},
+		    encode:function(buf)
+		    {
+    			EncodeUtils.int64ToByte(tb.receive_time, buf);
+    			EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
+    			EncodeUtils.int64ToByte(tb.money, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.receive_time = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				let nickname_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.nickname = nickname_value[0];
+ 				startIndex += nickname_value[1];
+        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_red_envelope_receive_record"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function red_my_receive_record()
+    {
+        let tb = {
+    	    level : 0,
+    	    money : 0,
+    	    status : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_red_my_receive_record"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.level, buf);
+    			EncodeUtils.int64ToByte(tb.money, buf);
+    		    EncodeUtils.int32ToByte(tb.status, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.level = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_red_my_receive_record"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function req_red_envelope_activity_receive_record()
+    {
+        let tb = {
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_red_envelope_activity_receive_record"];
+    		},
+		    encode:function(buf)
+		    {
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_red_envelope_activity_receive_record"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_red_envelope_activity_receive_record()
+    {
+        let tb = {
+    	    red_envelope_receive_record_list : [],
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_red_envelope_activity_receive_record"];
+    		},
+		    encode:function(buf)
+		    {
+        		EncodeUtils.uInt16ToByte(tb.red_envelope_receive_record_list.length, buf);
+        		for (let i = 0; i < tb.red_envelope_receive_record_list.length; ++i)
+				{
+            		tb.red_envelope_receive_record_list[i].encode(buf);
+	     		}
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		let red_envelope_receive_record_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+        		startIndex += 2;
+        		for(let i = 0; i < red_envelope_receive_record_list_len; ++i)
+				{
+            		let tmp = red_envelope_receive_record();
+            		startIndex += tmp.decode(buf, startIndex);
+            		tb.red_envelope_receive_record_list.push(tmp);
+        		}
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_red_envelope_activity_receive_record"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function req_red_envelope_my_receive_record()
+    {
+        let tb = {
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_red_envelope_my_receive_record"];
+    		},
+		    encode:function(buf)
+		    {
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_red_envelope_my_receive_record"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_red_envelope_my_receive_record()
+    {
+        let tb = {
+    	    total_money : 0,
+    	    pending_money : 0,
+    	    red_envelope_my_receive_record_list : [],
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_red_envelope_my_receive_record"];
+    		},
+		    encode:function(buf)
+		    {
+    			EncodeUtils.int64ToByte(tb.total_money, buf);
+    			EncodeUtils.int64ToByte(tb.pending_money, buf);
+        		EncodeUtils.uInt16ToByte(tb.red_envelope_my_receive_record_list.length, buf);
+        		for (let i = 0; i < tb.red_envelope_my_receive_record_list.length; ++i)
+				{
+            		tb.red_envelope_my_receive_record_list[i].encode(buf);
+	     		}
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.total_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.pending_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		let red_envelope_my_receive_record_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+        		startIndex += 2;
+        		for(let i = 0; i < red_envelope_my_receive_record_list_len; ++i)
+				{
+            		let tmp = red_my_receive_record();
+            		startIndex += tmp.decode(buf, startIndex);
+            		tb.red_envelope_my_receive_record_list.push(tmp);
+        		}
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_red_envelope_my_receive_record"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
     export function slots_match_reward()
     {
         let tb = {
@@ -27058,7 +27551,6 @@ export module NetPacket
         let tb = {
     	    last_bet : slots_bet(),
     	    bet_list : slots_bet_list(),
-    	    free_spins : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notify_jmp_info"];
@@ -27067,15 +27559,12 @@ export module NetPacket
 		    {
         		tb.last_bet.encode(buf);
         		tb.bet_list.encode(buf);
-    		    EncodeUtils.int32ToByte(tb.free_spins, buf);
     	    },
     		decode:function(buf, index)
 			{
 				let startIndex = index;
         		startIndex += tb.last_bet.decode(buf, startIndex);
         		startIndex += tb.bet_list.decode(buf, startIndex);
-        		tb.free_spins = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
     		build:function(buf)
@@ -27592,7 +28081,6 @@ export module NetPacket
         let tb = {
     	    last_bet : slots_bet(),
     	    bet_list : slots_bet_list(),
-    	    free_spins : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notify_captain_info"];
@@ -27601,15 +28089,12 @@ export module NetPacket
 		    {
         		tb.last_bet.encode(buf);
         		tb.bet_list.encode(buf);
-    		    EncodeUtils.int32ToByte(tb.free_spins, buf);
     	    },
     		decode:function(buf, index)
 			{
 				let startIndex = index;
         		startIndex += tb.last_bet.decode(buf, startIndex);
         		startIndex += tb.bet_list.decode(buf, startIndex);
-        		tb.free_spins = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
     		build:function(buf)
@@ -27915,7 +28400,6 @@ export module NetPacket
         let tb = {
     	    last_bet : slots_bet(),
     	    bet_list : slots_bet_list(),
-    	    free_spins : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notify_mjhl2_info"];
@@ -27924,15 +28408,12 @@ export module NetPacket
 		    {
         		tb.last_bet.encode(buf);
         		tb.bet_list.encode(buf);
-    		    EncodeUtils.int32ToByte(tb.free_spins, buf);
     	    },
     		decode:function(buf, index)
 			{
 				let startIndex = index;
         		startIndex += tb.last_bet.decode(buf, startIndex);
         		startIndex += tb.bet_list.decode(buf, startIndex);
-        		tb.free_spins = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
     		build:function(buf)
@@ -40678,11 +41159,6 @@ export module NetPacket
         let tb = {
     	    last_bet : slots_bet(),
     	    bet_list : slots_bet_list(),
-    	    free_spins : 0,
-    	    free_multiple : 0,
-    	    locked_bet : 0,
-    	    locked_beishu : 0,
-    	    choose_count : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notify_queen_info"];
@@ -40691,27 +41167,12 @@ export module NetPacket
 		    {
         		tb.last_bet.encode(buf);
         		tb.bet_list.encode(buf);
-    		    EncodeUtils.int32ToByte(tb.free_spins, buf);
-    		    EncodeUtils.int32ToByte(tb.free_multiple, buf);
-    		    EncodeUtils.int32ToByte(tb.locked_bet, buf);
-    		    EncodeUtils.int32ToByte(tb.locked_beishu, buf);
-    		    EncodeUtils.int32ToByte(tb.choose_count, buf);
     	    },
     		decode:function(buf, index)
 			{
 				let startIndex = index;
         		startIndex += tb.last_bet.decode(buf, startIndex);
         		startIndex += tb.bet_list.decode(buf, startIndex);
-        		tb.free_spins = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-        		tb.free_multiple = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-        		tb.locked_bet = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-        		tb.locked_beishu = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-        		tb.choose_count = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
     		build:function(buf)
@@ -40865,6 +41326,70 @@ export module NetPacket
 		};
     	return tb;
 	}
+    export function notity_queen_last_spin()
+    {
+        let tb = {
+    	    last_money : 0,
+    	    total_money : 0,
+    	    free_spins : 0,
+    	    free_multiple : 0,
+    	    locked_bet : 0,
+    	    locked_beishu : 0,
+    	    choose_count : 0,
+    	    icon_list : [],
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notity_queen_last_spin"];
+    		},
+		    encode:function(buf)
+		    {
+    			EncodeUtils.int64ToByte(tb.last_money, buf);
+    			EncodeUtils.int64ToByte(tb.total_money, buf);
+    		    EncodeUtils.int32ToByte(tb.free_spins, buf);
+    		    EncodeUtils.int32ToByte(tb.free_multiple, buf);
+    		    EncodeUtils.int32ToByte(tb.locked_bet, buf);
+    		    EncodeUtils.int32ToByte(tb.locked_beishu, buf);
+    		    EncodeUtils.int32ToByte(tb.choose_count, buf);
+       			EncodeUtils.uInt16ToByte(tb.icon_list.length, buf);
+       			for (let i = 0; i < tb.icon_list.length; ++i)
+				{
+		    		EncodeUtils.int32ToByte(tb.icon_list[i], buf);
+       			}
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.last_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.total_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.free_spins = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.free_multiple = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.locked_bet = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.locked_beishu = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.choose_count = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		let icon_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+        		startIndex += 2;
+        		for(let i = 0; i < icon_list_len; ++i)
+		 		{
+             		tb.icon_list.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+        		}
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notity_queen_last_spin"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
     export function req_treasure_aztec_info()
     {
         let tb = {
@@ -40893,7 +41418,6 @@ export module NetPacket
         let tb = {
     	    last_bet : slots_bet(),
     	    bet_list : slots_bet_list(),
-    	    free_spins : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notify_treasure_aztec_info"];
@@ -40902,15 +41426,12 @@ export module NetPacket
 		    {
         		tb.last_bet.encode(buf);
         		tb.bet_list.encode(buf);
-    		    EncodeUtils.int32ToByte(tb.free_spins, buf);
     	    },
     		decode:function(buf, index)
 			{
 				let startIndex = index;
         		startIndex += tb.last_bet.decode(buf, startIndex);
         		startIndex += tb.bet_list.decode(buf, startIndex);
-        		tb.free_spins = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
     		build:function(buf)
@@ -41122,7 +41643,10 @@ export module NetPacket
         let tb = {
     	    symbol_list : [],
     	    silver2glod_list : [],
-    	    money : 0,
+    	    last_money : 0,
+    	    total_money : 0,
+    	    left_free_times : 0,
+    	    total_free_times : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notity_last_spin_treasure_aztec"];
@@ -41139,7 +41663,10 @@ export module NetPacket
 				{
             		tb.silver2glod_list[i].encode(buf);
 	     		}
-    			EncodeUtils.int64ToByte(tb.money, buf);
+    			EncodeUtils.int64ToByte(tb.last_money, buf);
+    			EncodeUtils.int64ToByte(tb.total_money, buf);
+    		    EncodeUtils.int32ToByte(tb.left_free_times, buf);
+    		    EncodeUtils.int32ToByte(tb.total_free_times, buf);
     	    },
     		decode:function(buf, index)
 			{
@@ -41160,8 +41687,14 @@ export module NetPacket
             		startIndex += tmp.decode(buf, startIndex);
             		tb.silver2glod_list.push(tmp);
         		}
-        		tb.money = EncodeUtils.ByteToint64(buf, startIndex);
+        		tb.last_money = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
+        		tb.total_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+        		tb.left_free_times = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.total_free_times = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
     		build:function(buf)

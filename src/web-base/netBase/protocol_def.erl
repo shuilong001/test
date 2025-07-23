@@ -4002,10 +4002,131 @@ get_struct_def() ->
         {int, twitter}                                      % 0表示不设置twitter分享渠道，1表示设置twitter分享渠道
       ],
 
+
+    %%%===================================================================================================
+    %%% 红包活动
+    %%%===================================================================================================
+    [proto_red_envelope_6600],
+      % 红包入口
+      [req_red_envelope_entry],
+      % 红包入口响应
+      [notify_red_envelope_entry,
+        {int, is_open}, % 1红包未开启，2红包已开启 3活动未开始 4所有红包都已领取 5未设置红包奖励
+        {int64, money} % 红包金额
+      ],
+
+      % 请求开启红包
+      [req_open_red_envelope,
+        {int, language_id} % 语种id 1英文 2中文 3越南语
+      ],
+      % 开启红包响应
+      [notify_open_red_envelope,  
+        {int, is_ok}, % 是否成功 0活动未开始 1成功 2未达到vip等级1 3未达到vip等级2 4未达到vip等级3 5未达到vip等级4
+        {int64, money} % 开启红包后显示该红包等级的金币
+        % {int, level}, % 红包等级
+        % {int, status}, % 红包状态
+        % {array, red_task, red_task_list} % 任务列表
+      ],
+      % 任务
+      [red_task,
+        {int, task_id}, % 任务id 1期间充值 2期间投注 3期间局数 4绑定银行卡 5有效好友 6有效代理 7开启VIP等级 8领取VIP等级 9分享FB 10关注FB主页 11关注FB小组 12关注TG频道 13关注INS 14关注TWITT
+        {int, status}, % 任务状态 0未完成 1已完成
+        {int64, task_content}, % 任务内容
+        {int64, task_progress} % 任务进度
+      ],
+      % 请求领取红包
+      [req_receive_red_envelope,
+        {int, language_id} % 语种id 1英文 2中文 3越南语                                       
+      ],
+      % 领取红包响应
+      [notify_receive_red_envelope,                                     
+        {int, is_ok}, % 是否成功
+        {int64, money}, % 领取红包后显示的金币
+        {int, level}, % 红包等级
+        {int, status}, % 红包状态
+        {string, rule}, % 规则
+        {array, red_task, red_task_list} % 任务列表                                               %打开红包后获得的金币
+      ],
+      % 完成任务，获取红包
+      [req_complete_task_and_get_red_envelope],
+      % 完成任务，获取红包响应
+      [notify_complete_task_and_get_red_envelope,
+        {int, is_ok}, % 是否成功 0活动未开始 1成功 2红包未开启 3任务未完成
+        {int64, money}, % 领取红包的金币
+        {int, is_next_open} % 下级红包是否开启
+      ],
+      % 活动领取记录
+      [red_envelope_receive_record,
+        {int64, receive_time}, % 领取时间
+        {string, nickname}, % 玩家昵称
+        {int64, money} % 领取红包的金币
+      ],
+      % 我的领取记录
+      [red_my_receive_record,
+        {int, level}, % 红包等级
+        {int64, money}, % 红包的金币
+        {int, status} % 领取状态 0未领取 1已领取
+      ],
+      % 请求活动领取记录
+      [req_red_envelope_activity_receive_record],
+      % 活动领取记录响应
+      [notify_red_envelope_activity_receive_record,                      %活动领取记录
+        {array, red_envelope_receive_record, red_envelope_receive_record_list} %活动领取记录列表
+      ],
+      % 请求我的领取记录
+      [req_red_envelope_my_receive_record],
+      % 我的领取记录响应
+      [notify_red_envelope_my_receive_record,
+        {int64, total_money}, % 累计领取的金币
+        {int64, pending_money}, % 待领取的金币
+        {array, red_my_receive_record, red_envelope_my_receive_record_list} %我的领取记录列表
+      ],
+
+      % % 请求是否有开启红包资格
+      % [req_whether_can_open_red_envelope                              
+      %   ],
+      % % 通知是否能开启红包
+      %   [notify_whether_can_open_red_envelope,                         
+      %     {int, is_can_open}                                          %是否能开启红包,0不能开,1能开
+      %   ],
+      % % 请求开启红包
+      %   [req_open_red_envelope                                          
+      %   ],
+      % % 开启红包响应
+      %   [notify_open_red_envelope,                                     
+      %     {int64, money}                                                %开启红包后显示该红包等级的金币
+      %   ],
+      % % 请求领取红包
+      %   [req_receive_red_envelope                                          
+      %   ],
+      % % 领取红包响应
+      %   [notify_receive_red_envelope,                                     
+      %     {int64, money}                                                %打开红包后获得的金币
+      %   ],
+      % % 开启红包通知（弹窗）
+      %   [notify_popup_red_envelope,                                     
+      %     {string, username},                                 %玩家用户名
+      %     {string, head_photo}                                %头像id
+      %   ],
+      %   % 点击红包活动按钮获取信息
+      %   [req_red_envelope_info],
+      %   % 通知红包信息
+      %   [notify_red_envelope_info,
+      %     {int, is_open},                                     % 活动是否显示
+      %     {stime, start_time},                                % 活动开始时间
+      %     {stime, end_time},                                  % 活动结束时间
+      %     {int, is_follow_fb},                                % 是否关注facebook
+      %     {int, is_follow_fb_group},                          % 是否关注facebook群组
+      %     {int, is_follow_tg_group},                          % 是否关注tg群组
+      %     {int, is_bind_card},                                % 是否绑定银行卡
+      %     {int64, amount},                                    % 奖金
+      %     {int, status}                                       % 0未参与，1待领奖, 2已参与
+      %   ],
+
     %%%===================================================================================================
     %%% 老虎机比赛相关
     %%%===================================================================================================
-    [proto_slots_match_6600],
+    [proto_slots_match_6700],
       [slots_match_reward,                                  %奖励信息
         {int,rank},                                         %排名
         {int,money_reward},                                 %金币
@@ -4145,8 +4266,7 @@ get_struct_def() ->
       [req_jmp_info],
       [notify_jmp_info,
         {slots_bet, last_bet},                              % 上次投注
-        {slots_bet_list, bet_list},
-        {int, free_spins}                                   % 免费次数
+        {slots_bet_list, bet_list}
       ],
       % 请求旋转
       [req_jmp_spin, {slots_bet, bet}],
@@ -4223,8 +4343,7 @@ get_struct_def() ->
       [req_captain_info],
       [notify_captain_info,
         {slots_bet, last_bet},                             % 上次投注
-        {slots_bet_list, bet_list},                        % 投注列表
-        {int, free_spins}                                 % 免费次数
+        {slots_bet_list, bet_list}                         % 投注列表
       ],
       % 请求旋转
       [req_captain_spin, {slots_bet, bet}],
@@ -4273,8 +4392,7 @@ get_struct_def() ->
       [req_mjhl2_info],
       [notify_mjhl2_info,
         {slots_bet, last_bet},                              % 上次投注
-        {slots_bet_list, bet_list},
-        {int, free_spins}                                   % 免费次数
+        {slots_bet_list, bet_list}
       ],
       % 请求旋转
       [req_mjhl2_spin,{slots_bet, bet}],
@@ -5838,12 +5956,7 @@ get_struct_def() ->
       [req_queen_info],
       [notify_queen_info,
         {slots_bet, last_bet},                              % 上次投注
-        {slots_bet_list, bet_list},                         % 配置信息 
-        {int, free_spins},                                  % 免费次数
-        {int, free_multiple},                               % 免费游戏获得的初始倍数
-        {int, locked_bet},                                  % 免费游戏锁定的下注索引      
-        {int, locked_beishu},                               % 免费游戏锁定的倍数索引
-        {int, choose_count}                                 % 需要玩家选择的免费游戏次数
+        {slots_bet_list, bet_list}                          % 配置信息 
       ],
       [req_queen_free_times,
         {int, times}                                        % 选择的奖金倍数(1, 3, 6)
@@ -5863,6 +5976,17 @@ get_struct_def() ->
         {int, left_free_spins},                             % 剩余免费次数
         {int, new_free_spins}                               % 免费触发免费次数
       ],
+      % 返回上一次结果
+      [notity_queen_last_spin,
+        {uint64, last_money},                               % 最后一把的金额，不管是免费还是付费,有其他额外将池也加在里面 <jackpot, bonus, 转盘，红利游戏等>
+        {uint64, total_money},                              % 普通加免费所有的钱，如果没有免费，就和last_money相等,有其他额外将池也加在里面 <jackpot, bonus, 转盘，红利游戏等>
+        {int, free_spins},                                  % 
+        {int, free_multiple},                               % 
+        {int, locked_bet},
+        {int, locked_beishu},
+        {int, choose_count},
+        {array, int, icon_list}                             % 最后一屏图标
+      ],
     
     %%%===================================================================================================
     %%% 寻宝黄金城
@@ -5871,8 +5995,7 @@ get_struct_def() ->
       [req_treasure_aztec_info],
       [notify_treasure_aztec_info,
         {slots_bet, last_bet},                             % 上次投注
-        {slots_bet_list, bet_list},                        % 投注列表
-        {int, free_spins}                                  % 免费次数
+        {slots_bet_list, bet_list}                         % 投注列表
       ],
       % 请求旋转
       [req_treasure_aztec_spin, {slots_bet, bet}],
@@ -5900,9 +6023,12 @@ get_struct_def() ->
         {int, money}
       ],
       [notity_last_spin_treasure_aztec,
-        {array, az_sym, symbol_list},         % 符文列表
-        {array, s2g, silver2glod_list},       % 银框需要变为金框的符号列表
-        {uint64, money}
+        {array, az_sym, symbol_list},                       % 符文列表
+        {array, s2g, silver2glod_list},                     % 银框需要变为金框的符号列表
+        {uint64, last_money},                               % 最后一把的金额，不管是免费还是付费,有其他额外将池也加在里面 <jackpot, bonus, 转盘，红利游戏等>
+        {uint64, total_money},                              % 普通加免费所有的钱，如果没有免费，就和last_money相等,有其他额外将池也加在里面 <jackpot, bonus, 转盘，红利游戏等>
+        {int, left_free_times},                             % 剩余免费次数, left_free_times 不为0，直接取last_money， 为0 取total_money
+        {int, total_free_times}                             % 当前轮总共获取的免费次数
       ],
 
     %%%===================================================================================================
