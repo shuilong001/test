@@ -27,7 +27,6 @@
     "@vant/touch-emulator": "^1.4.0",
     "@vant/use": "^1.6.0",
     "@vueuse/core": "^13.4.0",
-    "axios": "^1.10.0",
     "bowser": "^2.11.0",
     "idb-keyval": "^6.2.2",
     "lodash-es": "^4.17.21",

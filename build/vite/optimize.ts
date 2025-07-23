@@ -1,7 +1,5 @@
 const include = [
-  'axios',
   'lodash-es',
-  'resize-detector',
   'vant/es',
   'vant/es/cell-group/style/index',
   'vant/es/popup/style/index',
