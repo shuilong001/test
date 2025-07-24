@@ -56,7 +56,7 @@ async function getNewGameUrl() {
   })
   console.log('res----: ', res)
   if (res.code === 0) {
-    router.push(`/game/play/${gameId}`)
+    router.push(`/game/play/${gameId}?agentId=${query.agentId}&venueId=${gameInfo.value.venueId}`)
     gameStore.setGameUrl(res.url)
   }
   else if (res.code === -1) {
@@ -64,11 +64,6 @@ async function getNewGameUrl() {
   }
 }
 
-function handleEnterGame() {
-  console.log('进入游戏')
-  getNewGameUrl()
-  // router.push(`/game/play/${gameId}?agentId=${gameInfo.value.agentId}&venueId=${gameInfo.value.venueId}`)
-}
 onMounted(() => {
   getGameFullInfo()
 })
@@ -78,7 +73,7 @@ onMounted(() => {
   <PageContainer :nav-bar-props="{ title: pageTitle }">
     <div class="p-10 flex flex-col gap-10 items-center justify-center">
       <h1>Game {{ gameInfo.name['zh-CN'] || gameInfo.name['en-US'] }}</h1>
-      <DefaultBtn text="进入游戏" type="primary" @click="handleEnterGame" />
+      <DefaultBtn text="进入游戏" type="primary" @click="getNewGameUrl" />
       <div class="flex flex-col gap-10">
         <div v-for="(value, key) of gameInfo" :key="key" class="flex gap-10 items-baseline">
           <div class="w-60">

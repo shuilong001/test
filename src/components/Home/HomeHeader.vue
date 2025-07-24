@@ -9,6 +9,10 @@ const route = useRoute()
 const userStore = useUserStore()
 const router = useRouter()
 const isLogin = computed(() => userStore.isLogin)
+const checked = computed({
+  get: () => isDark.value,
+  set: () => toggleDark(),
+})
 
 const show = computed(() => {
   return route.name && routeWhiteList.includes(route.name)
@@ -67,7 +71,7 @@ function logout() {
         </div> -->
 
       <!-- 深浅模式切换 -->
-      <!-- <div class="flex items-center">
+      <div class="flex items-center">
         <van-switch
           v-model="checked"
           size="22px"
@@ -75,7 +79,7 @@ function logout() {
           inactive-color="#d1d5db"
           class="md:scale-90"
         />
-      </div> -->
+      </div>
     </div>
   </header>
   <div class="mt-[calc(env(safe-area-inset-top))] min-h-60 hidden md:flex" :class="[show ? '!flex' : 'hidden']" />
