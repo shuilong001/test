@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useTitle } from '@vueuse/core'
-import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 import { useGameStore } from '@/stores/modules/game'
+import { useGame, useGameAction } from '../hooks/useGame'
 
 defineOptions({
   name: 'GamePlay',
@@ -24,9 +24,6 @@ const pageTitle = useTitle()
 
 pageTitle.value = `游戏大厅`
 
-// const gameInfo = computed(() => {
-//   return gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${gameId}`)
-// })
 const iframeRef = ref<HTMLIFrameElement>()
 // function sendToIframe(data: any) {
 //   if (!iframeRef.value)
@@ -35,84 +32,13 @@ const iframeRef = ref<HTMLIFrameElement>()
 //   iframeRef.value?.contentWindow?.postMessage(message, '*')
 // }
 
-const draggableElementRef = ref(null)
-const draggablePopRef = ref(null)
-const showMore = ref(false)
-const popOverRight = ref(false)
-const popOverBottom = ref(false)
-const myCollectedGames = ref<ResMyGames['collected']>([])
-const menuTabs = ref([
-  { name: '充值', key: 'recharge' },
-  { name: '收藏', key: 'collect' },
-  { name: '刷新', key: 'reload' },
-  { name: '退出', key: 'back' },
-])
-
-const newInfo = ref<any>(null)
-
-const gameInfo = computed<Game>(() => {
-  const info = gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${gameId}`)
-  return {
-    ...info,
-    ...newInfo.value,
-  }
+const { getMyGames, getGameFullInfo, myCollectedGames } = useGame({
+  agentId: query.agentId as string,
+  gameId: gameId as string,
+  venueId: query.venueId as string,
 })
 
-const isNeedRoteBtn = computed(() => {
-  // 只有当设置的是横屏游戏,并且是竖屏状态的时候才需要旋转
-  const status = false
-  // if (isPortrait.value && [1, 4].includes(direction.value)) {
-  //   status = true
-  // }
-  document.body.className = status ? 'landscape-view' : 'portrait-view'
-  return status
-})
-function toggleDrag() {
-  showMore.value = !showMore.value
-  if (showMore.value) {
-    nextTick(() => {
-      const currentPos = draggableElementRef.value?.getCurrentPos()
-      const popDom = draggablePopRef.value
-      popOverRight.value = window.innerWidth - currentPos.x < popDom.clientWidth
-      popOverBottom.value = window.innerHeight - currentPos.y < popDom.clientHeight
-    })
-  }
-}
-async function getMyGames() {
-  const data = await wsRequest<ResMyGames>({
-    msgId: NetMsgType.msgType.msg_req_my_games,
-    callbackId: NetMsgType.msgType.msg_notify_req_my_games,
-    needLogin: true,
-  })
-  myCollectedGames.value = data.collected
-}
-const gameCollected = computed(() => {
-  let collected = false
-  const collect = myCollectedGames.value.find(item => `${item.agent_id}-${item.game_id}` === `${gameInfo.value.agentId}-${gameInfo.value.gameId}`)
-  if (collect) {
-    collected = true
-  }
-  return collected
-})
-
-async function getGameFullInfo() {
-  const data = await wsRequest({
-    data: {
-      key: {
-        agent_id: query.agentId || query.venueId,
-        game_id: gameId,
-      },
-    },
-    msgId: NetMsgType.msgType.msg_req_get_game_full_info,
-    callbackId: NetMsgType.msgType.msg_notify_game_full_info,
-    needLogin: true,
-  })
-  newInfo.value = data
-};
-
-function actionBtnHandle(item: any) {
-  console.log('item', item)
-}
+const { draggableElementRef, draggablePopRef, isNeedRoteBtn, gameCollected, menuTabs, showMore, popOverRight, popOverBottom, actionBtnHandle, toggleDrag } = useGameAction(myCollectedGames)
 
 onMounted(() => {
   getMyGames()
