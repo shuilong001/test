@@ -381,7 +381,7 @@ export const useGameStore = defineStore('game-store', {
       }
     },
     // 第三方所有游戏
-    getAllThreeGames: (state) => {
+    getAllThreeGames: (state): (GamePlatform | Game)[] => {
       return state.homeGameData
         .filter(plat => plat.id > 0 && plat.three_platform)
         .flatMap(plat =>

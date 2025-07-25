@@ -45,6 +45,7 @@ async function getRankRecord(round: number) {
       round,
     },
     msgId: NetMsgType.msgType.msg_req_slots_match_record,
+    callbackId: NetMsgType.msgType.msg_notify_req_slots_match_record,
     needLogin: true,
   })
   return data

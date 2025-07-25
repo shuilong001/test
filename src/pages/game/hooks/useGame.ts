@@ -5,9 +5,9 @@ export function useGame(query: { agentId: string, gameId: string, venueId: strin
   const myRecentGames = ref<ResMyGames['recently']>([])
   const myCollectedGames = ref<ResMyGames['collected']>([])
   const gameStore = useGameStore()
-  const newInfo = ref<any>(null)
+  const newInfo = ref<ResGamesFullInfo>()
   // 包含收藏数点赞数的信息
-  const gameInfo = computed<Game>(() => {
+  const gameInfo = computed<(GamePlatform | Game) & ResGamesFullInfo>(() => {
     const info = gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${query.gameId}`)
     return {
       ...info,
@@ -26,7 +26,7 @@ export function useGame(query: { agentId: string, gameId: string, venueId: strin
   }
   // 获取游戏详情,包含收藏数点赞数的信息
   async function getGameFullInfo() {
-    const data = await wsRequest({
+    const data = await wsRequest<ResGamesFullInfo>({
       data: {
         key: {
           agent_id: query.agentId || query.venueId,

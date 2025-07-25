@@ -64,3 +64,41 @@ export interface ResMyGames {
     game_id: string
   }[]
 }
+
+export interface ResGamesFullInfo {
+  /** 游戏ID */
+  three_gameid: {
+    agent_id: number
+    game_id: string
+  }
+  /** 庄家优势 */
+  dealer_advantage: string
+  /** 返奖率（RTP） */
+  rtp: string
+  /** 转轴，例如 "5X4" */
+  reels: string
+  /** 最大盈利 */
+  max_win: number
+  /** 波动性（1.高、2.中、3.低） */
+  volatility: number
+  /** 最小投注 */
+  min_bet: number
+  /** 最大投注 */
+  max_bet: number
+  /** 当日最高盈利 */
+  daily_max_win: number
+  /** 更新时间 */
+  updated_at: string
+  /** 游戏评分 举例"[3,0,0,0,0,3,5]" 1.点赞总人数 2.1星人数 3.2星人数  4.3星人数 5.4星人数  6.5星人数  7.自己评分数 */
+  rating: string
+  /** 货币类型 */
+  money_type: string
+  /** 游戏状态 0,表示未点赞，未收藏  1,表示已点赞，未收藏  2,表示未点赞，已收藏  3,表示已点赞，已收藏 */
+  game_status: number
+  /** 点赞数 */
+  like_count: number
+  /** 收藏数 */
+  favorite_count: number
+  /** 是否是自研游戏 1自研 */
+  custom_game: number
+}
