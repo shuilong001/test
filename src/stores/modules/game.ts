@@ -409,6 +409,6 @@ export const useGameStore = defineStore('game-store', {
   persist: {
     storage: localStorage,
     key: 'game-store',
-    pick: ['gameCache'],
+    pick: ['gameCache', 'gameUrl'],
   },
 })

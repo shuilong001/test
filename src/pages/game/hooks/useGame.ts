@@ -49,7 +49,7 @@ export function useGame(query: { agentId: string, gameId: string, venueId: strin
   }
 }
 
-export function useGameAction(myCollectedGames) {
+export function useGameAction(myCollectedGames, gameInfo) {
   const draggableElementRef = ref(null)
   const draggablePopRef = ref(null)
   const showMore = ref(false)
@@ -80,6 +80,9 @@ export function useGameAction(myCollectedGames) {
   })
   function actionBtnHandle(item: any) {
     console.log('item', item)
+    if (item.key === 'back') {
+      historyBack()
+    }
   }
   function toggleDrag() {
     showMore.value = !showMore.value

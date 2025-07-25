@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useTitle } from '@vueuse/core'
 import { useGameStore } from '@/stores/modules/game'
 import { useGame, useGameAction } from '../hooks/useGame'
+import { useNestedIframe } from '../hooks/useIframe'
 
 defineOptions({
   name: 'GamePlay',
@@ -25,20 +26,21 @@ const pageTitle = useTitle()
 pageTitle.value = `游戏大厅`
 
 const iframeRef = ref<HTMLIFrameElement>()
-// function sendToIframe(data: any) {
-//   if (!iframeRef.value)
-//     return
-//   const message = data
-//   iframeRef.value?.contentWindow?.postMessage(message, '*')
-// }
 
-const { getMyGames, getGameFullInfo, myCollectedGames } = useGame({
+const { getMyGames, getGameFullInfo, myCollectedGames, gameInfo } = useGame({
   agentId: query.agentId as string,
   gameId: gameId as string,
   venueId: query.venueId as string,
 })
 
-const { draggableElementRef, draggablePopRef, isNeedRoteBtn, gameCollected, menuTabs, showMore, popOverRight, popOverBottom, actionBtnHandle, toggleDrag } = useGameAction(myCollectedGames)
+const { draggableElementRef, draggablePopRef, isNeedRoteBtn, gameCollected, menuTabs, showMore, popOverRight, popOverBottom, actionBtnHandle, toggleDrag } = useGameAction(myCollectedGames, gameInfo)
+
+const { isIframeLoaded } = useNestedIframe({
+  iframeRef,
+  iframeSrc: gameUrl,
+}, (event) => {
+  console.log('event-----', event)
+})
 
 onMounted(() => {
   getMyGames()
@@ -64,7 +66,11 @@ onMounted(() => {
         </div>
       </div>
     </DraggableElement>
-
+    <div v-if="!isIframeLoaded" class="flex h-full w-full items-center inset-0 justify-center fixed z-10">
+      <van-loading vertical size="36">
+        <span class="text-16">加载中...</span>
+      </van-loading>
+    </div>
     <iframe
       id="iframeId"
       ref="iframeRef"
