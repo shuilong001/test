@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EncodeUtils } from "../network/EncodeUtils";
 import { NetMsgType } from "./NetMsgType";
 

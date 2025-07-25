@@ -137,7 +137,7 @@ class PWAInstallManager {
  * 处理页面前台/后台切换
  */
 class VisibilityManager {
-  private readonly WS_RECONNECT_DELAY = 1000
+  // private readonly WS_RECONNECT_DELAY = 1000
   private readonly ANDROID_HEIGHT_ADJUST_DELAY = 300
 
   constructor() {}

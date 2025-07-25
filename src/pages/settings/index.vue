@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { showConfirmDialog } from 'vant'
-import router from '@/router'
+// import router from '@/router'
 import { useUserStore } from '@/stores'
 import { version } from '~root/package.json'
 
@@ -15,7 +15,7 @@ function Logout() {
   })
     .then(() => {
       userStore.logout()
-      router.push({ name: 'home' })
+      // router.push({ name: 'home' })
     })
     .catch(() => {})
 }

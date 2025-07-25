@@ -1,5 +1,3 @@
-import request from '@/utils/request'
-
 export interface LoginData {
   email: string
   password: string

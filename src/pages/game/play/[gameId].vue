@@ -127,17 +127,17 @@ onMounted(() => {
       display: flex;
       &.pop-over-right {
         transform: translateX(-68%);
-        background: url(@/assets/images/game-play/bg_right.png) center no-repeat;
+        // background: url(@/assets/images/game-play/bg_right.png) center no-repeat;
         background-size: 100% 100%;
       }
       &.pop-over-bottom {
         transform: translateY(-125%);
-        background: url(@/assets/images/game-play/bg_bottom.png) center no-repeat;
+        // background: url(@/assets/images/game-play/bg_bottom.png) center no-repeat;
         background-size: 100% 100%;
       }
       &.pop-over-bottom-right {
         transform: translateY(-126%) translateX(-68%);
-        background: url(@/assets/images/game-play/bg_bottom_right.png) center no-repeat;
+        // background: url(@/assets/images/game-play/bg_bottom_right.png) center no-repeat;
         background-size: 100% 100%;
       }
     }

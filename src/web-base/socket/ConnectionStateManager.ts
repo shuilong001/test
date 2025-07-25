@@ -1,6 +1,6 @@
 import { WsConnectionState } from './config'
-import { useSystemStore } from '@/stores/modules/system'
-import { usePageStore } from '@/stores/modules/page'
+// import { useSystemStore } from '@/stores/modules/system'
+// import { usePageStore } from '@/stores/modules/page'
 import eventBus from './eventBus'
 
 /**
@@ -51,8 +51,8 @@ export class ConnectionStateManager {
     reconnectCount: 0,
   }
 
-  private systemStore: ReturnType<typeof useSystemStore>
-  private pageStore: ReturnType<typeof usePageStore>
+  // private systemStore: ReturnType<typeof useSystemStore>
+  // private pageStore: ReturnType<typeof usePageStore>
   private stateChangeListeners: Array<(event: IConnectionStateChangeEvent) => void> = []
   private reconnectHistory: Date[] = []
   private connectionStartTime?: Date
@@ -60,8 +60,8 @@ export class ConnectionStateManager {
   private qualityCheckInterval?: NodeJS.Timeout
 
   constructor() {
-    this.systemStore = useSystemStore()
-    this.pageStore = usePageStore()
+    // this.systemStore = useSystemStore()
+    // this.pageStore = usePageStore()
     this.startQualityMonitoring()
   }
 
