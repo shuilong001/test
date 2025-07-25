@@ -2,6 +2,7 @@ import { useGameStore } from '@/stores/modules/game'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 
 export function useGame(query: { agentId: string, gameId: string, venueId: string }) {
+  const myRecentGames = ref<ResMyGames['recently']>([])
   const myCollectedGames = ref<ResMyGames['collected']>([])
   const gameStore = useGameStore()
   const newInfo = ref<any>(null)
@@ -21,7 +22,9 @@ export function useGame(query: { agentId: string, gameId: string, venueId: strin
       needLogin: true,
     })
     myCollectedGames.value = data.collected
+    myRecentGames.value = data.recently
   }
+  // 获取游戏详情,包含收藏数点赞数的信息
   async function getGameFullInfo() {
     const data = await wsRequest({
       data: {
@@ -39,6 +42,7 @@ export function useGame(query: { agentId: string, gameId: string, venueId: strin
 
   return {
     myCollectedGames,
+    myRecentGames,
     gameInfo,
     getMyGames,
     getGameFullInfo,
@@ -68,7 +72,6 @@ export function useGameAction(myCollectedGames) {
   })
   const gameCollected = computed(() => {
     let collected = false
-    console.log('myCollectedGames.value: ', myCollectedGames.value)
     const collect = myCollectedGames.value.find(item => `${item.agent_id}-${item.game_id}` === `${gameInfo.value.agentId}-${gameInfo.value.gameId}`)
     if (collect) {
       collected = true

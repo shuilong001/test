@@ -4,6 +4,7 @@ import { useTitle } from '@vueuse/core'
 import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 import { useGameStore } from '@/stores/modules/game'
 import { showToast } from 'vant'
+import { useGame } from '../game/hooks/useGame'
 
 defineOptions({
   name: 'GameDetail',
@@ -16,31 +17,12 @@ const query = route.query
 const pageTitle = useTitle()
 
 pageTitle.value = `游戏详情${gameId}`
-
-const newInfo = ref<any>(null)
-
-const gameInfo = computed(() => {
-  const info = gameStore.getAllThreeGames.find(item => `${item.agentId}-${item.gameId}` === `${query.agentId}-${gameId}`)
-  return {
-    ...info,
-    ...newInfo.value,
-  }
+const { getGameFullInfo, gameInfo } = useGame({
+  agentId: query.agentId as string,
+  gameId: gameId as string,
+  venueId: query.venueId as string,
 })
 
-async function getGameFullInfo() {
-  const data = await wsRequest({
-    data: {
-      key: {
-        agent_id: query.agentId || query.venueId,
-        game_id: gameId,
-      },
-    },
-    msgId: NetMsgType.msgType.msg_req_get_game_full_info,
-    callbackId: NetMsgType.msgType.msg_notify_game_full_info,
-    needLogin: true,
-  })
-  newInfo.value = data
-};
 async function getNewGameUrl() {
   const res = await wsRequest({
     data: {

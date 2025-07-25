@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useTitle } from '@vueuse/core'
-import { NetMsgType } from '@/web-base/netBase/NetMsgType'
 import { useGameStore } from '@/stores/modules/game'
-import type { ResMyGames } from '@/types/net-packet'
+import { useGame } from '../game/hooks/useGame'
 
 defineOptions({
   name: 'GameCategory',
@@ -13,18 +12,11 @@ const pageTitle = useTitle()
 
 pageTitle.value = `游戏分类`
 
-// 最近访问
-const myRecentGames = ref<ResMyGames['recently']>([])
-const myCollectedGames = ref<ResMyGames['collected']>([])
-async function getMyGames() {
-  const data = await wsRequest<ResMyGames>({
-    msgId: NetMsgType.msgType.msg_req_my_games,
-    callbackId: NetMsgType.msgType.msg_notify_req_my_games,
-    needLogin: true,
-  })
-  myRecentGames.value = data.recently
-  myCollectedGames.value = data.collected
-}
+const { getMyGames, myCollectedGames } = useGame({
+  agentId: '',
+  gameId: '',
+  venueId: '',
+})
 
 onMounted(() => {
   getMyGames()
@@ -43,17 +35,15 @@ function handleEnterGame(game) {
 <template>
   <PageContainer :nav-bar-props="{ title: pageTitle }">
     <div class="p-10 py-16 flex flex-col justify-center">
-      <div>
-        <van-cell-group>
-          <van-cell v-for="game in collectedGames" :key="game.gameId" :title="game.name['zh-CN'] || game.name['en-US']" :label="game.gameId">
-            <template #right-icon>
-              <van-button type="primary" size="small" @click="handleEnterGame(game)">
-                游戏详情
-              </van-button>
-            </template>
-          </van-cell>
-        </van-cell-group>
-      </div>
+      <van-cell-group>
+        <van-cell v-for="game in collectedGames" :key="game.gameId" :title="game.name['zh-CN'] || game.name['en-US']" :label="game.gameId">
+          <template #right-icon>
+            <van-button type="primary" size="small" @click="handleEnterGame(game)">
+              游戏详情
+            </van-button>
+          </template>
+        </van-cell>
+      </van-cell-group>
     </div>
   </PageContainer>
 </template>
