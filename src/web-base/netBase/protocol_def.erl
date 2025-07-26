@@ -4132,6 +4132,11 @@ get_struct_def() ->
         {int,money_reward},                                 %金币
         {int,free_reward}                                   %免费次数
       ],
+      [slots_match_rank_reward,
+        {slots_match_reward,reward},                        %奖励信息
+        {uint64,score},                                     %积分
+        {string,name}                                       %昵称
+      ],
       [slots_match_item,                                    %各期比赛
         {string,match_name},                                %比赛名称
         {int,round}                                         %期数 20250001
@@ -4170,11 +4175,12 @@ get_struct_def() ->
         {int64, end_time},                                  %结束时间
         {int,involved_game},                                %游戏配置 游戏房间id
         {int,spin_count},                                   %旋转次数
-        {array,slots_match_reward,rank_reward},             %排名奖励[{排名,金币奖励,免费旋转},{排名,金币奖励,免费旋转}]
+        {array,slots_match_rank_reward,rank_reward},        %排名奖励[{排名,金币奖励,免费旋转},{排名,金币奖励,免费旋转}]
         {array,slots_match_reward,luck_reward},             %幸运奖励[{排名,金币奖励,免费旋转},{排名,金币奖励,免费旋转}]
         {int,status},                                       %活动状态(0 未开始 1进行中 2暂停 3 结束
         {int,player_num},                                   %参赛人数  
-        {int,qualifying}                                    %参赛资格 0还未报名 1已报名 2未登录
+        {int,qualifying},                                   %参赛资格 0还未报名 1已报名 2未登录
+        {int,count}                                         % 剩余次数
       ],
       [req_slots_match_signup,                              %报名参赛
         {int,round}                                         %查询哪一期
@@ -4207,8 +4213,8 @@ get_struct_def() ->
       [notify_slots_match_result,                           % 领取奖励
         {int,status},                                       % 0没有奖励 1待审核 2拒绝 3通过 4已领取
         {int,match_status},                                 % 1比赛中 2比赛结束 
-        {slots_match_rank_item,self_rank},                   % 自己排名信息
-        {array,slots_match_rank_item,rank_list}            % 排行榜
+        {slots_match_rank_item,self_rank},                  % 自己排名信息
+        {array,slots_match_rank_item,rank_list}             % 排行榜
       ],
       [req_slots_match_reward,                              %领取奖励
         {int,round}                                         %领取哪一期的奖励
@@ -4216,6 +4222,12 @@ get_struct_def() ->
       [notify_slots_match_reward,                           % 领取奖励
         {int,status},                                       % 0没有奖励 1待审核 2拒绝 3通过 4已领取 5领取成功
         {slots_match_reward,reward_info}
+      ],
+      [req_slots_match_num,                                 %领取奖励
+        {int,round}                                         %领取哪一期的奖励
+      ],
+      [notify_slots_match_num,                              % 
+        {int,count}                                         % 人数
       ],
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%    ######      ###    ##     ## ########    ########  ######## ##        #######  ##      ##   %%%

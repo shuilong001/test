@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { EncodeUtils } from "../network/EncodeUtils";
 import { NetMsgType } from "./NetMsgType";
 
@@ -26576,6 +26575,41 @@ export module NetPacket
 		};
     	return tb;
 	}
+    export function slots_match_rank_reward()
+    {
+        let tb = {
+    	    reward : slots_match_reward(),
+    	    score : 0,
+    	    name : '',
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_slots_match_rank_reward"];
+    		},
+		    encode:function(buf)
+		    {
+        		tb.reward.encode(buf);
+    			EncodeUtils.int64ToByte(tb.score, buf);
+    			EncodeUtils.utf8StrtoBytes(tb.name, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		startIndex += tb.reward.decode(buf, startIndex);
+        		tb.score = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+ 				startIndex += name_value[1];
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_slots_match_rank_reward"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
     export function slots_match_item()
     {
         let tb = {
@@ -26804,6 +26838,7 @@ export module NetPacket
     	    status : 0,
     	    player_num : 0,
     	    qualifying : 0,
+    	    count : 0,
 			getMsgID:function()
 			{
    				return NetMsgType.msgType["msg_notify_slots_match_info"];
@@ -26835,6 +26870,7 @@ export module NetPacket
     		    EncodeUtils.int32ToByte(tb.status, buf);
     		    EncodeUtils.int32ToByte(tb.player_num, buf);
     		    EncodeUtils.int32ToByte(tb.qualifying, buf);
+    		    EncodeUtils.int32ToByte(tb.count, buf);
     	    },
     		decode:function(buf, index)
 			{
@@ -26873,7 +26909,7 @@ export module NetPacket
         		startIndex += 2;
         		for(let i = 0; i < rank_reward_len; ++i)
 				{
-            		let tmp = slots_match_reward();
+            		let tmp = slots_match_rank_reward();
             		startIndex += tmp.decode(buf, startIndex);
             		tb.rank_reward.push(tmp);
         		}
@@ -26890,6 +26926,8 @@ export module NetPacket
         		tb.player_num = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
         		tb.qualifying = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+        		tb.count = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -27237,6 +27275,60 @@ export module NetPacket
     		build:function(buf)
 			{
         		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_slots_match_reward"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function req_slots_match_num()
+    {
+        let tb = {
+    	    round : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_req_slots_match_num"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.round, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.round = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_slots_match_num"], buf);
+        		return tb.encode(buf);
+    		}
+		};
+    	return tb;
+	}
+    export function notify_slots_match_num()
+    {
+        let tb = {
+    	    count : 0,
+			getMsgID:function()
+			{
+   				return NetMsgType.msgType["msg_notify_slots_match_num"];
+    		},
+		    encode:function(buf)
+		    {
+    		    EncodeUtils.int32ToByte(tb.count, buf);
+    	    },
+    		decode:function(buf, index)
+			{
+				let startIndex = index;
+        		tb.count = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+    		build:function(buf)
+			{
+        		EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_slots_match_num"], buf);
         		return tb.encode(buf);
     		}
 		};

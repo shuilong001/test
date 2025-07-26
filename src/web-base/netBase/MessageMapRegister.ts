@@ -727,6 +727,7 @@ export module MessageMapRegister
      	MessageMap.addMsgMap(NetPacket.req_red_envelope_my_receive_record);
      	MessageMap.addMsgMap(NetPacket.notify_red_envelope_my_receive_record);
      	MessageMap.addMsgMap(NetPacket.slots_match_reward);
+     	MessageMap.addMsgMap(NetPacket.slots_match_rank_reward);
      	MessageMap.addMsgMap(NetPacket.slots_match_item);
      	MessageMap.addMsgMap(NetPacket.slots_match_rank_item);
      	MessageMap.addMsgMap(NetPacket.slots_match_record_item);
@@ -744,6 +745,8 @@ export module MessageMapRegister
      	MessageMap.addMsgMap(NetPacket.notify_slots_match_result);
      	MessageMap.addMsgMap(NetPacket.req_slots_match_reward);
      	MessageMap.addMsgMap(NetPacket.notify_slots_match_reward);
+     	MessageMap.addMsgMap(NetPacket.req_slots_match_num);
+     	MessageMap.addMsgMap(NetPacket.notify_slots_match_num);
      	MessageMap.addMsgMap(NetPacket.req_slots_info);
      	MessageMap.addMsgMap(NetPacket.notify_slots_info);
      	MessageMap.addMsgMap(NetPacket.req_slots_spin);
