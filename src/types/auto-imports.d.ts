@@ -1475,7 +1475,7 @@ declare global {
   export type { MenuItem, MenuEvent } from './menu'
   import('./menu')
   // @ts-ignore
-  export type { PacketBase, ReqLoginPacket, ResLoginPacket, ResNodifyLoginPacket, ResNodifyUserInfo, ResMyGames, ResGamesFullInfo } from './net-packet'
+  export type { PacketBase, ReqLoginPacket, ResLoginPacket, ResNodifyLoginPacket, ResNodifyUserInfo, ResMyGames, ResGamesFullInfo, ResVipInfo, ResUserInfo, ResRoleInfo } from './net-packet'
   import('./net-packet')
   // @ts-ignore
   export type { SlotsMatchListPayload, VersionCheckPayload, WsEventNameType, WsEvents } from './ws-events'
