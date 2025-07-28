@@ -23,6 +23,79 @@ async function diffOfflineFunc(res: any) {
   //   });
 }
 
+/* 公告消息 */
+async function onHander_system_notice(message: any) {
+  if (Local.get('show_notice') === 0) { // 不展示公告，只有手动登录时才展示
+    return
+  }
+  Local.set('show_notice', 0)
+  if (message.notice_list?.length) {
+    const dialogList: any = message.notice_list.filter((item: any) => item.position === 1)
+    const paomaList: any = message.notice_list.filter((item: any) => item.position === 0)
+    // 弹窗公告
+    let localIds = [] // 本地记录的不再显示
+    try {
+      localIds = JSON.parse(localStorage.getItem('readed_notice_ids') || '[]')
+    }
+    catch {
+      localIds = []
+    }
+    const list: any = dialogList
+      .filter((item: any) => !localIds.includes(item.title))
+      .sort((a: any, b: any) => {
+        return b.priority - a.priority
+      })
+    if (list.length) {
+      // await getLocale(settings.value);
+      // await user.setNoticeList(list);
+      // user.setNotice(true);
+      // noticeRef.value && noticeRef.value.open();
+    }
+    // 轮播公告
+    paomaList.forEach((item: any) => {
+      console.error('轮播公告', item)
+      // page.setTextAnnouncementMore(t(item.title) + " - " + t(item.content));
+    })
+  }
+}
+
+/* 系统消息通知 */
+async function onHandler_system_msg(m: any) {
+  if (m.code === 903) {
+    if (m.Params[0] === 1) {
+      // 弹窗公告
+      try {
+        // const list: any = [
+        //   {
+        //     content: `${m.Params[3]}`,
+        //     title: `${m.Params[2]}`,
+        //     position: 1,
+        //     priority: m.priority,
+        //     type: m.Params[1],
+        //   },
+        // ];
+        // await getLocale(settings.value);
+        // await user.setNoticeList(list);
+        // user.setNotice(true);
+        // noticeRef.value && noticeRef.value.open();
+      }
+      catch { }
+    }
+  }
+  else {
+    if (m.Params && m.Params.length === 6) {
+      // 跑马灯
+      // ***[0]*** 在 [3] 获得 [4] 金币奖励！
+      // const str = t("home_notice_mixtext", {
+      //   user: `${m.Params[0]?.substr(0, 4)}***`,
+      //   game: m.Params[3] ? t(m.Params[3]) : "",
+      //   money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0,
+      // });
+      // page.setTextAnnouncementMore(str);
+    }
+  }
+}
+
 /* 打开游戏 */
 async function gameUrlResult(message: any) {
   // 在游戏页面不需要做回调处理
@@ -48,6 +121,32 @@ async function gameUrlResult(message: any) {
   //   }
 }
 
+/* 获取到的所有收藏的游戏id集合 */
+async function resAllCollect(data: any) {
+  console.error('获取到的收藏的游戏id集合', data)
+  // await User(pinia).getCollected(data.collected);
+}
+
+/* 收藏/取消收藏游戏操作的反馈 */
+const allCollected = computed(() => []) // 所有已收藏的数据
+async function resCollect(data: any) {
+  if (data.rlt === 0) {
+    // 这里原来是根据 本地缓存的id 来判断是否收藏成功还是取消收藏 可以看看是否有更合理的方式
+    console.error('收藏/取消收藏游戏操作的反馈', data, allCollected.value)
+  }
+  else if (data.rlt === 1) {
+    // 收藏达到上限
+  }
+  else {
+    // 未知错误
+  }
+}
+
+/* 返回的用户角色详情 */
+async function handleRoleInfo(data: any) {
+  console.error('返回的用户角色信息', data)
+}
+
 export function useGlobalEvent() {
   /* 监听一些全局事件 */
   function initEventBus() {
@@ -58,11 +157,21 @@ export function useGlobalEvent() {
 
     // 异地登录提醒
     eventBus.on('msg_notify_diff_loc_login_notification', diffOfflineFunc)
+    // 公告信息
+    eventBus.on('msg_notify_send_system_notice', onHander_system_notice)
+    // 系统消息
+    eventBus.on('msg_notify_sys_msg', onHandler_system_msg)
 
     /* ----- 下方是发起协议后获得的数据事件 ----- */
 
-    // 获取第三方游戏返回url（打开游戏）
+    // 获取到的第三方游戏返回url（打开游戏）
     eventBus.on('msg_notify_3rd_game_login_result', gameUrlResult)
+    // 获取到的收藏的游戏id集合
+    eventBus.on('msg_notify_all_collected', resAllCollect)
+    // 添加到收藏的反馈
+    eventBus.on('msg_notify_modify_collect', resCollect)
+    // 返回的用户角色信息
+    eventBus.on('msg_notify_roleinfo_msg', handleRoleInfo)
 
     /* ----- 下方是一些系统流程相关的事件 ----- */
 
