@@ -44,7 +44,7 @@ const mainContentClass = computed(() => {
           </template>
         </NavBar>
         <slot name="header-sticky">
-          <HomeHeader />
+          <!-- <HomeHeader /> -->
         </slot>
       </div>
     </slot>

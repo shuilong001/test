@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { DemoDialog, DemoModal } from '@/components/Modal'
-
 defineOptions({
   name: 'Home',
 })
@@ -9,46 +6,49 @@ defineOptions({
 onActivated(() => {
   console.log('onActivated')
 })
-const router = useRouter()
-
-function handleClick(key: string) {
-  if (key === 'modal') {
-    console.log('DemoModal: ', DemoModal)
-    DemoModal.show({
-      title: 'modal',
-      content: 'modal content',
-    })
-  }
-  else if (key === 'dialog') {
-    console.log('DemoDialog: ', DemoDialog)
-    DemoDialog.show({
-      title: 'dialog',
-      content: 'dialog content',
-    })
-  }
-  else if (key === 'category') {
-    router.push({ path: `/game/category` })
-  }
-  else {
-    router.push({ path: `/demo/${key}` })
-  }
-}
 </script>
 
 <template>
-  <PageContainer :has-header="false" content-class="pt-16">
-    <div class="px-16">
-      <van-cell title="swiper" is-link @click="handleClick('swiper')" />
-      <van-cell title="图片懒加载" is-link @click="handleClick('image')" />
-      <van-cell title="modal" is-link @click="handleClick('modal')" />
-      <van-cell title="dialog" is-link @click="handleClick('dialog')" />
-      <van-cell title="下拉刷新" is-link @click="handleClick('pull')" />
-      <van-cell title="游戏分类页" is-link @click="handleClick('category')" />
-      <div class="py-16">
-        测试滚动
+  <PageContainer :has-header="false">
+    <div class="px-11 pt-24 flex w-full items-center top-0 justify-between absolute z-1">
+      <img src="@/assets/images/home/mobile-logo.png" alt="logo" class="h-35">
+      <div class="flex gap-15 items-center">
+        <div class="text-size-16 text-#fff rounded-10 flex h-32 w-80 items-center justify-center from-[#2E323D] to-[#24272E] bg-linear-to-r">
+          Log In
+        </div>
+        <div class="text-size-16 text-#000 rounded-10 bg-#FFFFFF flex h-32 w-80 items-center justify-center">
+          Sign Up
+        </div>
       </div>
-      <div v-for="i in 100" :key="i" class="p-10">
-        {{ i }}
+    </div>
+    <div class="h-478 w-full">
+      <van-swipe :autoplay="3000" lazy-render>
+        <van-swipe-item>
+          <img src="@/assets/images/home/mobile-header-bg.png" alt="" class="h-full w-full">
+          <div class="flex flex-col gap-10 items-end right-57 top-157 absolute">
+            <img src="@/assets/images/home/mobile-big-logo.png" alt="" class="h-171 w-159">
+            <img src="@/assets/images/home/text.png" alt="" class="h-24 w-211">
+            <div class="text-size-18 text-white font-extrabold rounded-full flex-center h-43 w-135 from-[#0B59DF] to-[#0241C3] bg-linear-to-r">
+              Go to
+            </div>
+          </div>
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/images/home/mobile-header-bg.png" alt="" class="h-full w-full">
+        </van-swipe-item>
+        <van-swipe-item>
+          <img src="@/assets/images/home/mobile-header-bg.png" alt="" class="h-full w-full">
+        </van-swipe-item>
+        <template #indicator="{ active, total }">
+          <div class="flex gap-10 items-center bottom-30 left-1/2 justify-center absolute -translate-x-1/2">
+            <div v-for="item in total" :key="item" class="rounded-full bg-#959593 flex h-10 w-10 items-center" :class="{ 'w-41 bg-#FFFFFD': active === item - 1 }" />
+          </div>
+        </template>
+      </van-swipe>
+    </div>
+    <div class="mt-20 px-11 flex flex-col gap-10">
+      <div v-for="item in 30" :key="item">
+        滚动测试----滚动测试---滚动测试---滚动测试---滚动测试{{ item }}
       </div>
     </div>
   </PageContainer>
