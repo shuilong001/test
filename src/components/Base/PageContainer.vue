@@ -1,6 +1,7 @@
 <script setup lang="tsx"  generic="T">
 import type { NavBarPropsType } from './NavBar.vue'
 import { useAppStore } from '@/stores/modules/app'
+import { useResize } from '@/hooks/useResize'
 
 const props = withDefaults(defineProps<{
   hasHeader?: boolean
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<{
 })
 const appStore = useAppStore()
 props.isPage && useTabBar(() => props.hasFooter)
+const { isDesktop } = useResize()
 
 const contentStyle = computed(() => {
   return {
@@ -44,7 +46,7 @@ const mainContentClass = computed(() => {
           </template>
         </NavBar>
         <slot name="header-sticky">
-          <!-- <HomeHeader /> -->
+          <HomeHeader v-if="isDesktop" />
         </slot>
       </div>
     </slot>

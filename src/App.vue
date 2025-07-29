@@ -25,7 +25,7 @@ const routeCacheStore = useRouteCacheStore()
 const systemStore = useSystemStore()
 const { cleanupEventBus } = useAppSetting()
 const { initEventBus } = useGlobalEvent()
-
+const { isDesktop } = useResize()
 const { loadGameData } = useAppData()
 
 onMounted(() => {
@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
         <component :is="Component" />
       </keep-alive>
     </router-view>
-    <TabBar />
+    <TabBar v-if="!isDesktop" />
     <InstallPrompt />
   </van-config-provider>
 </template>
