@@ -16,8 +16,8 @@ export default {
     // https://github.com/wswmsword/postcss-mobile-forever
     'postcss-mobile-forever': {
       appSelector: '#app',
-      viewportWidth: 375,
-      maxDisplayWidth: 375,
+      viewportWidth: 440,
+      maxDisplayWidth: 440,
       // rootContainingBlockSelectorList,
     },
   },

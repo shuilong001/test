@@ -39,7 +39,7 @@ interface PageState {
 
 export const usePageStore = defineStore('page-store', {
   state: (): PageState => ({
-    homePath: '/home',
+    homePath: '/',
     settings: null,
 
     // 下面是暂时项目没用到的数据，后续看情况删除
