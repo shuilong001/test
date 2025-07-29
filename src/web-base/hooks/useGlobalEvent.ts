@@ -96,6 +96,34 @@ async function onHandler_system_msg(m: any) {
   }
 }
 
+/* 余额变化1 */
+async function handleUpdateMoney1(data: any) {
+  console.error('余额变化1', data)
+}
+
+/* 余额变化2 */
+async function handleUpdateMoney2(data: any) {
+  console.error('余额变化2', data)
+}
+
+/* 邮件列表 */
+async function handleEmailInfo(rs: any) {
+  console.error('返回的邮件列表', rs)
+  /*
+    list: 消息中心数据
+    rewardList: 奖励邮箱数据
+    email_readed: 已读
+    email_unget: 未领取
+    hasNoRead: 是否有未读邮件
+    hasNoReceive: 是否有未领取奖励
+  */
+}
+
+/* 新邮件 */
+async function handleNewEmail(rs: any) {
+  console.error('新邮件', rs)
+}
+
 /* 打开游戏 */
 async function gameUrlResult(message: any) {
   // 在游戏页面不需要做回调处理
@@ -147,6 +175,23 @@ async function handleRoleInfo(data: any) {
   console.error('返回的用户角色信息', data)
 }
 
+/* 返回的用户基础信息 */
+async function handleUserInfo(data: any) {
+  console.error('返回的用户基础信息', data)
+}
+
+/* 返回的用户会员信息 */
+async function handleVipInfo(data: any) {
+  console.error('返回的用户会员信息', data)
+}
+
+/* 充值成功，弹出提示 */
+async function handleDepositSuc(data: any) {
+  if (data?.amount) {
+    // showNotify.success(t("deposit_page_depSuccess")); // 充值成功需要弹出提示
+  }
+}
+
 export function useGlobalEvent() {
   /* 监听一些全局事件 */
   function initEventBus() {
@@ -161,6 +206,14 @@ export function useGlobalEvent() {
     eventBus.on('msg_notify_send_system_notice', onHander_system_notice)
     // 系统消息
     eventBus.on('msg_notify_sys_msg', onHandler_system_msg)
+    // 余额变化1
+    eventBus.on('msg_notify_roleinfo_with_id', handleUpdateMoney1)
+    // 余额变化2
+    eventBus.on('msg_notify_money_update2', handleUpdateMoney2)
+    // 返回的邮件列表
+    eventBus.on('msg_notify_email_list', handleEmailInfo)
+    // 监听新邮件
+    eventBus.on('msg_notify_new_email', handleNewEmail)
 
     /* ----- 下方是发起协议后获得的数据事件 ----- */
 
@@ -172,6 +225,12 @@ export function useGlobalEvent() {
     eventBus.on('msg_notify_modify_collect', resCollect)
     // 返回的用户角色信息
     eventBus.on('msg_notify_roleinfo_msg', handleRoleInfo)
+    // 返回的用户基础信息
+    eventBus.on('msg_notify_user_info', handleUserInfo)
+    // 返回的用户会员信息
+    eventBus.on('msg_notify_vip_info', handleVipInfo)
+    // 充值成功
+    eventBus.on('msg_notify_recharge_success_from_third', handleDepositSuc)
 
     /* ----- 下方是一些系统流程相关的事件 ----- */
 
