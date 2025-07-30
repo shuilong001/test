@@ -17,7 +17,6 @@ const router = useRouter()
 const activeMenu = computed(() => appStore.activeMenu)
 const sidebarCollapsed = computed(() => appStore.sidebarCollapsed)
 const expandedMenus = ref(['casino'])
-const mobileMenuOpen = computed(() => appStore.mobileMenuOpen)
 const activeMobileDropdown = ref('')
 
 // 视口监听
@@ -84,6 +83,11 @@ const menuItems = reactive<MenuItem[]>([
   },
 ])
 
+const checked = computed({
+  get: () => isDark.value,
+  set: () => toggleDark(),
+})
+
 // 视口监听函数
 function updateWindowWidth() {
   windowWidth.value = window.innerWidth
@@ -124,22 +128,9 @@ function handlePCMenuClick(item: MenuItem) {
   }
 }
 
-function handleMobileMenuClick(item: MenuItem) {
-  if (item.children) {
-    activeMobileDropdown.value = activeMobileDropdown.value === item.id ? '' : item.id
-  }
-  else {
-    appStore.activeMenu = item.id
-    activeMobileDropdown.value = ''
-    appStore.mobileMenuOpen = false
-    showToast(`已切换到: ${item.name}`)
-  }
-}
-
 function handleSubmenuClick(child: MenuItem) {
   appStore.activeMenu = child.id
   activeMobileDropdown.value = ''
-  appStore.mobileMenuOpen = false
   showToast(`选择子菜单: ${child.name}`)
 }
 
@@ -156,55 +147,19 @@ function handleRedirect(item: any) {
 </script>
 
 <template>
-  <div>
-    <!-- 移动端下拉菜单 -->
-    <div v-if="mobileMenuOpen" class="border-b border-gray-200 bg-white transform transition-colors transition-transform duration-300 duration-300 left-0 right-0 top-60 fixed z-40 dark:border-gray-700 dark:bg-gray-800 md:hidden">
-      <div class="max-h-[calc(100vh-5rem)] overflow-y-auto">
-        <div v-for="item in menuItems" :key="item.id" class="border-b border-gray-100 dark:border-gray-700/50">
-          <div
-            class="px-6 py-4 flex cursor-pointer transition-colors items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700"
-            :class="{ 'bg-gray-100 text-green-600 dark:bg-gray-700 dark:text-green-400': activeMenu === item.id }"
-            @click="handleMobileMenuClick(item)"
-          >
-            <div class="flex gap-4 items-center">
-              <span class="text-size-20" v-html="item.icon" />
-              <span class="text-size-16 text-gray-900 font-medium dark:text-white">{{ item.name }}</span>
-            </div>
-            <div v-if="item.children" class="text-gray-400 transition-transform dark:text-gray-500" :class="{ 'rotate-90': activeMobileDropdown === item.id }">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" />
-              </svg>
-            </div>
-          </div>
-
-          <!-- 移动端子菜单下拉 -->
-          <div v-if="item.children && activeMobileDropdown === item.id" class="animate-slideDown bg-gray-50 dark:bg-gray-900/80">
-            <div
-              v-for="child in item.children"
-              :key="child.id"
-              class="px-10 py-3 flex gap-4 cursor-pointer transition-colors items-center hover:bg-gray-100 dark:hover:bg-gray-700"
-              :class="{ 'bg-gray-100 text-green-600 dark:bg-gray-700 dark:text-green-400': activeMenu === child.id }"
-              @click="handleSubmenuClick(child)"
-            >
-              <span class="text-size-18" v-html="child.icon" />
-              <span class="text-size-14 text-gray-800 dark:text-gray-200">{{ child.name }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PC端左侧菜单栏 -->
-    <aside class="border-r border-gray-200 bg-white h-[calc(100vh-60px)] hidden hidden transition-all transition-colors duration-300 duration-300 left-0 top-60 fixed z-40 overflow-y-auto dark:border-gray-700 dark:bg-gray-800 md:block md:block" :class="sidebarWidth">
+  <div :class="sidebarWidth" class="border-r border-gray-200 border-gray-700 bg-gray-800 flex-col h-[calc(100vh-60px)] hidden left-0 top-60 justify-between fixed z-40 overflow-y-auto md:flex">
+    <aside class="flex-1">
       <!-- 显示TabBarList -->
       <div v-if="TabBarList.length > 0" class="border-b border-gray-200 flex flex-col gap-4 dark:border-gray-700/30">
-        <div v-for="item in TabBarList" :key="item.name" class="px-16 py-8 rounded-lg flex flex-center gap-16 cursor-pointer transition-all items-center hover:bg-gray-50 dark:hover:bg-gray-700" @click="handleRedirect(item)">
-          <div :class="item.icon" class="text-size-20" />
-          <span v-if="!sidebarCollapsed" class="text-size-16 text-gray-700 font-medium flex-1 transition-all transition-colors duration-300 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">{{ item.name }}</span>
+        <div v-for="item in TabBarList" :key="item.name" class="px-16 py-8 rounded-lg flex gap-16 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700" @click="handleRedirect(item)">
+          <!-- <div v-if="item.icon" :class="item.icon" class="text-size-20" /> -->
+          <div class="text-size-16 text-gray-700 font-medium dark:text-gray-200">
+            {{ item.name }}
+          </div>
         </div>
       </div>
       <!-- PC菜单项 -->
-      <nav class="py-3">
+      <nav class="m-8 py-3 rounded-10 bg-#161B30">
         <div
           v-for="item in menuItems"
           :key="item.id"
@@ -228,7 +183,7 @@ function handleRedirect(item: any) {
           </div>
 
           <!-- PC端子菜单 -->
-          <div v-if="item.children && expandedMenus.includes(item.id) && !sidebarCollapsed" class="px-16 py-8 rounded-lg bg-gray-50 dark:bg-gray-900/50">
+          <div v-if="item.children && expandedMenus.includes(item.id) && !sidebarCollapsed" class="px-16 py-8">
             <div
               v-for="child in item.children"
               :key="child.id"
@@ -248,5 +203,19 @@ function handleRedirect(item: any) {
         点击展开菜单
       </div>
     </aside>
+    <div class="px-16 pb-16 flex flex-col gap-16 w-full">
+      <div>Online customer service</div>
+      <div>Simplified Chinese</div>
+      <div class="flex gap-16 items-center">
+        <div>Theme</div>
+        <van-switch
+          v-model="checked"
+          size="22px"
+          active-color="#22c55e"
+          inactive-color="#d1d5db"
+          class="md:scale-90"
+        />
+      </div>
+    </div>
   </div>
 </template>
