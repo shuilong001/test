@@ -4,6 +4,7 @@ defineOptions({
 })
 
 const { isDesktop } = useResize()
+const router = useRouter()
 
 onActivated(() => {
   console.log('onActivated')
@@ -15,10 +16,10 @@ onActivated(() => {
     <div class="px-11 pt-24 flex w-full items-center top-0 justify-between absolute z-1 md:hidden">
       <img src="@/assets/images/home/mobile-logo.png" alt="logo" class="h-35">
       <div class="flex gap-15 items-center">
-        <div class="text-size-16 text-#fff rounded-10 flex h-32 w-80 items-center justify-center from-[#2E323D] to-[#24272E] bg-linear-to-r">
+        <div class="text-size-16 text-#fff rounded-10 flex h-32 w-80 items-center justify-center from-[#2E323D] to-[#24272E] bg-linear-to-r" @click="router.push('/login')">
           Log In
         </div>
-        <div class="text-size-16 text-#000 rounded-10 bg-#FFFFFF flex h-32 w-80 items-center justify-center">
+        <div class="text-size-16 text-#000 rounded-10 bg-#FFFFFF flex h-32 w-80 items-center justify-center" @click="router.push('/login')">
           Sign Up
         </div>
       </div>

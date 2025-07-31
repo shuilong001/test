@@ -75,7 +75,7 @@ watch([() => userStore.isLogin, () => loading.value], ([isLogin, loadingVal]) =>
   if (isLogin && loadingVal) {
     const { redirect, ...othersQuery } = router.currentRoute.value.query
     router.push({
-      path: (redirect as string) || '/home',
+      path: (redirect as string) || '/',
       query: {
         ...othersQuery,
       },
