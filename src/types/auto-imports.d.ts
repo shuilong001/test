@@ -6,14 +6,20 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const AgentType: typeof import('./game')['AgentType']
   const EffectScope: typeof import('vue')['EffectScope']
+  const GameSortType: typeof import('./game')['GameSortType']
+  const GameType: typeof import('./game')['GameType']
   const IP: typeof import('../web-base/utils/useStoreMethods')['IP']
   const Local: typeof import('../web-base/utils/storage')['Local']
+  const LotteryTypeList: typeof import('./game')['LotteryTypeList']
   const PageContainerPropsType: typeof import('@/web_base/src/components/PageContainer.vue')['PageContainerPropsType']
   const REQUEST_TOKEN_KEY: typeof import('../utils/request')['REQUEST_TOKEN_KEY']
   const Session: typeof import('../web-base/utils/storage')['Session']
+  const ThirdGameLangMap: typeof import('./game')['ThirdGameLangMap']
   const WsEventName: typeof import('./ws-events')['WsEventName']
   const WsRequestError: typeof import('../composables/useWsRequest')['WsRequestError']
+  const ZiYanGame: typeof import('./game')['ZiYanGame']
   const accounting_change_record: typeof import('../web-base/netBase/NetPacket')['accounting_change_record']
   const action_info: typeof import('../web-base/netBase/NetPacket')['action_info']
   const activity_info: typeof import('../web-base/netBase/NetPacket')['activity_info']
@@ -1470,7 +1476,7 @@ declare global {
   export type { WsRequestError, WsRequestConfig } from '../composables/useWsRequest'
   import('../composables/useWsRequest')
   // @ts-ignore
-  export type { MultiLanguageName, GameKind, GamePlatform, Game, GameKindWithGames, GameDataUrls, RawGameData, GameCacheData, GameQueryParams, GameQueryResult, GameSearchResult, GameStats, CategoryGamesResult } from './game'
+  export type { GameType, MultiLanguageName, GameKind, GamePlatform, Game, GameKindWithGames, GameDataUrls, RawGameData, GameCacheData, GameQueryParams, GameQueryResult, GameSearchResult, GameStats, CategoryGamesResult } from './game'
   import('./game')
   // @ts-ignore
   export type { MenuItem, MenuEvent } from './menu'

@@ -336,7 +336,6 @@ export function useAppData() {
 
       // 设置加载状态
       gameStore.setLoading(true)
-      pageStore.setGameIsLoading(true)
 
       // 获取原始数据
       const rawData = await fetchAllGameData(urls)
@@ -353,7 +352,6 @@ export function useAppData() {
     finally {
       // 清除加载状态
       gameStore.setLoading(false)
-      pageStore.setGameIsLoading(false)
     }
   }
 

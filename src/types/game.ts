@@ -1,3 +1,12 @@
+export enum GameType {
+  Slot = 1,
+  Fishing = 2,
+  Live = 3,
+  Sports = 4,
+  Porker = 5,
+  Lottery = 6,
+}
+
 // 多语言名称接口
 export interface MultiLanguageName {
   /** 中文名称 */

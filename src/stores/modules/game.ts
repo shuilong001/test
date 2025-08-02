@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { GameType } from '@/constants/emums/gameEnum'
 import { isValid, splitArrayIntoChunks } from '@/utils/helper'
 
 interface GameStoreState {
