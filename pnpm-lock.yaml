@@ -32,6 +32,9 @@ importers:
       bowser:
         specifier: ^2.11.0
         version: 2.11.0
+      fastclick:
+        specifier: ^1.0.6
+        version: 1.0.6
       idb-keyval:
         specifier: ^6.2.2
         version: 6.2.2
@@ -2693,6 +2696,9 @@ packages:
 
   fast-uri@3.0.6:
     resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
+
+  fastclick@1.0.6:
+    resolution: {integrity: sha512-cXyDBT4g0uWl/Xe75QspBDAgAWQ0lkPi/zgp6YFEUHj6WV6VIZl7R6TiDZhdOVU3W4ehp/8tG61Jev1jit+ztQ==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -8038,6 +8044,8 @@ snapshots:
   fast-levenshtein@2.0.6: {}
 
   fast-uri@3.0.6: {}
+
+  fastclick@1.0.6: {}
 
   fastq@1.19.1:
     dependencies:

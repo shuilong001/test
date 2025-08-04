@@ -28,6 +28,7 @@
     "@vant/use": "^1.6.0",
     "@vueuse/core": "^13.4.0",
     "bowser": "^2.11.0",
+    "fastclick": "^1.0.6",
     "idb-keyval": "^6.2.2",
     "lodash-es": "^4.17.21",
     "pinia": "^3.0.3",
