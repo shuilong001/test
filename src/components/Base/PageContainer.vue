@@ -1,7 +1,6 @@
 <script setup lang="tsx"  generic="T">
 import type { NavBarPropsType } from './NavBar.vue'
 import { useAppStore } from '@/stores/modules/app'
-import { useResize } from '@/hooks/useResize'
 
 const props = withDefaults(defineProps<{
   hasHeader?: boolean
@@ -16,12 +15,10 @@ const props = withDefaults(defineProps<{
 })
 const appStore = useAppStore()
 props.isPage && useTabBar(() => props.hasFooter)
-const { isDesktop } = useResize()
-
 const contentStyle = computed(() => {
   return {
-    height: '100%',
-    paddingBottom: props.hasFooter ? `calc(var(--tabbar-height) + var(--sab))` : `calc(var(--sab))`,
+    marginBottom: props.hasFooter ? `var(--safe-footer)` : `var(--sab)`,
+    marginTop: props.hasHeader ? `var(--safe-header)` : `var(--sat)`,
   }
 })
 
@@ -31,8 +28,8 @@ const mainContentClass = computed(() => {
 </script>
 
 <template>
-  <main :style="contentStyle" class="flex flex-1 flex-col wh-full" :class="mainContentClass">
-    <slot name="header" class="">
+  <main class="flex flex-1 flex-col wh-full md:mb-60" :class="mainContentClass">
+    <!-- <slot name="header">
       <div class="flex flex-col z-2">
         <NavBar v-if="props.hasHeader" v-bind="props.navBarProps" class="flex-shrink-0 flex-grow-0 md:hidden">
           <template #left>
@@ -45,16 +42,11 @@ const mainContentClass = computed(() => {
             <slot v-if="$slots.right" name="right" />
           </template>
         </NavBar>
-        <slot name="header-sticky">
-          <HomeHeader v-if="isDesktop" />
-        </slot>
+        <slot name="header-sticky" />
       </div>
-    </slot>
-    <div class="flex-grow-1 w-full relative z-1 overflow-hidden">
-      <HomeSideMenu v-if="isDesktop" />
-      <div id="page-container-content" class="wh-full overflow-y-auto md:mx-auto md:max-w-[1248px]">
-        <slot />
-      </div>
+    </slot> -->
+    <div class="flex-grow-1 wh-full overflow-y-auto md:mx-auto md:max-w-[1248px]" :style="contentStyle">
+      <slot />
     </div>
   </main>
 </template>

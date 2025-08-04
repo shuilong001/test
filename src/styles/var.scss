@@ -7,7 +7,6 @@
 :root {
   --full-height: 100vh;
   --each-height: 1vh;
-  --tabbar-height: 50px;
   --sat: constant(safe-area-inset-top);
   --sar: constant(safe-area-inset-right);
   --sab: constant(safe-area-inset-bottom);
@@ -16,6 +15,11 @@
   --sar: env(safe-area-inset-right);
   --sab: env(safe-area-inset-bottom);
   --sal: env(safe-area-inset-left);
+
+  --header: 60px;
+  --safe-header: calc(var(--header) + var(--sat));
+  --footer: 80px;
+  --safe-footer: calc(var(--footer) + var(--sab));
 }
 @supports (height: 100dvh) {
   :root {

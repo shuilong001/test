@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <PageContainer :has-header="false">
+  <PageContainer>
     <h1>Menu</h1>
   </PageContainer>
 </template>

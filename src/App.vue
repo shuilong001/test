@@ -41,6 +41,10 @@ const mode = computed(() => {
   return isDark.value ? 'dark' : 'light'
 })
 useOverFlow()
+
+const transitionName = computed(() => {
+  return isDesktop.value ? 'fadeInUp' : 'fadeIn'
+})
 onBeforeUnmount(() => {
   cleanupEventBus()
 })
@@ -49,12 +53,14 @@ onBeforeUnmount(() => {
 <template>
   <van-config-provider :theme="mode" class="app-container flex flex-col wh-full">
     <router-view v-slot="{ Component }">
-      <Transition name="fadeInUp" mode="out-in">
+      <Transition :name="transitionName">
         <keep-alive :include="keepAliveRouteNames">
           <component :is="Component" />
         </keep-alive>
       </Transition>
     </router-view>
+    <HomeHeader />
+    <HomeSideMenu v-if="isDesktop" />
     <TabBar v-if="!isDesktop" />
     <!-- <InstallPrompt /> -->
   </van-config-provider>
@@ -64,18 +70,25 @@ onBeforeUnmount(() => {
 .app-container {
   min-height: calc(var(--full-height) - env(safe-area-inset-top));
 }
-.fadeInUp-enter-active,
-.fadeInUp-leave-active {
-  transition: all 0.2s ease;
+
+.fadeInUp-enter-active {
+  animation: fadeInUp 0.3s ease;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+    transform: translateY(20px);
+  }
 }
 
-.fadeInUp-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
+.fadeIn-enter-active {
+  animation: fadeIn 0.3s ease;
 }
-
-.fadeInUp-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
 }
 </style>

@@ -42,27 +42,27 @@ body {
   }
 }
 
-// ::-webkit-scrollbar {
-//   width: 8px;
-//   height: 8px;
-//   scrollbar-color: #464f50 #1a202c;
-//   scroll-margin: 0;
-// }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  scrollbar-color: #464f50 #1a202c;
+  scroll-margin: 0;
+}
 
-// ::-webkit-scrollbar-track {
-//   background: transparent;
-//   border-radius: 5px;
-//   margin: 0;
-// }
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+  margin: 0;
+}
 
-// ::-webkit-scrollbar-thumb {
-//   background-color: #464f50;
-//   border-radius: 5px;
-//   border: 2px solid transparent;
-//   background-clip: padding-box;
-// }
+::-webkit-scrollbar-thumb {
+  background-color: #464f50;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
 .hide-scrollbar {
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 0;
     height: 0;
     background: transparent;

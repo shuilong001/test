@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // import { useAppStore } from '@/stores/modules/app'
 // import { useUserStore } from '@/stores/modules/user'
-import { routeWhiteList } from '@/config/routes'
+// import { routeWhiteList } from '@/config/routes'
 
 // const appStore = useAppStore()
 // const showSearch = ref(false)
-const route = useRoute()
+// const route = useRoute()
 // const userStore = useUserStore()
 const router = useRouter()
 // const isLogin = computed(() => userStore.isLogin)
@@ -14,9 +14,9 @@ const router = useRouter()
 //   set: () => toggleDark(),
 // })
 
-const show = computed(() => {
-  return route.name && routeWhiteList.includes(route.name)
-})
+// const show = computed(() => {
+//   return route.name && routeWhiteList.includes(route.name)
+// })
 
 // function logout() {
 //   userStore.logout()
@@ -26,8 +26,7 @@ const show = computed(() => {
 
 <template>
   <header
-    class="px-16 pb-12 pt-[calc(env(safe-area-inset-top)+12px)] border-b border-gray-200 bg-white w-full hidden transition-colors duration-300 items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800 md:!flex"
-    :class="[show ? '!flex' : 'hidden']"
+    class="px-16 pb-12 pt-[calc(var(--sat)+12px)] border-b border-gray-200 bg-white flex w-full items-center left-0 right-0 top-0 justify-between fixed z-50 dark:border-gray-700 dark:bg-gray-800"
   >
     <div class="flex gap-6 items-center">
       <img src="@/assets/images/home/mobile-logo.png" alt="logo" class="h-35">
@@ -41,5 +40,4 @@ const show = computed(() => {
       </div>
     </div>
   </header>
-  <div class="mt-[calc(env(safe-area-inset-top))] min-h-60 hidden md:flex" :class="[show ? '!flex' : 'hidden']" />
 </template>

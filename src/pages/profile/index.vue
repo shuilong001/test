@@ -20,7 +20,7 @@ function login() {
 </script>
 
 <template>
-  <PageContainer content-class="pt-16" :has-header="false">
+  <PageContainer content-class="pt-16">
     <VanCellGroup :inset="true">
       <van-cell center :is-link="!isLogin" @click="login">
         <template #title>
