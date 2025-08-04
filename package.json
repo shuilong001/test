@@ -30,7 +30,6 @@
     "bowser": "^2.11.0",
     "idb-keyval": "^6.2.2",
     "lodash-es": "^4.17.21",
-    "nprogress": "^0.2.0",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.3.0",
     "swiper": "^11.2.10",

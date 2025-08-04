@@ -34,38 +34,40 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain; // 限制滚动边界
 }
+
+.overflow-app {
+  & > .app-container {
+    height: calc(var(--full-height) - env(safe-area-inset-top) + 1px);
+    // overflow-y: auto;
+  }
+}
+
 // ::-webkit-scrollbar {
-//   width: 6px;
-//   height: 6px;
-//   scrollbar-color: #9fe871 #1a202c;
-//   scroll-margin: 10px 0;
+//   width: 8px;
+//   height: 8px;
+//   scrollbar-color: #464f50 #1a202c;
+//   scroll-margin: 0;
 // }
 
 // ::-webkit-scrollbar-track {
 //   background: transparent;
 //   border-radius: 5px;
-//   margin: 10px 0;
+//   margin: 0;
 // }
 
 // ::-webkit-scrollbar-thumb {
-//   background-color: #9fe871;
+//   background-color: #464f50;
 //   border-radius: 5px;
 //   border: 2px solid transparent;
 //   background-clip: padding-box;
 // }
-
-.overflow-app {
-  & > .app-container {
-    height: calc(var(--full-height) - env(safe-area-inset-top) + 1px);
-    overflow-y: auto;
+.hide-scrollbar {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
   }
 }
-::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
 .van-nav-bar--fixed,
 .van-tabbar--fixed,
 .van-overlay {

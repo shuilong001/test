@@ -86,41 +86,43 @@ watch([() => userStore.isLogin, () => loading.value], ([isLogin, loadingVal]) =>
 
 <template>
   <PageContainer content-class="flex flex-col items-center justify-center" :nav-bar-props="{ title: '登录' }">
-    <div class="mb-32 flex-center">
+    <div class="my-32 flex-center">
       <div class="i-custom:avatar h-120 w-120" />
     </div>
-    <div class="w-2/3 md:w-1/3">
-      <van-form :model="postData" :rules="rules" validate-trigger="onSubmit" @submit="handleSubmit">
-        <div class="rounded-3xl overflow-hidden">
-          <van-field
-            v-model="postData.username"
-            :rules="rules.username"
-            name="username"
-            :placeholder="$t('login.username')"
-          />
-        </div>
+    <div class="flex-center w-full">
+      <div class="w-2/3 md:w-1/3">
+        <van-form :model="postData" :rules="rules" validate-trigger="onSubmit" @submit="handleSubmit">
+          <div class="rounded-3xl overflow-hidden">
+            <van-field
+              v-model="postData.username"
+              :rules="rules.username"
+              name="username"
+              :placeholder="$t('login.username')"
+            />
+          </div>
 
-        <div class="mt-16 rounded-3xl overflow-hidden">
-          <van-field
-            v-model="postData.password"
-            type="password"
-            :rules="rules.password"
-            name="password"
-            :placeholder="$t('login.password')"
-          />
-        </div>
+          <div class="mt-16 rounded-3xl overflow-hidden">
+            <van-field
+              v-model="postData.password"
+              type="password"
+              :rules="rules.password"
+              name="password"
+              :placeholder="$t('login.password')"
+            />
+          </div>
 
-        <div class="mt-16">
-          <van-button
-            :loading="loading"
-            type="primary"
-            native-type="submit"
-            round block
-          >
-            {{ $t('login.login') }}
-          </van-button>
-        </div>
-      </van-form>
+          <div class="mt-16">
+            <van-button
+              :loading="loading"
+              type="primary"
+              native-type="submit"
+              round block
+            >
+              {{ $t('login.login') }}
+            </van-button>
+          </div>
+        </van-form>
+      </div>
     </div>
     <!-- 拖动校验 -->
     <SliderVerify ref="SliderVerifyRef" type="login" @loading="loading = true" @loaded="loading = false" @success="login" />

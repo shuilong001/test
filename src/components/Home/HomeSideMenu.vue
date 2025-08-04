@@ -147,7 +147,7 @@ function handleRedirect(item: any) {
 </script>
 
 <template>
-  <div :class="sidebarWidth" class="border-r border-gray-200 border-gray-700 bg-gray-800 flex-col h-[calc(100vh-60px)] hidden left-0 top-60 justify-between fixed z-40 overflow-y-auto md:flex">
+  <div :class="sidebarWidth" class="hide-scrollbar border-r border-gray-200 border-gray-700 bg-gray-800 flex-col h-[calc(100vh-60px)] hidden left-0 top-60 justify-between fixed z-40 overflow-y-auto md:flex">
     <aside class="flex-1">
       <!-- 显示TabBarList -->
       <div v-if="TabBarList.length > 0" class="border-b border-gray-200 flex flex-col gap-4 dark:border-gray-700/30">

@@ -31,7 +31,7 @@ const mainContentClass = computed(() => {
 </script>
 
 <template>
-  <main :style="contentStyle" class="flex flex-1 flex-col wh-full">
+  <main :style="contentStyle" class="flex flex-1 flex-col wh-full" :class="mainContentClass">
     <slot name="header" class="">
       <div class="flex flex-col z-2">
         <NavBar v-if="props.hasHeader" v-bind="props.navBarProps" class="flex-shrink-0 flex-grow-0 md:hidden">
@@ -51,8 +51,8 @@ const mainContentClass = computed(() => {
       </div>
     </slot>
     <div class="flex-grow-1 w-full relative z-1 overflow-hidden">
-      <HomeSideMenu />
-      <div id="page-container-content" class="wh-full overflow-y-auto" :class="mainContentClass">
+      <HomeSideMenu v-if="isDesktop" />
+      <div id="page-container-content" class="wh-full overflow-y-auto md:mx-auto md:max-w-[1248px]">
         <slot />
       </div>
     </div>

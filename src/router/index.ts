@@ -1,15 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
 
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
 import type { EnhancedRouteLocation } from './types'
 import { useRouteCacheStore, useUserStore } from '@/stores'
 
 import setPageTitle from '@/utils/set-page-title'
-
-NProgress.configure({ showSpinner: false, parent: '#app' })
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_APP_PUBLIC_PATH),
@@ -24,8 +19,6 @@ if (import.meta.hot)
   handleHotUpdate(router)
 
 router.beforeEach(async (to: EnhancedRouteLocation) => {
-  NProgress.start()
-
   const routeCacheStore = useRouteCacheStore()
   const userStore = useUserStore()
 
@@ -44,10 +37,6 @@ router.beforeEach(async (to: EnhancedRouteLocation) => {
       }
     }
   }
-})
-
-router.afterEach(() => {
-  NProgress.done()
 })
 
 export default router
