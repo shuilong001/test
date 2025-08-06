@@ -45,7 +45,7 @@ onActivated(() => {
         </van-swipe>
       </div>
       <div class="mt-16 flex flex-col gap-12 md:mt-20 md:gap-24">
-        <div class="px-10 flex-x-slide gap-11 md:px-0 md:hide-scrollbar">
+        <div class="hide-scrollbar px-10 flex-x-slide gap-11 md:px-0">
           <div class="flex-x-slide-item h-124 w-111 md:h-124 md:w-363 md:cursor-pointer">
             <img v-if="isDesktop" src="@/assets/images/demo/Frame 2087327736.png" alt="" class="h-full w-full">
             <img v-else src="@/assets/images/demo/Frame 2087327677.png" alt="" class="h-full w-full">
@@ -81,7 +81,7 @@ onActivated(() => {
               <div class="i-custom:arrow-right h-8.52 w-8.52 md:h-16 md:w-16" />
             </div>
           </div>
-          <Vue3Marquee :duration="20" pause-on-hover class="md:!hide-scrollbar">
+          <Vue3Marquee :duration="20" pause-on-hover class="hide-scrollbar">
             <div class="mr-10 flex flex-col gap-5 cursor-pointer md:mr-16">
               <img src="@/assets/images/demo/Hot Chilli.png" class="h-91 w-68 md:h-166 md:w-125">
               <div class="flex flex-col gap-3 items-center">
@@ -189,7 +189,7 @@ onActivated(() => {
               <div class="i-custom:arrow-right h-8.52 w-8.52 md:h-16 md:w-16" />
             </div>
           </div>
-          <div class="px-10 flex-x-slide gap-12 md:px-0 md:gap-20 md:hide-scrollbar">
+          <div class="hide-scrollbar px-10 flex-x-slide gap-12 md:px-0 md:gap-20">
             <div class="flex-x-slide-item h-153 w-110 md:h-293 md:w-211 md:cursor-pointer">
               <img src="@/assets/images/demo/Frame 20873277362.png" alt="" class="h-full w-full">
             </div>
@@ -211,7 +211,7 @@ onActivated(() => {
               <div class="i-custom:arrow-right h-8.52 w-8.52 md:h-16 md:w-16" />
             </div>
           </div>
-          <div class="px-10 flex-x-slide gap-11 md:px-0 md:gap-16 md:hide-scrollbar">
+          <div class="hide-scrollbar px-10 flex-x-slide gap-11 md:px-0 md:gap-16">
             <div class="flex-x-slide-item h-148 w-111 md:h-235 md:w-176 md:cursor-pointer">
               <img src="@/assets/images/demo/Go Rush.png" alt="" class="h-full w-full">
             </div>

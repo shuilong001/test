@@ -90,13 +90,6 @@ export default defineConfig({
       },
     ],
     [
-      'hide-scrollbar',
-      {
-        'scrollbar-width': 'none !important',
-        'scrollbar-gutter': 'stable !important',
-      },
-    ],
-    [
       'bg-radial-gray',
       {
         background: 'radial-gradient(53.57% 93.75% at 50% 6.25%, #474B5C 0%, #272A32 100%)',
