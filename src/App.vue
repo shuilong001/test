@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
 <template>
   <van-config-provider :theme="mode" class="app-container flex flex-col wh-full">
     <router-view v-slot="{ Component }">
-      <Transition :name="transitionName">
+      <Transition :name="transitionName" mode="out-in">
         <keep-alive :include="keepAliveRouteNames">
           <component :is="Component" />
         </keep-alive>
