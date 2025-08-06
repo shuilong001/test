@@ -25,7 +25,7 @@ const contentStyle = computed(() => {
 })
 
 const mainContentClass = computed(() => {
-  return `${props.contentClass} ${appStore.sidebarCollapsed ? `md:pl-[var(--sidebar-width-collapsed)]` : `md:pl-[var(--sidebar-width)]`}`
+  return `${props.contentClass} transition-all duration-300 ease-in-out ${appStore.sidebarCollapsed ? `md:pl-[var(--sidebar-width-collapsed)]` : `md:pl-[var(--sidebar-width)]`}`
 })
 </script>
 
