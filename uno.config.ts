@@ -74,6 +74,22 @@ function loadCustomIconSet(): CustomIconLoader {
 }
 
 export default defineConfig({
+  rules: [
+    [
+      'primary-shadow',
+      {
+        'background': 'linear-gradient(94deg, #0b59df -9.62%, #0241c3 152.85%)',
+        'box-shadow': '6.474px 6.474px 1.079px -7.554px #a5e1ff inset,-6.474px -6.474px 1.079px -7.554px #a5e1ff inset,2.158px 2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,-2.158px -2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,0 0 6px 0 #fff inset',
+      },
+    ],
+    [
+      'secondary-shadow',
+      {
+        'background': 'linear-gradient(0deg, rgba(109, 109, 109, 0.2) 0%, rgba(109, 109, 109, 0.2) 100%)',
+        'box-shadow': '1px 1px 1.079px -7.554px rgba(255, 255, 255, 0.73) inset, -1px -1px 2px -7.554px #fff inset, -1px -1px 2.158px -1.079px rgba(255, 255, 255, 0.17) inset, 0 0 6px 0 #f2f2f2 inset',
+      },
+    ],
+  ],
   shortcuts: [
     ['m-0-auto', 'm-0 ma'], // margin: 0 auto
     ['wh-full', 'w-full h-full'], // width: 100%, height: 100%
@@ -109,6 +125,7 @@ export default defineConfig({
         theme: {
           process: createRemToPxProcessor(BASE_FONT_SIZE),
         },
+
       },
     }),
     presetAttributify(),

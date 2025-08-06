@@ -84,21 +84,3 @@ body {
   left: 0 !important;
   width: 100% !important;
 }
-.primary-btn {
-  background: linear-gradient(94deg, #0b59df -9.62%, #0241c3 152.85%);
-  box-shadow:
-    6.474px 6.474px 1.079px -7.554px #a5e1ff inset,
-    -6.474px -6.474px 1.079px -7.554px #a5e1ff inset,
-    2.158px 2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,
-    -2.158px -2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,
-    0 0 8px 0 #fff inset;
-}
-.btn {
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow:
-    6.474px 6.474px 1.079px -7.554px rgba(255, 255, 255, 0.75) inset,
-    -6.474px -6.474px 1.079px -7.554px rgba(255, 255, 255, 0.75) inset,
-    2.158px 2.158px 2.158px -1.079px rgba(255, 255, 255, 0.8) inset,
-    -2.158px -2.158px 2.158px -1.079px rgba(255, 255, 255, 0.75) inset,
-    0 0 8px 0 #fff inset;
-}

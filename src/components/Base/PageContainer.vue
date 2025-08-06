@@ -15,9 +15,11 @@ const props = withDefaults(defineProps<{
 })
 const appStore = useAppStore()
 props.isPage && useTabBar(() => props.hasFooter)
+
+const { isDesktop } = useResize()
 const contentStyle = computed(() => {
   return {
-    marginBottom: props.hasFooter ? `var(--safe-footer)` : `var(--sab)`,
+    marginBottom: props.hasFooter ? (isDesktop ? `var(--pc-header)` : `var(--safe-footer)`) : `var(--sab)`,
     marginTop: props.hasHeader ? `var(--safe-header)` : `var(--sat)`,
   }
 })

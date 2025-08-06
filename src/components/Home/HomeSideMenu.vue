@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { showToast } from 'vant'
 import { useAppStore } from '@/stores/modules/app'
-import { TabBarList } from '@/constants'
 
 // 类型定义
 interface MenuItem {
@@ -12,7 +11,7 @@ interface MenuItem {
 }
 
 const appStore = useAppStore()
-const router = useRouter()
+// const router = useRouter()
 // 响应式数据
 const activeMenu = computed(() => appStore.activeMenu)
 const sidebarCollapsed = computed(() => appStore.sidebarCollapsed)
@@ -122,10 +121,8 @@ function handlePCMenuClick(item: MenuItem) {
       expandedMenus.value.push(item.id)
     }
   }
-  else {
-    appStore.activeMenu = item.id
-    showToast(`已切换到: ${item.name}`)
-  }
+  appStore.activeMenu = item.id
+  showToast(`已切换到: ${item.name}`)
 }
 
 function handleSubmenuClick(child: MenuItem) {
@@ -136,97 +133,178 @@ function handleSubmenuClick(child: MenuItem) {
 
 // 计算侧边栏宽度
 const sidebarWidth = computed(() => {
-  return sidebarCollapsed.value ? 'w-80' : 'w-200'
+  return sidebarCollapsed.value ? 'w-80' : 'w-240'
 })
 
 function handleRedirect(item: any) {
-  router.replace({
-    path: item.to,
-  })
+  // router.replace({
+  //   path: item.to,
+  // })
+  appStore.activeMenu = item.id
 }
+// 顶部菜单
+const TopMenuList = [
+  {
+    id: 'recently-played',
+    name: 'Recently played',
+    icon: 'i-custom:side-recently wh-24 ',
+  },
+  {
+    id: 'my-favorite',
+    name: 'My favorite',
+    icon: 'i-custom:side-favorite wh-20',
+  },
+  {
+    id: 'club',
+    name: 'Club',
+    icon: 'i-custom:side-club w-16 h-25',
+  },
+  {
+    id: 'contest',
+    name: 'Contest',
+    icon: 'i-custom:side-contest w-20 h-19',
+  },
+  {
+    id: 'offers-activities',
+    name: 'Offers/Activities',
+    icon: 'i-custom:side-offers wh-20',
+  },
+]
+const BottomMenuList = [
+  {
+    id: 'recently-played',
+    name: 'Recently played',
+    icon: 'i-custom:side-recently wh-24 ',
+  },
+  {
+    id: 'my-favorite',
+    name: 'My favorite',
+    icon: 'i-custom:side-favorite wh-20',
+  },
+
+]
 </script>
 
 <template>
-  <div :class="sidebarWidth" class="hide-scrollbar border-r border-gray-200 border-gray-700 bg-gray-800 flex-col h-[calc(100vh-60px)] hidden left-0 top-60 justify-between fixed z-40 overflow-y-auto md:flex">
+  <div :class="sidebarWidth" class="hide-scrollbar py-32 bg-#1C1C1C flex-col h-[calc(100vh-60px)] left-0 top-60 justify-between justify-between fixed z-40 overflow-y-auto">
     <aside class="flex-1">
-      <div v-if="TabBarList.length > 0" class="border-b border-gray-200 flex flex-col gap-4 dark:border-gray-700/30">
-        <div v-for="item in TabBarList" :key="item.name" class="px-16 py-8 rounded-lg flex gap-16 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700" @click="handleRedirect(item)">
-          <!-- <div v-if="item.icon" :class="item.icon" class="text-size-20" /> -->
-          <div class="text-size-16 text-gray-700 font-medium dark:text-gray-200">
+      <div class="px-16 pb-20 border-b border-#fff/10 flex flex-col gap-12">
+        <div
+          v-for="item in TopMenuList"
+          :key="item.id"
+          class="px-12 py-6 rounded-64 flex gap-4 cursor-pointer items-center"
+          :class="[activeMenu === item.id ? 'primary-shadow' : 'hover:secondary-shadow hover:text-#0DA6FF']"
+          @click="handleRedirect(item)"
+        >
+          <div class="flex-center h-28 w-31">
+            <div :class="item.icon" />
+          </div>
+          <div class="text-size-14">
             {{ item.name }}
           </div>
         </div>
       </div>
-      <!-- PC菜单项 -->
-      <nav class="m-8 py-3 rounded-10 bg-#161B30">
+      <div class="px-16 py-16 border-b border-#fff/10 flex flex-col gap-10">
         <div
           v-for="item in menuItems"
           :key="item.id"
-          class="mb-1 border-gray-200 dark:border-gray-700/30"
-          :class="{
-            'bg-gray-100 border-r-3 border-r-green-500 dark:bg-gray-700': activeMenu === item.id,
-          }"
         >
           <div
-            class="group menu-item px-16 py-8 rounded-lg flex gap-16 cursor-pointer transition-all items-center"
-            :class="{ 'justify-center': sidebarCollapsed }"
+            class="px-12 py-6 rounded-64 flex gap-4 cursor-pointer items-center"
+            :class="[activeMenu === item.id ? 'primary-shadow' : 'hover:secondary-shadow hover:text-#0DA6FF']"
             @click="handlePCMenuClick(item)"
           >
             <div class="text-size-20 flex-shrink-0" v-html="item.icon" />
-            <span v-if="!sidebarCollapsed" class="text-size-16 text-gray-700 font-medium flex-1 transition-all transition-colors duration-300 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">{{ item.name }}</span>
-            <div v-if="item.children && !sidebarCollapsed" class="text-gray-400 transition-transform dark:text-gray-500" :class="{ 'rotate-180': expandedMenus.includes(item.id) }">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" />
-              </svg>
-            </div>
+            <span v-if="!sidebarCollapsed" class="text-size-14 flex-1">{{ item.name }}</span>
+            <div v-if="item.children && !sidebarCollapsed" class="i-custom:side-arrow h-4 w-9 transition-transform" :class="{ 'rotate-180': !expandedMenus.includes(item.id) }" />
           </div>
 
           <!-- PC端子菜单 -->
-          <div v-if="item.children && expandedMenus.includes(item.id) && !sidebarCollapsed" class="px-16 py-8">
+          <div v-if="item.children && expandedMenus.includes(item.id) && !sidebarCollapsed" class="py-10 flex flex-col gap-10">
             <div
               v-for="child in item.children"
               :key="child.id"
-              class="px-8 py-3 rounded-lg flex gap-16 cursor-pointer transition-all items-center"
+              class="px-12 py-6 rounded-64 flex gap-4 cursor-pointer items-center"
+              :class="[activeMenu === child.id ? 'primary-shadow' : 'hover:secondary-shadow hover:text-#0DA6FF']"
               @click.stop="handleSubmenuClick(child)"
             >
-              <div class="text-size-16 flex-center h-5 w-5" v-html="child.icon" />
-              <span class="text-size-15 font-medium">{{ child.name }}</span>
+              <div class="text-size-20 flex-shrink-0" v-html="child.icon" />
+              <span class="text-size-14 flex-1">{{ child.name }}</span>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
+      <div class="px-16 py-20 flex flex-col gap-12">
+        <div
+          v-for="item in BottomMenuList"
+          :key="item.id"
+          class="px-12 py-6 rounded-64 flex gap-4 cursor-pointer items-center"
+          :class="[activeMenu === item.id ? 'primary-shadow' : 'hover:secondary-shadow hover:text-#0DA6FF']"
+          @click="handleRedirect(item)"
+        >
+          <div class="flex-center h-28 w-31">
+            <div :class="item.icon" />
+          </div>
+          <div class="text-size-14">
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
 
       <!-- 收起状态时的工具提示 -->
       <div v-if="sidebarCollapsed" class="text-size-12 text-white ml-2 px-3 py-2 rounded-lg bg-gray-700 opacity-0 pointer-events-none transition-opacity left-full top-24 absolute dark:bg-gray-600 group-hover:opacity-100">
         点击展开菜单
       </div>
     </aside>
-    <div class="px-16 pb-16 flex flex-col gap-16 w-full">
-      <div>Online customer service</div>
-      <div>Simplified Chinese</div>
-      <div class="flex gap-16 items-center">
-        <div>Theme</div>
-        <van-switch
-          v-model="checked"
-          size="22px"
-          active-color="#22c55e"
-          inactive-color="#d1d5db"
-          class="md:scale-90"
-        />
+    <div class="px-16 pt-54 bg-#1C1C1C flex flex-col w-full">
+      <div class="application text-size-12 mb-10 pb-11 pl-14 pr-12 pt-8 rounded-15 flex gap-10 cursor-pointer items-center justify-between">
+        <div class="flex gap-10 items-center">
+          <div class="i-custom:side-application h-24 w-24" />
+          <div>Application</div>
+        </div>
+        <div class="i-custom:side-qrcode h-34 w-34" />
+      </div>
+      <div class="text-size-14 mb-12 py-6 pl-12 flex gap-4 cursor-pointer items-center">
+        <div class="flex-center h-28 w-31">
+          <div class="i-custom:side-customer h-20 w-20" />
+        </div>
+        <div>Online customer service</div>
+      </div>
+      <div class="text-size-14 mb-20 py-6 pl-12 flex gap-4 cursor-pointer items-center justify-between">
+        <div class="flex gap-4 items-center">
+          <div class="flex-center h-28 w-28">
+            <img src="@/assets/images/demo/side-chinese.png" alt="chinese" class="h-20 w-20">
+          </div>
+          <div>Simplified Chinese</div>
+        </div>
+        <div class="i-custom:side-arrow h-5 w-9 rotate-180" />
+      </div>
+      <div
+        class="text-size-14 text-#959593 p-2 rounded-20 bg-#2D2D31 flex gap-16 h-40 items-center"
+        @click="checked = !checked"
+      >
+        <div class="rounded-full flex-center gap-8 h-36 w-1/2 cursor-pointer" :class="{ 'text-#fff secondary-shadow': !checked }">
+          <div class="i-custom:side-light h-24 w-24" />
+          <div>Light</div>
+        </div>
+        <div class="rounded-full flex-center gap-8 h-36 w-1/2 cursor-pointer" :class="{ 'text-#fff secondary-shadow': checked }">
+          <div class="i-custom:side-dark h-24 w-24" />
+          <div>Dark</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.menu-item {
-  border-radius: 25px;
-  background: linear-gradient(94deg, #0b59df -9.62%, #0241c3 152.85%);
-  box-shadow:
-    6.474px 6.474px 1.079px -7.554px #a5e1ff inset,
-    -6.474px -6.474px 1.079px -7.554px #a5e1ff inset,
-    2.158px 2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,
-    -2.158px -2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,
-    0 0 8px 0 #fff inset;
+.application {
+  background: linear-gradient(
+    319deg,
+    rgba(255, 255, 255, 0.2) 11.46%,
+    rgba(255, 255, 255, 0.2) 34.44%,
+    rgba(255, 255, 255, 0) 66.52%,
+    rgba(255, 255, 255, 0.2) 94.3%,
+    rgba(255, 255, 255, 0.2) 94.31%
+  );
 }
 </style>
