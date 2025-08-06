@@ -112,15 +112,6 @@ onUnmounted(() => {
 })
 
 function handlePCMenuClick(item: MenuItem) {
-  if (item.children) {
-    const index = expandedMenus.value.indexOf(item.id)
-    if (index > -1) {
-      expandedMenus.value.splice(index, 1)
-    }
-    else {
-      expandedMenus.value.push(item.id)
-    }
-  }
   appStore.activeMenu = item.id
   showToast(`已切换到: ${item.name}`)
 }
@@ -131,9 +122,21 @@ function handleSubmenuClick(child: MenuItem) {
   showToast(`选择子菜单: ${child.name}`)
 }
 
+function handleExpand(item: MenuItem) {
+  if (item.children) {
+    const index = expandedMenus.value.indexOf(item.id)
+    if (index > -1) {
+      expandedMenus.value.splice(index, 1)
+    }
+    else {
+      expandedMenus.value.push(item.id)
+    }
+  }
+}
+
 // 计算侧边栏宽度
 const sidebarWidth = computed(() => {
-  return sidebarCollapsed.value ? 'w-80' : 'w-240'
+  return sidebarCollapsed.value ? `w-[var(--sidebar-width-collapsed)]` : `w-[var(--sidebar-width)]`
 })
 
 function handleRedirect(item: any) {
@@ -216,7 +219,7 @@ const BottomMenuList = [
           >
             <div class="text-size-20 flex-shrink-0" v-html="item.icon" />
             <span v-if="!sidebarCollapsed" class="text-size-14 flex-1">{{ item.name }}</span>
-            <div v-if="item.children && !sidebarCollapsed" class="i-custom:side-arrow h-4 w-9 transition-transform" :class="{ 'rotate-180': !expandedMenus.includes(item.id) }" />
+            <div v-if="item.children && !sidebarCollapsed" class="i-custom:side-arrow h-4 w-9 transition-transform" :class="{ 'rotate-180': !expandedMenus.includes(item.id) }" @click.stop="handleExpand(item)" />
           </div>
 
           <!-- PC端子菜单 -->

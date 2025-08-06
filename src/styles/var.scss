@@ -21,6 +21,8 @@
   --safe-header: calc(var(--header) + var(--sat));
   --footer: 80px;
   --safe-footer: calc(var(--footer) + var(--sab));
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 80px;
 }
 @supports (height: 100dvh) {
   :root {
