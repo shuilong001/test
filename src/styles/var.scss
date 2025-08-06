@@ -16,7 +16,7 @@
   --sab: env(safe-area-inset-bottom);
   --sal: env(safe-area-inset-left);
 
-  --header: 60px;
+  --header: 44px;
   --safe-header: calc(var(--header) + var(--sat));
   --footer: 80px;
   --safe-footer: calc(var(--footer) + var(--sab));

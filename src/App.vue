@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
     </router-view>
     <HomeHeader />
     <HomeSideMenu v-if="isDesktop" />
-    <TabBar v-if="!isDesktop" />
+    <!-- <TabBar v-if="!isDesktop" /> -->
     <!-- <InstallPrompt /> -->
   </van-config-provider>
 </template>

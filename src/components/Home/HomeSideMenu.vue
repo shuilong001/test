@@ -168,7 +168,7 @@ function handleRedirect(item: any) {
           }"
         >
           <div
-            class="group px-16 py-8 rounded-lg flex gap-16 cursor-pointer transition-all items-center hover:bg-gray-50 dark:hover:bg-gray-700"
+            class="group menu-item px-16 py-8 rounded-lg flex gap-16 cursor-pointer transition-all items-center"
             :class="{ 'justify-center': sidebarCollapsed }"
             @click="handlePCMenuClick(item)"
           >
@@ -186,12 +186,11 @@ function handleRedirect(item: any) {
             <div
               v-for="child in item.children"
               :key="child.id"
-              class="group px-8 py-3 rounded-lg flex gap-16 cursor-pointer transition-all items-center hover:bg-gray-100 hover:translate-x-2 dark:hover:bg-gray-700"
-              :class="{ 'bg-gray-100 text-green-600 dark:bg-gray-700 dark:text-green-400': activeMenu === child.id }"
+              class="px-8 py-3 rounded-lg flex gap-16 cursor-pointer transition-all items-center"
               @click.stop="handleSubmenuClick(child)"
             >
               <div class="text-size-16 flex-center h-5 w-5" v-html="child.icon" />
-              <span class="text-size-15 text-gray-600 font-medium transition-colors dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">{{ child.name }}</span>
+              <span class="text-size-15 font-medium">{{ child.name }}</span>
             </div>
           </div>
         </div>
@@ -218,3 +217,16 @@ function handleRedirect(item: any) {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.menu-item {
+  border-radius: 25px;
+  background: linear-gradient(94deg, #0b59df -9.62%, #0241c3 152.85%);
+  box-shadow:
+    6.474px 6.474px 1.079px -7.554px #a5e1ff inset,
+    -6.474px -6.474px 1.079px -7.554px #a5e1ff inset,
+    2.158px 2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,
+    -2.158px -2.158px 2.158px -1.079px rgba(151, 236, 255, 0.75) inset,
+    0 0 8px 0 #fff inset;
+}
+</style>
