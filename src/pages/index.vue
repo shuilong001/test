@@ -81,7 +81,7 @@ onActivated(() => {
               <div class="i-custom:arrow-right h-8.52 w-8.52 md:h-16 md:w-16" />
             </div>
           </div>
-          <Vue3Marquee :duration="20" pause-on-hover>
+          <Vue3Marquee :duration="20" pause-on-hover class="md:!hide-scrollbar">
             <div class="mr-10 flex flex-col gap-5 cursor-pointer md:mr-16">
               <img src="@/assets/images/demo/Hot Chilli.png" class="h-91 w-68 md:h-166 md:w-125">
               <div class="flex flex-col gap-3 items-center">

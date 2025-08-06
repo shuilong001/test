@@ -28,6 +28,7 @@ const { isDesktop } = useResize()
 const { loadGameData } = useAppData()
 
 onMounted(() => {
+  isDark.value = true
   if (!systemStore.isWebSocketReady) {
     systemStore.initWebSocket()
   }
