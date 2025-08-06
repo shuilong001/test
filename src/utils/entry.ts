@@ -1,6 +1,8 @@
 import 'virtual:uno.css'
+import '@/styles/reset.scss'
 import '@/styles/app.scss'
 import '@/styles/var.scss'
+
 // Vant 桌面端适配
 import '@vant/touch-emulator'
 /* --------------------------------

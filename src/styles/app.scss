@@ -62,13 +62,13 @@ body {
   background-clip: padding-box;
 }
 
-.hide-scrollbar {
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    background: transparent;
-  }
-}
+// .hide-scrollbar {
+//   &::-webkit-scrollbar {
+//     width: 0;
+//     height: 0;
+//     background: transparent;
+//   }
+// }
 //手机端隐藏滚动条
 @media (max-width: 768px) {
   ::-webkit-scrollbar {

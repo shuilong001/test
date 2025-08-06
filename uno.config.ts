@@ -89,6 +89,19 @@ export default defineConfig({
         'box-shadow': '1px 1px 1.079px -7.554px rgba(255, 255, 255, 0.73) inset, -1px -1px 2px -7.554px #fff inset, -1px -1px 2.158px -1.079px rgba(255, 255, 255, 0.17) inset, 0 0 6px 0 #f2f2f2 inset',
       },
     ],
+    [
+      'hide-scrollbar',
+      {
+        'scrollbar-width': 'none !important',
+        'scrollbar-gutter': 'stable !important',
+      },
+    ],
+    [
+      'bg-radial-gray',
+      {
+        background: 'radial-gradient(53.57% 93.75% at 50% 6.25%, #474B5C 0%, #272A32 100%)',
+      },
+    ],
   ],
   shortcuts: [
     ['m-0-auto', 'm-0 ma'], // margin: 0 auto

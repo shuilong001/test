@@ -19,8 +19,8 @@ props.isPage && useTabBar(() => props.hasFooter)
 const { isDesktop } = useResize()
 const contentStyle = computed(() => {
   return {
-    marginBottom: props.hasFooter ? (isDesktop ? `var(--pc-header)` : `var(--safe-footer)`) : `var(--sab)`,
-    marginTop: props.hasHeader ? `var(--safe-header)` : `var(--sat)`,
+    marginBottom: props.hasFooter ? (isDesktop.value ? `var(--pc-header)` : `var(--safe-footer)`) : `var(--sab)`,
+    marginTop: props.hasHeader ? (isDesktop.value ? `var(--pc-safe-header)` : `var(--safe-header)`) : `var(--sat)`,
   }
 })
 
