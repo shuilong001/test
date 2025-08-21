@@ -1,17 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Blog1 from '../views/Blog1.vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/blog1',
     name: 'Blog1',
-    component: Blog1
+    component: () => import('../views/Blog1.vue')
   },
   // 为后续blog路由预留位置
   // {
@@ -22,7 +20,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 
