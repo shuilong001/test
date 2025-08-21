@@ -1,14 +1,13 @@
 <template>
   <div>
     <!-- 导航栏 -->
-    <nav class="nav-bar">
+    <!-- <nav class="nav-bar">
       <div class="nav-container">
         <router-link to="/" class="nav-link" active-class="active">首页</router-link>
         <router-link to="/blog1" class="nav-link" active-class="active">博客1</router-link>
-        <!-- 为后续博客预留 -->
-        <!-- <router-link to="/blog2" class="nav-link" active-class="active">博客2</router-link> -->
+
       </div>
-    </nav>
+    </nav> -->
     
     <!-- 路由视图 -->
     <router-view />
