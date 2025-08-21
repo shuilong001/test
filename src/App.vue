@@ -43,7 +43,9 @@ async function loadHtml() {
   } catch (e) {
     error.value = e?.message || '加载出错'
   } finally {
-    loading.value = false
+    setTimeout(() => {
+      loading.value = false
+    }, 500)
   }
 }
 
