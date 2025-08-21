@@ -129,8 +129,15 @@ body,
 /* 避免外层容器影响被注入页面的布局 */
 #injected-html {
   all: unset;
+  
 }
-
+#iris-root {
+  width: 100vw;
+  overflow: hidden;
+}
+.__APP_FOOTER {
+  display: none;
+}
 .header-rightside {
   align-items: center;
 }
