@@ -11,12 +11,11 @@ const routes = [
     name: 'Blog1',
     component: () => import('../views/Blog1.vue')
   },
-  // 为后续blog路由预留位置
-  // {
-  //   path: '/blog2',
-  //   name: 'Blog2',
-  //   component: () => import('../views/Blog2.vue')
-  // }
+  {
+    path: '/blog2',
+    name: 'Blog2',
+    component: () => import('../views/Blog2.vue')
+  },
 ]
 
 const router = createRouter({
