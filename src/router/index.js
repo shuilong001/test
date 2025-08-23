@@ -16,6 +16,23 @@ const routes = [
     name: 'Blog2',
     component: () => import('../views/Blog2.vue')
   },
+  {
+    path: '/blog3',
+    name: 'Blog3',
+    component: () => import('../views/Blog3.vue')
+  },
+  
+  {
+    path: '/blog4',
+    name: 'Blog4',
+    component: () => import('../views/Blog4.vue')
+  },
+  
+  {
+    path: '/blog5',
+    name: 'Blog5',
+    component: () => import('../views/Blog5.vue')
+  },
 ]
 
 const router = createRouter({

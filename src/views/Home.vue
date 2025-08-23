@@ -10,12 +10,33 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref, onActivated } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 import { useHtmlLoader } from '../utils/htmlLoader'
 
-const { htmlContent, loading, error, containerRef, loadHtml } = useHtmlLoader('/home.htm')
+defineOptions({
+  name: 'Home',
+  keepAlive: true
+})
 
+
+const { htmlContent, loading, error, containerRef, loadHtml } = useHtmlLoader('/home.htm')
+const scrollTop = ref(0)
+
+onActivated(() => {
+  window.scrollTo(0, scrollTop.value)
+})
 onMounted(loadHtml)
+
+
+
+onBeforeRouteLeave(() => {
+  scrollTop.value
+    = window.scrollY
+      || document.documentElement.scrollTop
+      || document.body.scrollTop
+
+})
 </script>
 
 <style scoped>

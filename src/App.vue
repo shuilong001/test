@@ -1,20 +1,15 @@
 <template>
-  <div>
-    <!-- 导航栏 -->
-    <!-- <nav class="nav-bar">
-      <div class="nav-container">
-        <router-link to="/" class="nav-link" active-class="active">首页</router-link>
-        <router-link to="/blog1" class="nav-link" active-class="active">博客1</router-link>
-
-      </div>
-    </nav> -->
-    
-    <!-- 路由视图 -->
-    <router-view />
-  </div>
+  <router-view v-slot="{ Component }">
+    <!-- <Transition :name="transitionName" mode="out-in"> -->
+    <keep-alive :include="keepAliveRouteNames">
+      <component :is="Component" />
+    </keep-alive>
+    <!-- </Transition> -->
+  </router-view>
 </template>
 
 <script setup>
+const keepAliveRouteNames = ['Home']
 // Vue Router 会自动处理路由切换
 </script>
 

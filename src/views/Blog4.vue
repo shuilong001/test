@@ -13,10 +13,9 @@
 import { onMounted } from 'vue'
 import { useHtmlLoader } from '../utils/htmlLoader'
 
-const { htmlContent, loading, error, containerRef, loadHtml } = useHtmlLoader('/blog1.htm')
+const { htmlContent, loading, error, containerRef, loadHtml } = useHtmlLoader('/blog4.htm')
 
 onMounted(loadHtml)
-
 </script>
 
 <style scoped>
